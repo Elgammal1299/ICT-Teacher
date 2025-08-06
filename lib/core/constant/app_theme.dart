@@ -13,7 +13,7 @@ class AppTheme {
     fontFamily: 'Cairo',
     secondaryHeaderColor: AppColors.secondary,
     hintColor: AppColors.white,
-    canvasColor: AppColors.primary2,
+    // canvasColor: AppColors.primary2,
     primaryColorDark: AppColors.black,
 
     appBarTheme: const AppBarTheme(
@@ -125,7 +125,7 @@ class AppTheme {
 
     secondaryHeaderColor: AppColors.secondary,
     hintColor: AppColors.black,
-    canvasColor: AppColors.primary2,
+    // canvasColor: AppColors.primary2,
     primaryColorDark: AppColors.white,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.darkPrimary,

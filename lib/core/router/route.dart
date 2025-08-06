@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
-import 'package:icd_teacher/feature/home/ui/view/home_screen.dart';
+import 'package:icd_teacher/features/home/presentation/pages/home_screen.dart';
 
 class AppRouter {
   static Route? generateRoute(RouteSettings settings) {
