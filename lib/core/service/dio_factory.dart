@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:icd_teacher/core/helper/shaerd_pref_helper.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 /// This is the Dio factory class that handles all the Dio configurations.
@@ -8,23 +9,23 @@ class DioFactory {
   DioFactory._();
 
   static Dio? dio;
-  // static const String baseUrl = ApiConstants.baseUrl;
+  static const String baseUrl = ''; // ApiConstants.baseUrl;
 
   static Future<Dio> getDio() async {
     if (dio == null) {
-      // dio = Dio(BaseOptions(baseUrl: baseUrl, followRedirects: true));
+      dio = Dio(BaseOptions(baseUrl: baseUrl, followRedirects: true));
       addDioInterceptor();
     }
     return dio!;
   }
 
   static Future<void> addDioHeaders() async {
-    // final String? token = await SharedPrefHelper.getSecuredString('auth_token');
+    final String? token = await SharedPrefHelper.getSecuredString('auth_token');
 
     dio?.options.headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      // 'Authorization': 'Bearer ${token ?? ''}',
+      'Authorization': 'Bearer ${token ?? ''}',
     };
   }
 
@@ -32,14 +33,14 @@ class DioFactory {
     dio?.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // final String? token = await SharedPrefHelper.getSecuredString(
-          //   'auth_token',
-          // );
-          // log("Token: $token");
-          // if (token != null && token.isNotEmpty) {
-          //   options.headers['Authorization'] = 'Bearer $token';
-          //   log("Token added to headers");
-          // }
+          final String? token = await SharedPrefHelper.getSecuredString(
+            'auth_token',
+          );
+          log("Token: $token");
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+            log("Token added to headers");
+          }
           return handler.next(options);
         },
         onError: (DioException e, handler) {
