@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/core/widget/custom_text_form.dart';
-import 'package:icd_teacher/features/auth/features/login/presentation/pages/custom_filed_password.dart';
-import 'package:icd_teacher/features/auth/features/login/presentation/pages/custom_switch_auth_mode.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/widgets/custom_filed_password.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/widgets/custom_switch_auth_mode.dart';
 
 class CustomLoginFormField extends StatefulWidget {
   const CustomLoginFormField({super.key});
@@ -46,12 +46,7 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
             isPasswordHidden: isPasswordHidden,
             passwordCtrl: passwordCtrl,
           ),
-          // CustomTextForm(
-          //   isObscureText: true,
-          //   keyboardType: TextInputType.visiblePassword,
-          // hintText: 'ادخل الباسورد',
-          //   prefixIcon: const Icon(Icons.visibility_off),
-          // ),
+ 
           const SizedBox(height: 32),
           CustomElevatedButton(
             text: 'تسجيل الدخول',

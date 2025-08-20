@@ -16,7 +16,7 @@ class CustomSwitchAuthMode extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          'هل لديك حساب بالفعل؟ ',
+          'هل لديك حساب بالفعل؟',
           style: TextStyle(
             fontSize: 20,
             color: AppColors.black,
