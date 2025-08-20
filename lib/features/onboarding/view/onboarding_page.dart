@@ -8,14 +8,14 @@ import 'package:icd_teacher/features/onboarding/view/widget/custom_navigation_bu
 import 'package:icd_teacher/features/onboarding/view/widget/custom_page_indicator.dart';
 import 'package:icd_teacher/features/onboarding/view/widget/custom_skip_button.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class OnboardingPage extends StatefulWidget {
+  const OnboardingPage({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   final ValueNotifier<int> currentPageNotifier = ValueNotifier<int>(0);
 

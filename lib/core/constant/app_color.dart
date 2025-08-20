@@ -7,6 +7,8 @@ class AppColors {
   static const Color primary = Color(0xFF1565C0); // الأزرق الإسلامي الرئيسي
   // static const Color primary2 = Colors.teal;
   static const Color red = Color(0xFFE53935);
+  static const Color grey =  Colors.grey;
+  static const Color green =  Colors.green;
 
   /// -------- Supporting Colors --------
   static const Color secondary = Color(0xFF4FC3F7);

@@ -62,6 +62,7 @@ class CustomTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       key: valueKey,
       initialValue: initialValue,
       enabled: isclickable,
@@ -86,24 +87,24 @@ class CustomTextForm extends StatelessWidget {
         suffixIconConstraints: BoxConstraints(minWidth: 14, minHeight: 8),
         hoverColor: hoverColor,
         filled: true,
-        fillColor: fillColor ?? AppColors.accent,
+        fillColor: fillColor ?? AppColors.grey.withOpacity(0.1),
         alignLabelWithHint: true,
         prefixIcon: prefixIcon,
         errorText: apiError,
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(14)),
-          borderSide: BorderSide(color: AppColors.accent),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: AppColors.green),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: colorEnableBorder ?? AppColors.accent),
+          borderSide: BorderSide(color: colorEnableBorder ?? AppColors.primary),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red),
         ),
       ),
@@ -111,7 +112,7 @@ class CustomTextForm extends StatelessWidget {
       keyboardType: keyboardType ?? TextInputType.text,
       style: style,
       obscureText: isObscureText ?? false,
-      cursorColor: cursorColor ?? AppColors.accent,
+      cursorColor: cursorColor ?? AppColors.black,
       cursorErrorColor: cursorErrorColor ?? Colors.red,
       validator: isValidator ?? true
           ? (value) {
