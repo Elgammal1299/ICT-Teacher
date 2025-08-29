@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/login_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page.dart';
+import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
 import 'package:icd_teacher/features/splash_screen/splash_page.dart';
@@ -19,6 +20,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case AppRoutes.registerRoute:
         return MaterialPageRoute(builder: (_) => const RegisterPage());
+      case AppRoutes.chooseTermsRoute:
+        return MaterialPageRoute(builder: (_) => const ChooseTermsPage());
 
       default:
         return null;

@@ -6,7 +6,7 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.background,
+    scaffoldBackgroundColor: Colors.grey.shade200,
     primaryColor: AppColors.primary,
     cardColor: AppColors.cardBackground,
     dividerColor: AppColors.divider,

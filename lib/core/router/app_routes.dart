@@ -4,4 +4,5 @@ class AppRoutes {
   static const homeRoute = '/HomeScreen';
   static const loginRoute = '/loginScreen';
   static const registerRoute = '/registerScreen';
+  static const chooseTermsRoute = '/chooseTermsScreen';
 }

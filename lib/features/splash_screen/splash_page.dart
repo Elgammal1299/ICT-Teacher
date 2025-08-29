@@ -42,7 +42,8 @@ class _SplashPageState extends State<SplashPage>
     if (!mounted) return;
 
     if (isOnboardingCompleted) {
-      Navigator.pushReplacementNamed(context, AppRoutes.registerRoute);
+      Navigator.pushReplacementNamed(context, AppRoutes.chooseTermsRoute);
+      // Navigator.pushReplacementNamed(context, AppRoutes.registerRoute);
     } else {
       Navigator.pushReplacementNamed(context, AppRoutes.onboardingRouter);
     }
