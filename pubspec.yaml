@@ -26,6 +26,7 @@ dependencies:
   retrofit: ^4.7.2
   logger: ^2.6.1
   json_annotation: ^4.9.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

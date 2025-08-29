@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:icd_teacher/bloc_observer.dart';
+import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/router/route.dart';
 
 void main() {
+  setupGetIt();
+  Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
 
@@ -19,7 +24,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [const Locale('ar')], 
+      supportedLocales: [const Locale('ar')],
       debugShowCheckedModeBanner: false,
       title: 'ICD Teacher ',
       initialRoute: AppRoutes.splasahRouter,
