@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:icd_teacher/core/service/api_constants.dart';
+import 'package:icd_teacher/features/auth/features/login/data/models/grade_id.dart';
+import 'package:icd_teacher/features/auth/features/login/data/models/grade_model.dart';
+import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
 import 'package:retrofit/retrofit.dart';
@@ -17,7 +20,23 @@ abstract class ApiService {
 
   // =================== Auth ===================
 
-  /// service for apple login
+  /// service for register
   @POST(ApiConstants.register)
   Future<RegisterResponse> register(@Body() RegisterBody body);
+
+  /// service for grades
+  @GET(ApiConstants.grades)
+  Future<GradeModel> grades();
+
+  /// service for gradesId
+  @GET(ApiConstants.gradeId)
+  Future<GradeIdModel> gradeId(@Path("id") String id);
+
+  /// service for grades
+  @GET(ApiConstants.regions)
+  Future<RegionModel> regions();
+
+  /// service for gradesId
+  @GET(ApiConstants.regionId)
+  Future<RegionModel> regionId(@Path("id") String id);
 }

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'grade_id.g.dart';
 
 @JsonSerializable()
-class GradeId {
+class GradeIdModel {
   final String id;
   final String name;
   @JsonKey(name: 'is_active')
@@ -17,7 +17,7 @@ class GradeId {
   @JsonKey(name: 'monthly_exams_url')
   final String monthlyExamsUrl;
 
-  GradeId({
+  GradeIdModel({
     required this.id,
     required this.name,
     required this.isActive,
@@ -27,8 +27,8 @@ class GradeId {
     required this.monthlyExamsUrl,
   });
 
-  factory GradeId.fromJson(Map<String, dynamic> json) =>
-      _$GradeIdFromJson(json);
+  factory GradeIdModel.fromJson(Map<String, dynamic> json) =>
+      _$GradeIdModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GradeIdToJson(this);
+  Map<String, dynamic> toJson() => _$GradeIdModelToJson(this);
 }
