@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/login_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
@@ -19,7 +22,12 @@ class AppRouter {
       case AppRoutes.loginRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case AppRoutes.registerRoute:
-        return MaterialPageRoute(builder: (_) => const RegisterPage());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<RegisterCubit>(),
+            child: const RegisterPage(),
+          ),
+        );
       case AppRoutes.chooseTermsRoute:
         return MaterialPageRoute(builder: (_) => const ChooseTermsPage());
 

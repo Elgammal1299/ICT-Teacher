@@ -5,10 +5,10 @@ import 'package:icd_teacher/core/service/api_service.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
 
-class AuthRepo {
+class RegisterRepo {
   final ApiService apiService;
 
-  AuthRepo(this.apiService);
+  RegisterRepo(this.apiService);
 
   Future<Either<Failure, RegisterResponse>> register(RegisterBody body) async {
     try {
