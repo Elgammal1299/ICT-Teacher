@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:icd_teacher/core/service/api_constants.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/grade_id.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/grade_model.dart';
+import 'package:icd_teacher/features/auth/features/login/data/models/login_body.dart';
+import 'package:icd_teacher/features/auth/features/login/data/models/login_response.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
@@ -23,10 +25,13 @@ abstract class ApiService {
   /// service for register
   @POST(ApiConstants.register)
   Future<RegisterResponse> register(@Body() RegisterBody body);
+  /// service for login
+  @POST(ApiConstants.login)
+  Future<LoginResponse> login(@Body() LoginBody body);
 
   /// service for grades
   @GET(ApiConstants.grades)
-  Future<GradeModel> grades();
+  Future<List<GradeModel>> grades();
 
   /// service for gradesId
   @GET(ApiConstants.gradeId)
@@ -34,7 +39,7 @@ abstract class ApiService {
 
   /// service for grades
   @GET(ApiConstants.regions)
-  Future<RegionModel> regions();
+  Future<List<RegionModel>> regions();
 
   /// service for gradesId
   @GET(ApiConstants.regionId)

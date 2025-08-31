@@ -12,7 +12,7 @@ final class GradesInitial extends GradesState {}
 final class GradesLoading extends GradesState {}
 
 final class GradesSuccess extends GradesState {
-  final GradeModel response;
+  final List<GradeModel> response;
   const GradesSuccess(this.response);
 }
 

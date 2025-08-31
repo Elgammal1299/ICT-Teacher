@@ -8,7 +8,7 @@ part 'regions_state.dart';
 class RegionsCubit extends Cubit<RegionsState> {
   RegionsCubit(this.repo) : super(RegionsInitial());
   final RegionRepo repo;
-  Future<void> grades() async {
+  Future<void> regions() async {
     emit(RegionsLoading());
     final result = await repo.regions();
     result.fold(

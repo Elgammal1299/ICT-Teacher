@@ -9,7 +9,7 @@ class RegionRepo {
 
   RegionRepo(this.apiService);
 
-  Future<Either<Failure, RegionModel>> regions() async {
+  Future<Either<Failure, List<RegionModel>>> regions() async {
     try {
       final response = await apiService.regions();
       return Right(response);

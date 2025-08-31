@@ -7,6 +7,8 @@ import 'package:icd_teacher/core/widget/custom_text_form.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/grade_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/view_model/grades_cubit/grades_cubit.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/widgets/custom_filed_password.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/widgets/custom_switch_auth_mode.dart';
@@ -20,34 +22,31 @@ class CustomRegesterFormField extends StatefulWidget {
 }
 
 class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
-  List<GradeModel> grades = [
-    GradeModel(id: '1', name: 'Grade 0', url: ''),
-    GradeModel(id: '2', name: 'Grade 1', url: ''),
-    GradeModel(id: '3', name: 'Grade 3', url: ''),
-  ]; // هتملى من API
+  List<GradeModel> grades = [];
 
-  List<RegionModel> regions = [
-    RegionModel(id: '1', name: 'Region 0'),
-    RegionModel(id: '2', name: 'Region 1'),
-    RegionModel(id: '3', name: 'Region 3'),
-  ]; // هتملى من API
+  List<RegionModel> regions = []; // هتملى من API
   final ValueNotifier<GradeModel?> selectedGrade = ValueNotifier(null);
   final ValueNotifier<RegionModel?> selectedRegion = ValueNotifier(null);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _middleNameController = TextEditingController();
-  // final TextEditingController _parentPhoneController = TextEditingController();
   final TextEditingController _passwordController2 = TextEditingController();
   final ValueNotifier<bool> isPasswordHidden = ValueNotifier(true);
   final ValueNotifier<bool> isPasswordHidden2 = ValueNotifier(true);
 
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _fristNameController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _perantPhoneController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<GradesCubit>().grades();
+    context.read<RegionsCubit>().regions();
+    // وهتعمل نفس الكلام مع RegionsCubit لو عندك واحد
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,28 +114,62 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
             isPasswordHidden: isPasswordHidden2,
             passwordCtrl: _passwordController2,
           ),
-          const SizedBox(height: 16),
-          CustomDropdown<GradeModel>(
-            hintText: 'اختر المرحلة الدراسية',
-            prefixIcon: const Icon(Icons.school),
-            items: grades,
-            selectedValue: selectedGrade,
-            getLabel: (g) => g.name,
-            validator: (value) =>
-                value == null ? 'اختر المرحلة الدراسية' : null,
-          ),
 
           const SizedBox(height: 16),
 
           // Dropdown للـ Region
-          CustomDropdown<RegionModel>(
-            hintText: 'اختر المنطقة',
-            prefixIcon: const Icon(Icons.location_on),
-            items: regions,
-            selectedValue: selectedRegion,
-            getLabel: (r) => r.name,
-            validator: (value) => value == null ? 'اختر المنطقة' : null,
+          BlocBuilder<RegionsCubit, RegionsState>(
+            builder: (context, state) {
+              if (state is RegionsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is RegionsSuccess) {
+                final regions = state.response;
+
+                return CustomDropdown<RegionModel>(
+                  hintText: 'اختر المرحلة الدراسية',
+                  prefixIcon: const Icon(Icons.school),
+                  items: regions,
+                  selectedValue: selectedRegion,
+                  getLabel: (g) => g.name,
+                  validator: (value) =>
+                      value == null ? 'اختر المرحلة الدراسية' : null,
+                );
+              } else if (state is RegionsError) {
+                return Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.red),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
+          const SizedBox(height: 16),
+          BlocBuilder<GradesCubit, GradesState>(
+            builder: (context, state) {
+              if (state is GradesLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is GradesSuccess) {
+                final grades = state.response;
+
+                return CustomDropdown<GradeModel>(
+                  hintText: 'اختر المرحلة الدراسية',
+                  prefixIcon: const Icon(Icons.school),
+                  items: grades,
+                  selectedValue: selectedGrade,
+                  getLabel: (g) => g.name,
+                  validator: (value) =>
+                      value == null ? 'اختر المرحلة الدراسية' : null,
+                );
+              } else if (state is GradesError) {
+                return Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.red),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+
           const SizedBox(height: 32),
           BlocConsumer<RegisterCubit, RegisterState>(
             listener: (context, state) {
@@ -185,17 +218,6 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
             },
           ),
 
-          // // الزر أو اللودينج
-          // CustomElevatedButton(
-          //   text: 'انشاء حساب',
-          //   borderColor: AppColors.primary,
-          //   textStyle: TextStyle(color: AppColors.white, fontSize: 20),
-          //   onPressed: () {
-          //     if (_formKey.currentState?.validate() ?? false) {
-          //       // login logic
-          //     }
-          //   },
-          // ),
           const SizedBox(height: 8),
           CustomSwitchAuthMode(
             onToggle: () {

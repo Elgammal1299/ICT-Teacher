@@ -8,3 +8,14 @@ abstract class LoginState extends Equatable {
 }
 
 class LoginInitial extends LoginState {}
+final class LoginLoading extends LoginState {}
+
+final class LoginSuccess extends LoginState {
+  final LoginResponse response;
+  const LoginSuccess(this.response);
+}
+
+final class LoginError extends LoginState {
+  const LoginError(this.message);
+  final String message;
+}

@@ -4,6 +4,9 @@ import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/login_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/view_model/grades_cubit/grades_cubit.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
@@ -20,11 +23,20 @@ class AppRouter {
       case AppRoutes.homeRoute:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case AppRoutes.loginRoute:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
-      case AppRoutes.registerRoute:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<RegisterCubit>(),
+            create: (context) => getIt<LoginCubit>(),
+            child: const LoginPage(),
+          ),
+        );
+      case AppRoutes.registerRoute:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<RegisterCubit>()),
+              BlocProvider(create: (context) => getIt<GradesCubit>()),
+              BlocProvider(create: (context) => getIt<RegionsCubit>()),
+            ],
             child: const RegisterPage(),
           ),
         );

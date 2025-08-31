@@ -12,7 +12,7 @@ final class RegionsInitial extends RegionsState {}
 final class RegionsLoading extends RegionsState {}
 
 final class RegionsSuccess extends RegionsState {
-  final RegionModel response;
+  final List<RegionModel> response;
   const RegionsSuccess(this.response);
 }
 
