@@ -5,6 +5,7 @@ import 'package:icd_teacher/bloc_observer.dart';
 import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/router/route.dart';
+import 'package:icd_teacher/core/service/dio_factory.dart';
 
 void main() {
   setupGetIt();
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       locale: const Locale('ar'),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

@@ -8,6 +8,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
@@ -21,7 +22,12 @@ class AppRouter {
       case AppRoutes.splasahRouter:
         return MaterialPageRoute(builder: (_) => const SplashPage());
       case AppRoutes.homeRoute:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<UserDataCubit>()..userData(),
+            child: const HomePage(),
+          ),
+        );
       case AppRoutes.loginRoute:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(

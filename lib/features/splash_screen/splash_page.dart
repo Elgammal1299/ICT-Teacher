@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/constant/shared_preferences_key.dart';
 import 'package:icd_teacher/core/helper/shaerd_pref_helper.dart';
+import 'package:icd_teacher/core/helper/user_session.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 
 class SplashPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   void initState() {
     super.initState();
-
+    _checkUser();
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -30,6 +31,15 @@ class _SplashPageState extends State<SplashPage>
     _controller.forward();
 
     _navigateAfterDelay();
+  }
+
+  Future<void> _checkUser() async {
+    final loggedIn = await UserSession.isLoggedIn();
+    if (loggedIn) {
+      Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+    }
   }
 
   Future<void> _navigateAfterDelay() async {

@@ -10,6 +10,8 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/data/repositories/user_repo.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 
 /// This is the dependency injection file for the app.
 final getIt = GetIt.instance;
@@ -35,6 +37,11 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<LoginRepo>(() => LoginRepo(getIt<ApiService>()));
   // ✅ Register login Cubit
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt<LoginRepo>()));
+  //==============================
+  // ✅ Register UserDataRepo
+  getIt.registerLazySingleton<UserRepo>(() => UserRepo(getIt<ApiService>()));
+  // ✅ Register UserDataCubit
+  getIt.registerFactory<UserDataCubit>(() => UserDataCubit(getIt<UserRepo>()));
   //=========================
   // ✅ Register grades Repo
   getIt.registerLazySingleton<GradesRepo>(

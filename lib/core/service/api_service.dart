@@ -7,6 +7,7 @@ import 'package:icd_teacher/features/auth/features/login/data/models/login_respo
 import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
+import 'package:icd_teacher/features/home/data/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_service.g.dart';
@@ -25,9 +26,18 @@ abstract class ApiService {
   /// service for register
   @POST(ApiConstants.register)
   Future<RegisterResponse> register(@Body() RegisterBody body);
+
   /// service for login
   @POST(ApiConstants.login)
   Future<LoginResponse> login(@Body() LoginBody body);
+
+  /// service for refresh
+  @POST(ApiConstants.refreshToken)
+  Future<LoginResponse> refresh(@Body() Map<String, dynamic> body);
+
+  /// service for User Profile
+  @GET(ApiConstants.user)
+  Future<UserModel> user();
 
   /// service for grades
   @GET(ApiConstants.grades)
