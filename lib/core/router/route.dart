@@ -11,6 +11,8 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
+import 'package:icd_teacher/features/nav_bar/ui/view/nav_bar.dart';
+import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
 import 'package:icd_teacher/features/splash_screen/splash_page.dart';
 
@@ -48,6 +50,16 @@ class AppRouter {
         );
       case AppRoutes.chooseTermsRoute:
         return MaterialPageRoute(builder: (_) => const ChooseTermsPage());
+      case AppRoutes.navBarScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => NavBarCubit()),
+              BlocProvider.value(value: getIt<UserDataCubit>()..userData()),
+            ],
+            child: const NavBarScreen(),
+          ),
+        );
 
       default:
         return null;

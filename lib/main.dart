@@ -5,7 +5,9 @@ import 'package:icd_teacher/bloc_observer.dart';
 import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/router/route.dart';
-import 'package:icd_teacher/core/service/dio_factory.dart';
+
+// Global navigator key for navigation from anywhere in the app
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   setupGetIt();

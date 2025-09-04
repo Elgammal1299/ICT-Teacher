@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage>
   Future<void> _checkUser() async {
     final loggedIn = await UserSession.isLoggedIn();
     if (loggedIn) {
-      Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+      Navigator.pushReplacementNamed(context, AppRoutes.navBarScreenRoute);
     } else {
       Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
     }

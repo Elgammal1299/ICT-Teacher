@@ -3,4 +3,12 @@ class AppImage {
   static const appLogoFram37 = 'assets/images/Frame 37.svg';
   static const appLogoFram38 = 'assets/images/Frame 38.svg';
   static const appLogoFram39 = 'assets/images/Frame 39.svg';
+  static const homeIcon = 'assets/images/homeIcon.svg';
+  static const homeIconSelected = 'assets/images/homeIconSelected.svg';
+  static const personIcon = 'assets/images/personIcon.svg';
+  static const personSelected = 'assets/images/personSelected.svg';
+  static const settingIcon = 'assets/images/settingIcon.svg';
+  static const tiktokIcon = 'assets/images/tiktokIcon.svg';
+  static const whatsIcon = 'assets/images/whatsIcon.svg';
+  static const xIcon = 'assets/images/xIcon.svg';
 }
