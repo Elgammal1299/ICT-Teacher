@@ -5,7 +5,7 @@ import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
-import 'package:icd_teacher/features/profile/ui/view/prefile_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/profile_screen.dart';
 
 class NavBarScreen extends StatelessWidget {
   const NavBarScreen({super.key});

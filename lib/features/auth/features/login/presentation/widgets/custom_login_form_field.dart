@@ -19,7 +19,6 @@ class CustomLoginFormField extends StatefulWidget {
 class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
-  final TextEditingController emailCtrl = TextEditingController();
   final TextEditingController userCtrl = TextEditingController();
 
   final ValueNotifier<bool> isPasswordHidden = ValueNotifier(true);
@@ -36,13 +35,7 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
             hintText: 'ادخل اسم المستخدم',
             prefixIcon: const Icon(Icons.person_outline),
           ),
-          const SizedBox(height: 16),
-          CustomTextForm(
-            controller: emailCtrl,
-            keyboardType: TextInputType.emailAddress,
-            hintText: 'ادخل البريد الالكتروني',
-            prefixIcon: const Icon(Icons.email_outlined),
-          ),
+
           const SizedBox(height: 16),
           CustomFiledPassword(
             hintText: 'ادخل الباسورد',
@@ -91,7 +84,7 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
 
           CustomSwitchAuthMode(
             onToggle: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, AppRoutes.registerRoute);
             },
             title: 'إنشاء حساب',
           ),

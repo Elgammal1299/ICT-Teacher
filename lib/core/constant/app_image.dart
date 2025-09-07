@@ -11,4 +11,8 @@ class AppImage {
   static const tiktokIcon = 'assets/images/tiktokIcon.svg';
   static const whatsIcon = 'assets/images/whatsIcon.svg';
   static const xIcon = 'assets/images/xIcon.svg';
+  static const logoutImage = 'assets/images/logoutImage.svg';
+  static const backIconNotBorser = 'assets/images/backIconNotBorser.svg';
+  static const instaIcon = 'assets/images/instaIcon.svg';
+  static const snapIcon = 'assets/images/snapIcon.svg';
 }
