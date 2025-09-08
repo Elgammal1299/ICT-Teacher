@@ -10,7 +10,9 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/data/repositories/tram_grade_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/user_repo.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 
 /// This is the dependency injection file for the app.
@@ -56,4 +58,13 @@ Future<void> setupGetIt() async {
   );
   // ✅ Register RegionsCubit
   getIt.registerFactory<RegionsCubit>(() => RegionsCubit(getIt<RegionRepo>()));
+  //=========================
+  // ✅ Register Term Greade Repo
+  getIt.registerLazySingleton<TramGradeRepo>(
+    () => TramGradeRepo(getIt<ApiService>()),
+  );
+  // ✅ Register Term Greade Cubit
+  getIt.registerFactory<TramGradeCubit>(
+    () => TramGradeCubit(getIt<TramGradeRepo>()),
+  );
 }

@@ -8,6 +8,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
@@ -49,7 +50,17 @@ class AppRouter {
           ),
         );
       case AppRoutes.chooseTermsRoute:
-        return MaterialPageRoute(builder: (_) => const ChooseTermsPage());
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<UserDataCubit>()..userData(),
+              ),
+              BlocProvider(create: (context) => getIt<TramGradeCubit>()),
+            ],
+            child: const ChooseTermsPage(),
+          ),
+        );
       case AppRoutes.navBarScreenRoute:
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(

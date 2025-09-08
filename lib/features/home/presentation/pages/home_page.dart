@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -94,12 +95,7 @@ class HomePage extends StatelessWidget {
 
           // 🟢 باقي الشاشة
           Expanded(
-            child: Center(
-              child: Text(
-                "محتوى الصفحة هنا",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
+            child: CustomTapView(),
           ),
         ],
       ),

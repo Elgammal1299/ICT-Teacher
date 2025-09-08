@@ -7,6 +7,7 @@ import 'package:icd_teacher/features/auth/features/login/data/models/login_respo
 import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
+import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/data/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -48,7 +49,7 @@ abstract class ApiService {
 
   /// service for gradesId
   @GET(ApiConstants.gradeId)
-  Future<GradeIdModel> gradeId(@Path("id") String id);
+  Future<TramGradeModel> gradeId(@Path("id") String id);
 
   /// service for grades
   @GET(ApiConstants.regions)

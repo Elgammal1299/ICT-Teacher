@@ -15,4 +15,7 @@ class AppImage {
   static const backIconNotBorser = 'assets/images/backIconNotBorser.svg';
   static const instaIcon = 'assets/images/instaIcon.svg';
   static const snapIcon = 'assets/images/snapIcon.svg';
+  static const deoIcon = 'assets/images/12.png';
+  static const noLesson = 'assets/images/no_lesson.png';
+  static const noLesson2 = 'assets/images/no_lesson2.png';
 }
