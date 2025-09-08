@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_lessons_list_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_item.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/tap_view_model.dart';
@@ -32,9 +34,7 @@ class _CustomTapViewState extends State<CustomTapView>
         setState(() {
           selectedIndex = newIndex;
         });
-        if (newIndex == 0) {
-        
-        }
+        if (newIndex == 0) {}
         if (newIndex == 1) {}
         if (newIndex == 2) {}
 
@@ -86,8 +86,23 @@ class _CustomTapViewState extends State<CustomTapView>
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CustomLessonsListView(),
-             
+                child: BlocBuilder<GetLessonCubit, GetLessonState>(
+                  builder: (context, state) {
+                    if (state is GetLessonLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is GetLessonError) {
+                      return Center(child: Text(state.errMessage));
+                    } else if (state is GetLessonSuccess) {
+                      final data = state.lessons;
+                     
+                      if (state.lessons.isEmpty) {
+                        return const CustomNoLesson();
+                      }
+                      return CustomLessonsListView(data: data,);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),

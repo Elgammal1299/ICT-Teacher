@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:icd_teacher/core/service/api_constants.dart';
-import 'package:icd_teacher/features/auth/features/login/data/models/grade_id.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/grade_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/login_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/login_response.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
+import 'package:icd_teacher/features/home/data/models/content_model.dart';
+import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/data/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -31,6 +32,7 @@ abstract class ApiService {
   /// service for login
   @POST(ApiConstants.login)
   Future<LoginResponse> login(@Body() LoginBody body);
+
   /// service for logout
   @POST(ApiConstants.logout)
   Future<LoginResponse> logout();
@@ -58,4 +60,23 @@ abstract class ApiService {
   /// service for gradesId
   @GET(ApiConstants.regionId)
   Future<RegionModel> regionId(@Path("id") String id);
+
+  /// service for contents
+  @GET(ApiConstants.contents)
+  Future<List<LessonsModel>> getLessons(
+    @Query("term") String termId,
+    @Query("content_type") String contentType,
+  );
+  /// service for Revisions
+  @GET(ApiConstants.contents)
+  Future<List<LessonsModel>> getRevisions(
+    @Query("term") String termId,
+    @Query("content_type") String contentType,
+  );
+  
+  /// service for content by id
+   @GET(ApiConstants.contentId)
+  Future<ContentModel> getContentById(
+    @Path("id") String id,
+  );
 }

@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
+import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 
 class CustomLessonItem extends StatelessWidget {
-  const CustomLessonItem({
-    super.key,
-  });
+  const CustomLessonItem({super.key, required this.lessonsModel});
+  final LessonsModel lessonsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class CustomLessonItem extends StatelessWidget {
           ),
           SizedBox(width: 12),
           Text(
-            'الدرس الاول',
+           lessonsModel.title,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

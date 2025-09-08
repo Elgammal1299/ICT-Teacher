@@ -9,6 +9,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
@@ -28,8 +29,16 @@ class AppRouter {
       case AppRoutes.homeRoute:
         final args = settings.arguments as TermModel;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<UserDataCubit>()..userData(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<UserDataCubit>()..userData(),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    getIt<GetLessonCubit>()..getLesson(args.id, "lesson"),
+              ),
+            ],
             child: HomePage(termModel: args),
           ),
         );
@@ -70,6 +79,10 @@ class AppRouter {
             providers: [
               BlocProvider(create: (context) => NavBarCubit()),
               BlocProvider.value(value: getIt<UserDataCubit>()..userData()),
+              BlocProvider(
+                create: (context) =>
+                    getIt<GetLessonCubit>()..getLesson(args.id, "lesson"),
+              ),
             ],
             child: NavBarScreen(termModel: args),
           ),

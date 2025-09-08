@@ -11,4 +11,6 @@ class ApiConstants {
   static const String gradeId = "grades/{id}/";
   static const String regions = "regions/";
   static const String regionId = "regions/{id}/";
+  static const String contents = "contents/";
+  static const String contentId = "contents/{id}/";
 }
