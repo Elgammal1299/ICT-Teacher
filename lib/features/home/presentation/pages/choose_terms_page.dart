@@ -62,8 +62,8 @@ class ChooseTermsPage extends StatelessWidget {
                                     ? () {
                                         Navigator.pushNamed(
                                           context,
-                                          AppRoutes
-                                              .navBarScreenRoute, // افترضنا ان ده اسم الراوت بتاع الهوم
+                                          AppRoutes.navBarScreenRoute,
+                                          arguments: term,
                                         );
                                       }
                                     : null,

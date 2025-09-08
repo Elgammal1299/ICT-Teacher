@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
+import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_lessons_list_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_item.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/tap_view_model.dart';
 
 class CustomTapView extends StatefulWidget {
-  const CustomTapView({super.key});
+  const CustomTapView({super.key, required this.termModel});
+  final TermModel termModel;
 
   @override
   State<CustomTapView> createState() => _CustomTapViewState();
@@ -31,18 +33,12 @@ class _CustomTapViewState extends State<CustomTapView>
           selectedIndex = newIndex;
         });
         if (newIndex == 0) {
-          // context.read<NotstartCubit>().getNotstartAuctions();
+        
         }
-        if (newIndex == 1) {
-          // context.read<ReadyCubit>().getReadyAuctions();
-        }
-        if (newIndex == 2) {
-          // context.read<OngoingCubit>().getOngoingAuctions();
-        }
+        if (newIndex == 1) {}
+        if (newIndex == 2) {}
 
-        if (newIndex == 3) {
-          // context.read<FinishedCubit>().getFinishedAuctions(page: 1);
-        }
+        if (newIndex == 3) {}
       }
     });
   }
@@ -90,20 +86,21 @@ class _CustomTapViewState extends State<CustomTapView>
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomLessonsListView(),
+              child: CustomLessonsListView(),
+             
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomNoLesson(),
+                child: CustomReviewsListView(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('2'),
+                child: CustomeValuationListView(),
               ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('3'),
+                child: CustomQuizListView(),
               ),
             ],
           ),
@@ -119,6 +116,36 @@ final List<Color> selectedTabColors = [
   AppColors.primary,
   AppColors.primary,
 ];
+
+class CustomQuizListView extends StatelessWidget {
+  const CustomQuizListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage: AssetImage(AppImage.personIcon),
+          ),
+          title: Text('مستخدم $index'),
+          subtitle: Text('هذا هو نص المراجعة للمستخدم $index.'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(5, (starIndex) {
+              return Icon(
+                starIndex < 4 ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+                size: 16,
+              );
+            }),
+          ),
+        );
+      },
+    );
+  }
+}
 
 class CustomNoLesson extends StatelessWidget {
   const CustomNoLesson({super.key});
@@ -138,6 +165,66 @@ class CustomNoLesson extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CustomReviewsListView extends StatelessWidget {
+  const CustomReviewsListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage: AssetImage(AppImage.personIcon),
+          ),
+          title: Text('مستخدم $index'),
+          subtitle: Text('هذا هو نص المراجعة للمستخدم $index.'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(5, (starIndex) {
+              return Icon(
+                starIndex < 4 ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+                size: 16,
+              );
+            }),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CustomeValuationListView extends StatelessWidget {
+  const CustomeValuationListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage: AssetImage(AppImage.personIcon),
+          ),
+          title: Text('مستخدم $index'),
+          subtitle: Text('هذا هو نص المراجعة للمستخدم $index.'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(5, (starIndex) {
+              return Icon(
+                starIndex < 4 ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+                size: 16,
+              );
+            }),
+          ),
+        );
+      },
     );
   }
 }

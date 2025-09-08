@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
+import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_view.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final TermModel termModel;
+  const HomePage({super.key, required this.termModel});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class HomePage extends StatelessWidget {
 
           // 🟢 باقي الشاشة
           Expanded(
-            child: CustomTapView(),
+            child: CustomTapView(termModel:termModel ,),
           ),
         ],
       ),

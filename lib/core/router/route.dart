@@ -8,6 +8,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
@@ -25,10 +26,11 @@ class AppRouter {
       case AppRoutes.splasahRouter:
         return MaterialPageRoute(builder: (_) => const SplashPage());
       case AppRoutes.homeRoute:
+        final args = settings.arguments as TermModel;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<UserDataCubit>()..userData(),
-            child: const HomePage(),
+            child: HomePage(termModel: args),
           ),
         );
       case AppRoutes.loginRoute:
@@ -62,13 +64,14 @@ class AppRouter {
           ),
         );
       case AppRoutes.navBarScreenRoute:
+        final args = settings.arguments as TermModel;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => NavBarCubit()),
               BlocProvider.value(value: getIt<UserDataCubit>()..userData()),
             ],
-            child: const NavBarScreen(),
+            child: NavBarScreen(termModel: args),
           ),
         );
 
