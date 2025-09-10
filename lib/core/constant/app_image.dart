@@ -20,4 +20,6 @@ class AppImage {
   static const noLesson2 = 'assets/images/no_lesson2.png';
   static const book = 'assets/images/book.svg';
   static const confusion = 'assets/images/confusion.svg';
+  static const quizMonth = 'assets/images/quiz_month.png';
+  static const quizWeek = 'assets/images/quiz_week.png';
 }

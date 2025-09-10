@@ -8,4 +8,5 @@ class AppRoutes {
   static const navBarScreenRoute = '/NavBarScreen';
   static const lessonPageRoute = '/LessonPage';
   static const revisionsPageRoute = '/revisionsPage';
+  static const quizMonthlyPageRoute = '/QuizMonthlyPage';
 }

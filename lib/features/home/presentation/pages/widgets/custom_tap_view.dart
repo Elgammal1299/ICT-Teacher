@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
-import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_lessons_list_view.dart';
+import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_quiz_List_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_reviews_list_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_item.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/tap_view_model.dart';
@@ -135,7 +135,7 @@ class _CustomTapViewState extends State<CustomTapView>
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomQuizListView(),
+                child: CustomQuizListView(termModel: widget.termModel,),
               ),
             ],
           ),
@@ -152,35 +152,7 @@ final List<Color> selectedTabColors = [
   AppColors.primary,
 ];
 
-class CustomQuizListView extends StatelessWidget {
-  const CustomQuizListView({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage(AppImage.personIcon),
-          ),
-          title: Text('مستخدم $index'),
-          subtitle: Text('هذا هو نص المراجعة للمستخدم $index.'),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(5, (starIndex) {
-              return Icon(
-                starIndex < 4 ? Icons.star : Icons.star_border,
-                color: Colors.amber,
-                size: 16,
-              );
-            }),
-          ),
-        );
-      },
-    );
-  }
-}
 
 class CustomNoLesson extends StatelessWidget {
   const CustomNoLesson({super.key});
@@ -203,7 +175,6 @@ class CustomNoLesson extends StatelessWidget {
     );
   }
 }
-
 
 class CustomeValuationListView extends StatelessWidget {
   const CustomeValuationListView({super.key});

@@ -73,7 +73,18 @@ abstract class ApiService {
     @Query("term") String termId,
     @Query("content_type") String contentType,
   );
-  
+  /// service for quizzes Monthly
+  @GET(ApiConstants.quizzes)
+  Future<List<LessonsModel>> getQuizzesMonthly(
+    @Query("term") String termId,
+    @Query("quiz_type") String contentType,
+  );
+  /// service for quizzes Weekly
+  @GET(ApiConstants.quizzes)
+  Future<List<LessonsModel>> getQuizzesWeekly(
+    @Query("term") String termId,
+    @Query("quiz_type") String contentType,
+  );
   /// service for content by id
    @GET(ApiConstants.contentId)
   Future<ContentModel> getContentById(
