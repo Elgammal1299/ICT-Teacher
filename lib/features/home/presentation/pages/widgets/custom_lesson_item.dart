@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
+import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 
 class CustomLessonItem extends StatelessWidget {
@@ -35,7 +36,7 @@ class CustomLessonItem extends StatelessWidget {
           ),
           SizedBox(width: 12),
           Text(
-           lessonsModel.title,
+            lessonsModel.title,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -44,7 +45,9 @@ class CustomLessonItem extends StatelessWidget {
           ),
           const Spacer(),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.lessonPageRoute,arguments: lessonsModel);
+            },
             icon: const Icon(Icons.arrow_forward_ios),
           ),
         ],

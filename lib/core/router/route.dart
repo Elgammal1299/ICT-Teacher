@@ -8,12 +8,15 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
+import 'package:icd_teacher/features/home/presentation/pages/lesson_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view/nav_bar.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
@@ -26,6 +29,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const OnboardingPage());
       case AppRoutes.splasahRouter:
         return MaterialPageRoute(builder: (_) => const SplashPage());
+      case AppRoutes.lessonPageRoute:
+        final args = settings.arguments as LessonsModel;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<GetContentByIdCubit>()..getLesson(args.id),
+            child: LessonPage(lessonsModel: args),
+          ),
+        );
       case AppRoutes.homeRoute:
         final args = settings.arguments as TermModel;
         return MaterialPageRoute(

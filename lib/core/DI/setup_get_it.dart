@@ -81,6 +81,15 @@ Future<void> setupGetIt() async {
     () => GetLessonCubit(getIt<LessonRepo>()),
   );
   //=========================
+  // ✅ Register Term Revesion Repo
+  getIt.registerLazySingleton<LessonRepo>(
+    () => LessonRepo(getIt<ApiService>()),
+  );
+  // ✅ Register Term Lesson Cubit
+  getIt.registerFactory<GetLessonCubit>(
+    () => GetLessonCubit(getIt<LessonRepo>()),
+  );
+  //=========================
   // ✅ Register Term Content Repo
   getIt.registerLazySingleton<GetcontentByIdRepo>(
     () => GetcontentByIdRepo(getIt<ApiService>()),
