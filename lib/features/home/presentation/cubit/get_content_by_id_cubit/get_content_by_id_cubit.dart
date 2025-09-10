@@ -8,7 +8,7 @@ part 'get_content_by_id_state.dart';
 class GetContentByIdCubit extends Cubit<GetContentByIdState> {
   GetContentByIdCubit(this.repo) : super(GetcontentByIdInitial());
   final GetcontentByIdRepo repo;
-  Future<void> getLesson(String termId) async {
+  Future<void> getContentById(String termId) async {
     emit(GetContentByIdLoading());
     final result = await repo.getcontentById(termId);
     result.fold(

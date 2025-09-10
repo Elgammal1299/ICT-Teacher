@@ -20,7 +20,10 @@ class NavBarScreen extends StatelessWidget {
         builder: (context, state) {
           return IndexedStack(
             index: state,
-            children: [HomePage(termModel: termModel,), ProfilePage()],
+            children: [
+              HomePage(termModel: termModel),
+              ProfilePage(),
+            ],
           );
         },
       ),

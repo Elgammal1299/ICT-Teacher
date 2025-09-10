@@ -28,24 +28,51 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
   final ValueNotifier<GradeModel?> selectedGrade = ValueNotifier(null);
   final ValueNotifier<RegionModel?> selectedRegion = ValueNotifier(null);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _middleNameController = TextEditingController();
-  final TextEditingController _passwordController2 = TextEditingController();
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late TextEditingController _middleNameController;
+  late TextEditingController _passwordController2;
   final ValueNotifier<bool> isPasswordHidden = ValueNotifier(true);
   final ValueNotifier<bool> isPasswordHidden2 = ValueNotifier(true);
 
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _fristNameController = TextEditingController();
-  final TextEditingController _userNameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _perantPhoneController = TextEditingController();
+  late TextEditingController _lastNameController;
+  late TextEditingController _fristNameController;
+  late TextEditingController _userNameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _perantPhoneController;
   @override
   void initState() {
     super.initState();
     context.read<GradesCubit>().grades();
     context.read<RegionsCubit>().regions();
-    // وهتعمل نفس الكلام مع RegionsCubit لو عندك واحد
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _passwordController2 = TextEditingController();
+    _lastNameController = TextEditingController();
+    _fristNameController = TextEditingController();
+    _userNameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _perantPhoneController = TextEditingController();
+    _middleNameController = TextEditingController();
+
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _passwordController2.dispose();
+    _lastNameController.dispose();
+    _fristNameController.dispose();
+    _userNameController.dispose();
+    _phoneController.dispose();
+    _perantPhoneController.dispose();
+    _middleNameController.dispose();
+    isPasswordHidden.dispose();
+    isPasswordHidden2.dispose();
+    selectedGrade.dispose();
+    selectedRegion.dispose();
+    
   }
 
   @override

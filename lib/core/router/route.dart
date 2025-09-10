@@ -12,11 +12,13 @@ import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/lesson_page.dart';
+import 'package:icd_teacher/features/home/presentation/pages/revision_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view/nav_bar.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
@@ -34,8 +36,17 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) =>
-                getIt<GetContentByIdCubit>()..getLesson(args.id),
+                getIt<GetContentByIdCubit>()..getContentById(args.id),
             child: LessonPage(lessonsModel: args),
+          ),
+        );
+      case AppRoutes.revisionsPageRoute:
+        final args = settings.arguments as LessonsModel;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<GetContentByIdCubit>()..getContentById(args.id),
+            child: RevisionPage(lessonsModel: args),
           ),
         );
       case AppRoutes.homeRoute:
@@ -94,6 +105,11 @@ class AppRouter {
               BlocProvider(
                 create: (context) =>
                     getIt<GetLessonCubit>()..getLesson(args.id, "lesson"),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    getIt<GetRevisionsCubit>()
+                      ..getRevisions(args.id, "revision"),
               ),
             ],
             child: NavBarScreen(termModel: args),

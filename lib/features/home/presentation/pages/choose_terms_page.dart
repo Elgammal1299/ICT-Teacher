@@ -60,7 +60,7 @@ class ChooseTermsPage extends StatelessWidget {
                                 isActive: term.isActive,
                                 onTap: term.isActive
                                     ? () {
-                                        Navigator.pushNamed(
+                                        Navigator.pushReplacementNamed(
                                           context,
                                           AppRoutes.navBarScreenRoute,
                                           arguments: term,
@@ -99,7 +99,7 @@ class CustomTermsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap, // لو null مش هيعمل تفاعل
+      onTap: onTap, 
       child: Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: Container(

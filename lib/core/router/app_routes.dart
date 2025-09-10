@@ -7,4 +7,5 @@ class AppRoutes {
   static const chooseTermsRoute = '/chooseTermsScreen';
   static const navBarScreenRoute = '/NavBarScreen';
   static const lessonPageRoute = '/LessonPage';
+  static const revisionsPageRoute = '/revisionsPage';
 }

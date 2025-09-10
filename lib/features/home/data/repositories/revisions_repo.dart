@@ -9,9 +9,9 @@ class RevisionsRepo {
 
   RevisionsRepo(this.apiService);
 
-  Future<Either<Failure, List<LessonsModel>>> getLesson(String termId ,contentType) async {
+  Future<Either<Failure, List<LessonsModel>>> getRevisions(String termId ,contentType) async {
     try {
-      final response = await apiService.getLessons(termId, contentType);
+      final response = await apiService.getRevisions(termId, contentType);
       return Right(response);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioError(e));

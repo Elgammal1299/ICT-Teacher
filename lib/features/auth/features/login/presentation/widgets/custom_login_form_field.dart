@@ -18,11 +18,23 @@ class CustomLoginFormField extends StatefulWidget {
 
 class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController passwordCtrl = TextEditingController();
-  final TextEditingController userCtrl = TextEditingController();
+  late TextEditingController passwordCtrl ;
+  late TextEditingController userCtrl ;
 
   final ValueNotifier<bool> isPasswordHidden = ValueNotifier(true);
-
+@override
+  void initState() {
+    super.initState();
+    passwordCtrl = TextEditingController();
+    userCtrl = TextEditingController();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    passwordCtrl.dispose();
+    userCtrl.dispose();
+    isPasswordHidden.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Form(

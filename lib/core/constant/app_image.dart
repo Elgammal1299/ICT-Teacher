@@ -18,4 +18,6 @@ class AppImage {
   static const deoIcon = 'assets/images/12.png';
   static const noLesson = 'assets/images/no_lesson.png';
   static const noLesson2 = 'assets/images/no_lesson2.png';
+  static const book = 'assets/images/book.svg';
+  static const confusion = 'assets/images/confusion.svg';
 }

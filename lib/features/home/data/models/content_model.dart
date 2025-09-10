@@ -29,15 +29,11 @@ class ContentModel {
 
 @JsonSerializable(explicitToJson: true)
 class QuizModel {
-  final String id;
-  final String title;
-  final List<QuestionModel> questions;
+  final String? id;
+  final String? title;
+  final List<QuestionModel>? questions;
 
-  QuizModel({
-    required this.id,
-    required this.title,
-    required this.questions,
-  });
+  QuizModel({this.id, this.title, this.questions});
 
   factory QuizModel.fromJson(Map<String, dynamic> json) =>
       _$QuizModelFromJson(json);
@@ -47,15 +43,11 @@ class QuizModel {
 
 @JsonSerializable(explicitToJson: true)
 class QuestionModel {
-  final String id;
-  final String body;
-  final List<ChoiceModel> choices;
+  final String? id;
+  final String? body;
+  final List<ChoiceModel>? choices;
 
-  QuestionModel({
-    required this.id,
-    required this.body,
-    required this.choices,
-  });
+  QuestionModel({this.id, this.body, this.choices});
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) =>
       _$QuestionModelFromJson(json);
@@ -65,13 +57,10 @@ class QuestionModel {
 
 @JsonSerializable()
 class ChoiceModel {
-  final String id;
-  final String body;
+  final String? id;
+  final String? body;
 
-  ChoiceModel({
-    required this.id,
-    required this.body,
-  });
+  ChoiceModel({this.id, this.body});
 
   factory ChoiceModel.fromJson(Map<String, dynamic> json) =>
       _$ChoiceModelFromJson(json);

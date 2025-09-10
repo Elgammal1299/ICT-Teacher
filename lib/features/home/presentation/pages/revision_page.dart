@@ -6,15 +6,15 @@ import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 
-class LessonPage extends StatefulWidget {
+class RevisionPage extends StatefulWidget {
   final LessonsModel lessonsModel;
-  const LessonPage({super.key, required this.lessonsModel});
+  const RevisionPage({super.key, required this.lessonsModel});
 
   @override
-  State<LessonPage> createState() => _LessonPageState();
+  State<RevisionPage> createState() => _LessonPageState();
 }
 
-class _LessonPageState extends State<LessonPage> {
+class _LessonPageState extends State<RevisionPage> {
   YoutubePlayerController? _ytController;
 
   @override

@@ -12,10 +12,12 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/data/repositories/getcontent_by_id_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/lesson_repo.dart';
+import 'package:icd_teacher/features/home/data/repositories/revisions_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/tram_grade_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/user_repo.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 
@@ -82,12 +84,12 @@ Future<void> setupGetIt() async {
   );
   //=========================
   // ✅ Register Term Revesion Repo
-  getIt.registerLazySingleton<LessonRepo>(
-    () => LessonRepo(getIt<ApiService>()),
+  getIt.registerLazySingleton<RevisionsRepo>(
+    () => RevisionsRepo(getIt<ApiService>()),
   );
   // ✅ Register Term Lesson Cubit
-  getIt.registerFactory<GetLessonCubit>(
-    () => GetLessonCubit(getIt<LessonRepo>()),
+  getIt.registerFactory<GetRevisionsCubit>(
+    () => GetRevisionsCubit(getIt<RevisionsRepo>()),
   );
   //=========================
   // ✅ Register Term Content Repo
