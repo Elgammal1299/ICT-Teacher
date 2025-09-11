@@ -8,6 +8,7 @@ import 'package:icd_teacher/features/auth/features/login/data/models/register_bo
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
 import 'package:icd_teacher/features/home/data/models/content_model.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
+import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/data/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -67,27 +68,33 @@ abstract class ApiService {
     @Query("term") String termId,
     @Query("content_type") String contentType,
   );
+
   /// service for Revisions
   @GET(ApiConstants.contents)
   Future<List<LessonsModel>> getRevisions(
     @Query("term") String termId,
     @Query("content_type") String contentType,
   );
+
+  /// service for content by id
+  @GET(ApiConstants.contentId)
+  Future<ContentModel> getContentById(@Path("id") String id);
+
   /// service for quizzes Monthly
   @GET(ApiConstants.quizzes)
   Future<List<LessonsModel>> getQuizzesMonthly(
     @Query("term") String termId,
     @Query("quiz_type") String contentType,
   );
+
   /// service for quizzes Weekly
   @GET(ApiConstants.quizzes)
   Future<List<LessonsModel>> getQuizzesWeekly(
     @Query("term") String termId,
     @Query("quiz_type") String contentType,
   );
-  /// service for content by id
-   @GET(ApiConstants.contentId)
-  Future<ContentModel> getContentById(
-    @Path("id") String id,
-  );
+
+  /// service for quiz by id
+  @GET(ApiConstants.quizzesId)
+  Future<QuizModel> getQuizById(@Path("id") String id);
 }

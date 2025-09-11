@@ -12,6 +12,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/data/repositories/getcontent_by_id_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/lesson_repo.dart';
+import 'package:icd_teacher/features/home/data/repositories/quiz_by_id_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/quizzes_monthly_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/quizzes_weekly_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/revisions_repo.dart';
@@ -20,6 +21,7 @@ import 'package:icd_teacher/features/home/data/repositories/user_repo.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_weekly_cubit/quizzes_weekly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
@@ -122,4 +124,11 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<GetContentByIdCubit>(
     () => GetContentByIdCubit(getIt<GetcontentByIdRepo>()),
   );
+  //=========================
+  // ✅ Register Term Quiz Repo
+  getIt.registerLazySingleton<QuizByIdRepo>(
+    () => QuizByIdRepo(getIt<ApiService>()),
+  );
+  // ✅ Register Term GetQuizByIdCubit
+  getIt.registerFactory<QuizCubit>(() => QuizCubit(getIt<QuizByIdRepo>()));
 }

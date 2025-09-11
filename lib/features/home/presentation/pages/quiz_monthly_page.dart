@@ -60,7 +60,6 @@ class CustomQuizMonthyItem extends StatelessWidget {
     return Container(
       child: ListTile(
         title: Text(quizModel.title),
-        subtitle: Text(quizModel.title),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
           // Handle item tap, e.g., navigate to quiz details
