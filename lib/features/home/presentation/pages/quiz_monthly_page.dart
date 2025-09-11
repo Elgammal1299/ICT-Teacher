@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_view.dart';
@@ -62,7 +63,11 @@ class CustomQuizMonthyItem extends StatelessWidget {
         title: Text(quizModel.title),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Handle item tap, e.g., navigate to quiz details
+          Navigator.pushNamed(
+            context,
+            AppRoutes.quizQuestionsPageRoute,
+            arguments: quizModel,
+          );
         },
       ),
     );

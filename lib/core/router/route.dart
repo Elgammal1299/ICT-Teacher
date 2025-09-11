@@ -13,6 +13,7 @@ import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
@@ -20,6 +21,7 @@ import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.d
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/lesson_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_monthly_page.dart';
+import 'package:icd_teacher/features/home/presentation/pages/quiz_questions_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/revision_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view/nav_bar.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
@@ -118,11 +120,21 @@ class AppRouter {
           ),
         );
       case AppRoutes.quizMonthlyPageRoute:
-      final args = settings.arguments as TermModel;
+        final args = settings.arguments as TermModel;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<QuizzesMonthyCubit>()..getQuizzesMonthly(args.id, 'monthly_exam'),
+            create: (context) =>
+                getIt<QuizzesMonthyCubit>()
+                  ..getQuizzesMonthly(args.id, 'monthly_exam'),
             child: const QuizMonthlyPage(),
+          ),
+        );
+      case AppRoutes.quizQuestionsPageRoute:
+        final args = settings.arguments as LessonsModel;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<QuizCubit>()..getQuizById(args.id),
+            child: QuizQuestionsPage(quizModel: args),
           ),
         );
       default:

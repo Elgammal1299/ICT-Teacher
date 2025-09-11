@@ -340,6 +340,33 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<ContentModel> getContentById(String id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ContentModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'contents/${id}/',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ContentModel _value;
+    try {
+      _value = ContentModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<List<LessonsModel>> getQuizzesMonthly(
     String termId,
     String contentType,
@@ -410,25 +437,25 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ContentModel> getContentById(String id) async {
+  Future<QuizModel> getQuizById(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<ContentModel>(
+    final _options = _setStreamType<QuizModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'contents/${id}/',
+            'quizzes/${id}/',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ContentModel _value;
+    late QuizModel _value;
     try {
-      _value = ContentModel.fromJson(_result.data!);
+      _value = QuizModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
