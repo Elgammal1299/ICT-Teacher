@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
@@ -176,7 +177,13 @@ class _LessonPageState extends State<RevisionPage> {
                   const SizedBox(height: 20),
                   CustomElevatedButton(
                     text: 'الذهاب الى الاختبار',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.quizPageRoute,
+                        arguments: state.contentModel.quiz,
+                      );
+                    },
                   ),
                 ],
               ),

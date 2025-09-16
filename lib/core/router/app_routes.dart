@@ -10,4 +10,5 @@ class AppRoutes {
   static const revisionsPageRoute = '/revisionsPage';
   static const quizMonthlyPageRoute = '/QuizMonthlyPage';
   static const quizQuestionsPageRoute = '/QuizQuestionsPage';
+  static const quizPageRoute = '/QuizPage';
 }

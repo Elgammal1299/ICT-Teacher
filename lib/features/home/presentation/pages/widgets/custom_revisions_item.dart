@@ -26,12 +26,7 @@ class CustomRevisionsItem extends StatelessWidget {
             // borderRadius: BorderRadius.circular(12),
             child: Container(
               color: AppColors.primary.withOpacity(0.1),
-              child: Image.asset(
-                AppImage.deoIcon,
-                fit: BoxFit.fill,
-                width: 100,
-                height: 100,
-              ),
+              child: Icon(Icons.add),
             ),
           ),
           SizedBox(width: 12),

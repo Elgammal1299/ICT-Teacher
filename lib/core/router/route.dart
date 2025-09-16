@@ -9,6 +9,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
+import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
@@ -21,6 +22,7 @@ import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.d
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/lesson_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_monthly_page.dart';
+import 'package:icd_teacher/features/home/presentation/pages/quiz_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_questions_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/revision_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view/nav_bar.dart';
@@ -137,6 +139,9 @@ class AppRouter {
             child: QuizQuestionsPage(quizModel: args),
           ),
         );
+      case AppRoutes.quizPageRoute:
+        final quiz = settings.arguments as QuizModel;
+        return MaterialPageRoute(builder: (_) => QuizPage(quiz: quiz));
       default:
         return null;
     }
