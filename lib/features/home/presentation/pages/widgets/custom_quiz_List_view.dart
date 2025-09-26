@@ -15,7 +15,11 @@ class CustomQuizListView extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.quizMonthlyPageRoute,arguments: termModel,);
+              Navigator.pushNamed(
+                context,
+                AppRoutes.quizMonthlyPageRoute,
+                arguments: termModel,
+              );
             },
             child: Container(
               width: double.infinity,
@@ -33,7 +37,13 @@ class CustomQuizListView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.quizWeeklyPageRoute,
+                arguments: termModel,
+              );
+            },
             child: Container(
               width: double.infinity,
 

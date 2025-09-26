@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_revisions_item.dart';
 

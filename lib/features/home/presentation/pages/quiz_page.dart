@@ -30,163 +30,169 @@ class _QuizPageState extends State<QuizPage> {
       appBar: AppBar(title: Text(widget.quiz.title ?? 'Quiz')),
       body: SafeArea(
         child: questions.isEmpty
-            ? const Center(child: Text("No questions available"))
+            ? const Center(
+                child: Text(
+                  "لا يوحد اختبار حتي الان",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
             : !showTotalScore
-                ? Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 30),
+            ? Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 30),
 
-                        /// السؤال
-                        Text(
-                          questions[questionIndex].body ?? '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.black),
-                        ),
-                        const SizedBox(height: 20),
+                    /// السؤال
+                    Text(
+                      questions[questionIndex].body ?? '',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineSmall!.copyWith(color: Colors.black),
+                    ),
+                    const SizedBox(height: 20),
 
-                        /// الإجابات
-                        Column(
-                          children: List.generate(
-                            (questions[questionIndex].choices ?? []).length,
-                            (index) {
-                              final choice =
-                                  questions[questionIndex].choices![index];
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: SizedBox(
-                                  height: 60,
-                                  width: double.infinity,
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        answerChosen = index;
-                                      });
-                                    },
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        color: answerChosen == index
-                                            ? Colors.green
-                                            : Colors.white,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.circle,
-                                              size: 20,
-                                              color: answerChosen == index
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                            const SizedBox(width: 16.0),
-                                            Text(
-                                              choice.body ?? '',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium!
-                                                  .copyWith(
-                                                    color: answerChosen == index
-                                                        ? Colors.white
-                                                        : Colors.black,
-                                                  ),
-                                            ),
-                                          ],
+                    /// الإجابات
+                    Column(
+                      children: List.generate(
+                        (questions[questionIndex].choices ?? []).length,
+                        (index) {
+                          final choice =
+                              questions[questionIndex].choices![index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: SizedBox(
+                              height: 60,
+                              width: double.infinity,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    answerChosen = index;
+                                  });
+                                },
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: answerChosen == index
+                                        ? Colors.green
+                                        : Colors.white,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.circle,
+                                          size: 20,
+                                          color: answerChosen == index
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
-                                      ),
+                                        const SizedBox(width: 16.0),
+                                        Text(
+                                          choice.body ?? '',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
+                                              .copyWith(
+                                                color: answerChosen == index
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        const Spacer(),
-
-                        /// زر Next
-                        CustomElevatedButton(
-                          text: questionIndex + 1 < questions.length
-                              ? 'Next'
-                              : 'Finish',
-                          onPressed: () {
-                            if (answerChosen == -1) return;
-
-                            final currentQuestion = questions[questionIndex];
-                            final selectedChoice =
-                                currentQuestion.choices![answerChosen];
-
-                            // نخزن id السؤال و id الإجابة المختارة
-                            userAnswers[currentQuestion.id ?? ""] =
-                                selectedChoice.id ?? "";
-
-                            if (questionIndex + 1 < questions.length) {
-                              setState(() {
-                                questionIndex += 1;
-                                answerChosen = -1;
-                              });
-                            } else {
-                              setState(() {
-                                showTotalScore = true;
-                              });
-
-                              /// هنا تقدر تبعت الاجابات للسيرفر
-                              print("User answers: $userAnswers");
-                            }
-
-                            setState(() {
-                              myTotalScore += 10;
-                            });
-                          },
-                        ),
-                      ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  )
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Congratulations!',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 12.0),
-                        Text(
-                          'Your total score is: $myTotalScore',
-                          style: const TextStyle(fontSize: 22),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              questionIndex = 0;
-                              myTotalScore = 0;
-                              showTotalScore = false;
-                              answerChosen = -1;
-                              userAnswers.clear();
-                            });
-                          },
-                          child: Text(
-                            'Reset Quiz',
-                            style: Theme.of(context).textTheme.titleMedium!
-                                .copyWith(color: Colors.green),
-                          ),
-                        ),
-                      ],
+
+                    const Spacer(),
+
+                    /// زر Next
+                    CustomElevatedButton(
+                      text: questionIndex + 1 < questions.length
+                          ? 'Next'
+                          : 'Finish',
+                      onPressed: () {
+                        if (answerChosen == -1) return;
+
+                        final currentQuestion = questions[questionIndex];
+                        final selectedChoice =
+                            currentQuestion.choices![answerChosen];
+
+                        // نخزن id السؤال و id الإجابة المختارة
+                        userAnswers[currentQuestion.id ?? ""] =
+                            selectedChoice.id ?? "";
+
+                        if (questionIndex + 1 < questions.length) {
+                          setState(() {
+                            questionIndex += 1;
+                            answerChosen = -1;
+                          });
+                        } else {
+                          setState(() {
+                            showTotalScore = true;
+                          });
+
+                          /// هنا تقدر تبعت الاجابات للسيرفر
+                          print("User answers: $userAnswers");
+                        }
+
+                        setState(() {
+                          myTotalScore += 10;
+                        });
+                      },
                     ),
-                  ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Congratulations!',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    Text(
+                      'Your total score is: $myTotalScore',
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          questionIndex = 0;
+                          myTotalScore = 0;
+                          showTotalScore = false;
+                          answerChosen = -1;
+                          userAnswers.clear();
+                        });
+                      },
+                      child: Text(
+                        'Reset Quiz',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium!.copyWith(color: Colors.green),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
