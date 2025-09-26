@@ -15,11 +15,10 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // 🟢 الهيدر بس
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
-              color: Color(0xFF1D4ED8), //AppColors.primary,
+              color: Color(0xFF1D4ED8), 
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),

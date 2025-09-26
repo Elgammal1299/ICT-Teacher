@@ -45,7 +45,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     await SharedPrefHelper.setData(SharedPreferencesKeys.onboarding, true);
 
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.loginRoute);
     }
   }
 
