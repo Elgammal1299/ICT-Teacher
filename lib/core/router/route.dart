@@ -147,8 +147,13 @@ class AppRouter {
       case AppRoutes.quizQuestionsPageRoute:
         final args = settings.arguments as LessonsModel;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<QuizCubit>()..getQuizById(args.id),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<QuizCubit>()..getQuizById(args.id),
+              ),
+              BlocProvider(create: (context) => getIt<AnswersSubmitCubit>()),
+            ],
             child: QuizQuestionsPage(quizModel: args),
           ),
         );
