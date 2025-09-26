@@ -11,6 +11,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
@@ -153,7 +154,12 @@ class AppRouter {
         );
       case AppRoutes.quizPageRoute:
         final quiz = settings.arguments as QuizModel;
-        return MaterialPageRoute(builder: (_) => QuizPage(quiz: quiz));
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AnswersSubmitCubit>(),
+            child: QuizPage(quiz: quiz),
+          ),
+        );
       default:
         return null;
     }

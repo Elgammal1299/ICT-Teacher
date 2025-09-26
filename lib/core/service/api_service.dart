@@ -7,6 +7,7 @@ import 'package:icd_teacher/features/auth/features/login/data/models/region_mode
 import 'package:icd_teacher/features/auth/features/login/data/models/register_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/register_response.dart';
 import 'package:icd_teacher/features/home/data/models/answers_questions_model.dart';
+import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
 import 'package:icd_teacher/features/home/data/models/content_model.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
@@ -101,5 +102,8 @@ abstract class ApiService {
 
   /// service for quiz submit
   @POST(ApiConstants.submit)
-  Future<AnswersQuestionsModel> getSubmit(@Path("id") String id);
+  Future<AnswersQuestionsModel> getSubmit(
+    @Path("id") String id,
+    @Body() AnswersRequestModel body,
+  );
 }
