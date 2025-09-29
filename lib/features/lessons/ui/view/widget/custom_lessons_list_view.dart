@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
-import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_lesson_item.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/custom_lesson_item.dart';
 
 class CustomLessonsListView extends StatelessWidget {
   const CustomLessonsListView({super.key, required this.data});

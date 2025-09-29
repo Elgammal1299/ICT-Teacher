@@ -4,6 +4,7 @@ import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_view.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 
 class QuizMonthlyPage extends StatelessWidget {
   const QuizMonthlyPage({super.key});

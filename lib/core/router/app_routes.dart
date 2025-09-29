@@ -12,4 +12,5 @@ class AppRoutes {
   static const quizQuestionsPageRoute = '/QuizQuestionsPage';
   static const quizPageRoute = '/QuizPage';
   static const quizWeeklyPageRoute = '/QuizWeeklyPage';
+  static const lessonItemPageRoute = '/LessonItemPage';
 }

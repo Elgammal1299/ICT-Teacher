@@ -13,7 +13,8 @@ import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
+import 'package:icd_teacher/features/lessons/ui/view/lesson_item_page.dart';
+import 'package:icd_teacher/features/lessons/ui/view_model/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
@@ -22,7 +23,7 @@ import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tr
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
-import 'package:icd_teacher/features/home/presentation/pages/lesson_page.dart';
+import 'package:icd_teacher/features/lessons/ui/view/lesson_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_monthly_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_questions_page.dart';
@@ -102,6 +103,16 @@ class AppRouter {
               BlocProvider(create: (context) => getIt<TramGradeCubit>()),
             ],
             child: const ChooseTermsPage(),
+          ),
+        );
+      case AppRoutes.lessonItemPageRoute:
+        final args = settings.arguments as TermModel;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<GetLessonCubit>()..getLesson(args.id, "lesson"),
+
+            child: LessonItemPage(termModel: args),
           ),
         );
       case AppRoutes.navBarScreenRoute:

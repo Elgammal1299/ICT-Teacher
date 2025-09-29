@@ -21,5 +21,6 @@ class AppImage {
   static const book = 'assets/images/book.svg';
   static const confusion = 'assets/images/confusion.svg';
   static const quizMonth = 'assets/images/quiz_month.png';
-  static const quizWeek = 'assets/images/quiz_week.png';
+  static const quizWeek = 'assets/images/quiz_week.png'; 
+  static const bookPng = 'assets/images/book.png'; 
 }

@@ -21,7 +21,7 @@ import 'package:icd_teacher/features/home/data/repositories/tram_grade_repo.dart
 import 'package:icd_teacher/features/home/data/repositories/user_repo.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
+import 'package:icd_teacher/features/lessons/ui/view_model/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';

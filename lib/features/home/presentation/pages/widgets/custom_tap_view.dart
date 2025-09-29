@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/get_lesson_cubit/get_lesson_cubit.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
+import 'package:icd_teacher/features/lessons/ui/view_model/get_lesson_cubit/get_lesson_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
-import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_lessons_list_view.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/custom_lessons_list_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_quiz_List_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_reviews_list_view.dart';
 import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_tap_item.dart';
@@ -153,28 +154,6 @@ final List<Color> selectedTabColors = [
 ];
 
 
-
-class CustomNoLesson extends StatelessWidget {
-  const CustomNoLesson({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Image.asset(
-            AppImage.noLesson,
-            fit: BoxFit.cover,
-            width: 300,
-            height: 300,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class CustomeValuationListView extends StatelessWidget {
   const CustomeValuationListView({super.key});
