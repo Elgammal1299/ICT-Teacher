@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/features/home/data/models/answers_questions_model.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
-import 'package:icd_teacher/features/home/data/repositories/answers_submit_repo.dart';
+import 'package:icd_teacher/features/quizzes_monthly/data/repo/answers_submit_repo.dart';
 
 part 'answers_submit_state.dart';
 

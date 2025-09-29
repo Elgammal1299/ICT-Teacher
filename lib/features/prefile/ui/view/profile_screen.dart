@@ -24,32 +24,46 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            children: [
-              _buildHeader('كزائر'),
-              // CustomBottonNotLogin(),
-              SizedBox(height: 30.h),
-              CustomAppInformationSection(),
-              SizedBox(height: 24.h),
-              _buildSocialMediaSection(),
-              SizedBox(height: 20.h),
-              CustomLogoutBotton(),
-              _buildFooter(),
-            ],
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(40),
+            height: 100,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFF1D4ED8),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
+            child: Align(
+              alignment: AlignmentGeometry.topCenter,
+              child: Text(
+                'الاعدادت',
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            child: Column(
+              children: [
+                SizedBox(height: 30.h),
+                CustomAppInformationSection(),
+                SizedBox(height: 24.h),
+                _buildSocialMediaSection(),
+                SizedBox(height: 60.h),
+                CustomLogoutBotton(),
+              ],
+            ),
+          ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildHeader(String name) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
-      child: SafeArea(child: Text('data')),
     );
   }
 
@@ -62,20 +76,6 @@ class _ProfilePageState extends State<ProfilePage> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         CustomRowSocialMedia(),
-      ],
-    );
-  }
-
-  Widget _buildFooter() {
-    return Column(
-      children: [
-        SizedBox(height: 24),
-        Text('الاصدار : 1.01', style: Theme.of(context).textTheme.titleMedium),
-        Text(
-          'جميع الحقوق محفوظة لتطبيق  ICD Teacher ©$_year',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        SizedBox(height: 24),
       ],
     );
   }

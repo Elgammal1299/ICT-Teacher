@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/answers_questions_cubit/answers_submit_cubit.dart';
+import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 
 class QuizPage extends StatefulWidget {
   final QuizModel quiz;

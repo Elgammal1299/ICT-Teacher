@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
-import 'package:icd_teacher/features/home/data/repositories/revisions_repo.dart';
+import 'package:icd_teacher/features/revision/data/repo/revisions_repo.dart';
 
 part 'get_revisions_state.dart';
 

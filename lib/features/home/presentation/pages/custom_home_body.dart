@@ -43,13 +43,25 @@ class CustomHomeBody extends StatelessWidget {
             title: 'الاختبارات الشهرية',
             color: Colors.orange.shade400,
             icon: Icons.calendar_month,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.quizMonthlyPageRoute,
+                arguments: termModel,
+              );
+            },
           ),
           _HomeFeatureCard(
             title: 'الاختبارات الاسبوعية',
             color: Colors.purple.shade400,
             icon: Icons.calendar_view_week,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.quizWeeklyPageRoute,
+                arguments: termModel,
+              );
+            },
           ),
         ],
       ),

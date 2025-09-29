@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
-import 'package:icd_teacher/features/home/data/repositories/quizzes_weekly_repo.dart';
+import 'package:icd_teacher/features/quizzes_weekly/data/repo/quizzes_weekly_repo.dart';
 
 part 'quizzes_weekly_state.dart';
 
