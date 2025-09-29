@@ -14,4 +14,8 @@ class AppRoutes {
   static const quizWeeklyPageRoute = '/QuizWeeklyPage';
   static const lessonItemPageRoute = '/LessonItemPage';
   static const revisionItemPageRoute = '/RevisionItemPage';
+  static const aboutUsPageRoute = '/AboutUsPage';
+  static const termsAndConditionsPageRoute = '/TermsAndConditionsPage';
+  static const shippingAndReturnPolicyPageRoute = '/ShippingAndReturnPolicyPage';
+  static const aboutTheApplicationPageRoute = '/AboutTheApplicationPage';
 }

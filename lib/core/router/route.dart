@@ -11,6 +11,10 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/prefile/ui/view/about_the_application_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/about_us_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/shipping_and_return_policy_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/terms_and_conditions_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/revision/ui/view/revision_item_page.dart';
 import 'package:icd_teacher/features/revision/ui/view_model/get_content_by_id_cubit/get_content_by_id_cubit.dart';
@@ -111,8 +115,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) =>
-                getIt<GetRevisionsCubit>()
-                      ..getRevisions(args.id, "revision"),
+                getIt<GetRevisionsCubit>()..getRevisions(args.id, "revision"),
 
             child: RevisionItemPage(termModel: args),
           ),
@@ -188,6 +191,14 @@ class AppRouter {
             child: QuizPage(quiz: quiz),
           ),
         );
+      case AppRoutes.aboutUsPageRoute:
+        return MaterialPageRoute(builder: (_) => AboutUsPage());
+      case AppRoutes.termsAndConditionsPageRoute:
+        return MaterialPageRoute(builder: (_) => TermsAndConditionsPage());
+      case AppRoutes.shippingAndReturnPolicyPageRoute:
+        return MaterialPageRoute(builder: (_) => ShippingAndReturnPolicyPage());
+      case AppRoutes.aboutTheApplicationPageRoute:
+        return MaterialPageRoute(builder: (_) => AboutTheApplicationPage());
       default:
         return null;
     }

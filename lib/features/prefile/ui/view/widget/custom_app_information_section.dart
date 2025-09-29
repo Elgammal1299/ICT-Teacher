@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/prefile/ui/view/widget/custom_account_list_tile.dart';
 
 class CustomAppInformationSection extends StatelessWidget {
@@ -10,7 +11,7 @@ class CustomAppInformationSection extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            // Navigator.pushNamed(context, AppRoutes.aboutUsScreenRoute);
+             Navigator.pushNamed(context, AppRoutes.aboutUsPageRoute);
           },
 
           child: CustomAccountListTile(title: 'من نحن'),
@@ -18,10 +19,10 @@ class CustomAppInformationSection extends StatelessWidget {
         SizedBox(height: 10),
         InkWell(
           onTap: () {
-            // Navigator.pushNamed(
-            //   context,
-            //   AppRoutes.termsAndConditionsScreenRoute,
-            // );
+            Navigator.pushNamed(
+              context,
+              AppRoutes.termsAndConditionsPageRoute,
+            );
           },
 
           child: CustomAccountListTile(title: 'الشروط والاحكام'),
@@ -30,7 +31,7 @@ class CustomAppInformationSection extends StatelessWidget {
 
         InkWell(
           onTap: () {
-            // Navigator.pushNamed(context, AppRoutes.privacyPolicyScreenRoute);
+            Navigator.pushNamed(context, AppRoutes.shippingAndReturnPolicyPageRoute);
           },
 
           child: CustomAccountListTile(title: 'سياسة الخصوصية'),
@@ -39,10 +40,10 @@ class CustomAppInformationSection extends StatelessWidget {
 
         InkWell(
           onTap: () {
-            // Navigator.pushNamed(
-            //   context,
-            //   AppRoutes.shippingAndReturnPolicyScreenRoute,
-            // );
+            Navigator.pushNamed(
+              context,
+              AppRoutes.aboutTheApplicationPageRoute,
+            );
           },
 
           child: CustomAccountListTile(title: 'عن التطبيق'),
