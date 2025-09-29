@@ -2,6 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icd_teacher/core/service/api_service.dart';
 import 'package:icd_teacher/core/service/dio_factory.dart';
+import 'package:icd_teacher/features/accounts_students/data/repo/accounts_id_repo.dart';
+import 'package:icd_teacher/features/accounts_students/data/repo/accounts_repo.dart';
+import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
+import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_id_cubit/accounts_id_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/data/repositories/grades_repo.dart';
 import 'package:icd_teacher/features/auth/features/login/data/repositories/login_repo.dart';
 import 'package:icd_teacher/features/auth/features/login/data/repositories/region_repo.dart';
@@ -139,5 +143,25 @@ Future<void> setupGetIt() async {
     () => AnswersSubmitRepo(getIt<ApiService>()),
   );
   // ✅ Register Term AnswersSubmitCubit
-  getIt.registerFactory<AnswersSubmitCubit>(() => AnswersSubmitCubit(getIt<AnswersSubmitRepo>()));
+  getIt.registerFactory<AnswersSubmitCubit>(
+    () => AnswersSubmitCubit(getIt<AnswersSubmitRepo>()),
+  );
+  //=========================
+  // ✅ Register AccountsRepo
+  getIt.registerLazySingleton<AccountsRepo>(
+    () => AccountsRepo(getIt<ApiService>()),
+  );
+  // ✅ Register Term AccountCubit
+  getIt.registerFactory<AccountsCubit>(
+    () => AccountsCubit(getIt<AccountsRepo>()),
+  );
+  //=========================
+  // ✅ Register AccountsIdRepo
+  getIt.registerLazySingleton<AccountsIdRepo>(
+    () => AccountsIdRepo(getIt<ApiService>()),
+  );
+  // ✅ Register Term AccountsIdCubit
+  getIt.registerFactory<AccountsIdCubit>(
+    () => AccountsIdCubit(getIt<AccountsIdRepo>()),
+  );
 }

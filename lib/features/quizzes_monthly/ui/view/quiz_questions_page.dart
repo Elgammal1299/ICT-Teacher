@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/answers_questions_model.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
+import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_result_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 
@@ -24,11 +24,10 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Quiz")),
+      appBar: AppBar(title: Text(widget.quizModel.title)),
       body: BlocListener<AnswersSubmitCubit, AnswersSubmitState>(
         listener: (context, state) {
           if (state is AnswersSubmitSuccess) {
-            // الانتقال لصفحة النتيجة
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -192,62 +191,6 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
             }
             return const SizedBox.shrink();
           },
-        ),
-      ),
-    );
-  }
-}
-
-class QuizResultPage extends StatelessWidget {
-  final AnswersQuestionsModel result;
-
-  const QuizResultPage({super.key, required this.result});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Quiz Result")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(
-              "Your Score: ${result.score}",
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: result.questions.length,
-                itemBuilder: (context, index) {
-                  final q = result.questions[index];
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text(q.body),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: q.choices.map((c) {
-                          return Row(
-                            children: [
-                              Icon(
-                                c.isAnswered
-                                    ? Icons.check_circle
-                                    : Icons.cancel,
-                                color: c.isCorrect ? Colors.green : Colors.red,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(c.body),
-                            ],
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
         ),
       ),
     );

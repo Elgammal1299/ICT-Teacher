@@ -16,4 +16,6 @@ class ApiConstants {
   static const String quizzes = "quizzes/";
   static const String quizzesId = "quizzes/{id}/";
   static const String submit = "quizzes/{id}/submit/";
+  static const String accounts = "accounts/";
+  static const String accountsId = "accounts/{id}/";
 }

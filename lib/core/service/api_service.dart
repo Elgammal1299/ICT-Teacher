@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:icd_teacher/core/service/api_constants.dart';
+import 'package:icd_teacher/features/accounts_students/data/model/accounts_id_model.dart';
+import 'package:icd_teacher/features/accounts_students/data/model/accounts_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/grade_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/login_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/login_response.dart';
@@ -106,4 +108,11 @@ abstract class ApiService {
     @Path("id") String id,
     @Body() AnswersRequestModel body,
   );
+  /// service for accounts
+  @GET(ApiConstants.accounts)
+  Future<List<AccountsModel>> accounts();
+
+  /// service for accounts Id
+  @GET(ApiConstants.accountsId)
+  Future<AccountsIdModel> accountsId(@Path("id") String id);
 }
