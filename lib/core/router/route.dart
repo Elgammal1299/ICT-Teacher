@@ -12,10 +12,11 @@ import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/answers_questions_cubit/answers_submit_cubit.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
+import 'package:icd_teacher/features/revision/ui/view/revision_item_page.dart';
+import 'package:icd_teacher/features/revision/ui/view_model/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/lessons/ui/view/lesson_item_page.dart';
 import 'package:icd_teacher/features/lessons/ui/view_model/get_lesson_cubit/get_lesson_cubit.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/get_revisions_cubit/get_revisions_cubit.dart';
+import 'package:icd_teacher/features/revision/ui/view_model/get_revisions_cubit/get_revisions_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quizzes_weekly_cubit/quizzes_weekly_cubit.dart';
@@ -28,7 +29,7 @@ import 'package:icd_teacher/features/home/presentation/pages/quiz_monthly_page.d
 import 'package:icd_teacher/features/home/presentation/pages/quiz_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_questions_page.dart';
 import 'package:icd_teacher/features/home/presentation/pages/quiz_weekly_page.dart';
-import 'package:icd_teacher/features/home/presentation/pages/revision_page.dart';
+import 'package:icd_teacher/features/revision/ui/view/revision_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view/nav_bar.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
 import 'package:icd_teacher/features/onboarding/view/onboarding_page.dart';
@@ -103,6 +104,17 @@ class AppRouter {
               BlocProvider(create: (context) => getIt<TramGradeCubit>()),
             ],
             child: const ChooseTermsPage(),
+          ),
+        );
+      case AppRoutes.revisionItemPageRoute:
+        final args = settings.arguments as TermModel;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<GetRevisionsCubit>()
+                      ..getRevisions(args.id, "revision"),
+
+            child: RevisionItemPage(termModel: args),
           ),
         );
       case AppRoutes.lessonItemPageRoute:

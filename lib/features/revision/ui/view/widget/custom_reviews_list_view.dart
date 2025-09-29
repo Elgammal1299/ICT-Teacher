@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
-import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_revisions_item.dart';
+import 'package:icd_teacher/features/revision/ui/view/widget/custom_revisions_item.dart';
 
 class CustomRevisionsListView extends StatelessWidget {
   const CustomRevisionsListView({super.key, required this.data});

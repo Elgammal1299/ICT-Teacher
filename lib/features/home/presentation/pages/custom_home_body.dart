@@ -20,14 +20,24 @@ class CustomHomeBody extends StatelessWidget {
             color: Colors.blue.shade400,
             icon: Icons.menu_book,
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.lessonItemPageRoute,arguments: termModel);
+              Navigator.pushNamed(
+                context,
+                AppRoutes.lessonItemPageRoute,
+                arguments: termModel,
+              );
             },
           ),
           _HomeFeatureCard(
             title: 'المراجعات',
             color: Colors.green.shade400,
             icon: Icons.assignment_turned_in,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.revisionItemPageRoute,
+                arguments: termModel,
+              );
+            },
           ),
           _HomeFeatureCard(
             title: 'الاختبارات الشهرية',

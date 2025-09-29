@@ -5,7 +5,7 @@ import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dar
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/get_content_by_id_cubit/get_content_by_id_cubit.dart';
+import 'package:icd_teacher/features/revision/ui/view_model/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 
 class LessonPage extends StatefulWidget {
   final LessonsModel lessonsModel;
