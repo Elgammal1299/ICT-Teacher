@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
-import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
 import 'package:icd_teacher/features/prefile/ui/view/profile_screen.dart';

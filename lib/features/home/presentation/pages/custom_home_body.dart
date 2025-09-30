@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
-import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/data/models/term_model.dart';
 
 class CustomHomeBody extends StatelessWidget {
   const CustomHomeBody({super.key, required this.termModel});

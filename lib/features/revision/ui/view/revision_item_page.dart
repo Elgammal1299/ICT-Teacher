@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/revision/ui/view/widget/custom_reviews_list_view.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 import 'package:icd_teacher/features/revision/ui/view_model/get_revisions_cubit/get_revisions_cubit.dart';

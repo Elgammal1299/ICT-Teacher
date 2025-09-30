@@ -14,6 +14,8 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/data/repositories/term_repo.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
 import 'package:icd_teacher/features/quizzes_monthly/data/repo/answers_submit_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/get_content_by_id_repo.dart';
 import 'package:icd_teacher/features/lessons/data/repo/lesson_repo.dart';
@@ -163,5 +165,14 @@ Future<void> setupGetIt() async {
   // ✅ Register Term AccountsIdCubit
   getIt.registerFactory<AccountsIdCubit>(
     () => AccountsIdCubit(getIt<AccountsIdRepo>()),
+  );
+  //=========================
+  // ✅ Register Term Repo
+  getIt.registerLazySingleton<TermRepo>(
+    () => TermRepo(getIt<ApiService>()),
+  );
+  // ✅ Register Term AccountsIdCubit
+  getIt.registerFactory<TermsCubit>(
+    () => TermsCubit(getIt<TermRepo>()),
   );
 }

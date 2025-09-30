@@ -13,6 +13,7 @@ import 'package:icd_teacher/features/home/data/models/answers_request_model.dart
 import 'package:icd_teacher/features/home/data/models/content_model.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
+import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/data/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -115,4 +116,11 @@ abstract class ApiService {
   /// service for accounts Id
   @GET(ApiConstants.accountsId)
   Future<AccountsIdModel> accountsId(@Path("id") String id);
+  /// service for terms
+  @GET(ApiConstants.terms)
+  Future<List<TermModel>> terms();
+
+  /// service for terms Id
+  @GET(ApiConstants.termsId)
+  Future<TermModel> termsId(@Path("id") String id);
 }

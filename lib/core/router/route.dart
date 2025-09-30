@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view/accounts_students_page.dart';
+import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/login_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/grades_cubit/grades_cubit.dart';
@@ -11,7 +12,9 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
+import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_the_application_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_us_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/shipping_and_return_policy_page.dart';
@@ -107,6 +110,7 @@ class AppRouter {
                 create: (context) => getIt<UserDataCubit>()..userData(),
               ),
               BlocProvider(create: (context) => getIt<TramGradeCubit>()),
+              BlocProvider(create: (context) => getIt<TermsCubit>()),
             ],
             child: const ChooseTermsPage(),
           ),
@@ -201,7 +205,12 @@ class AppRouter {
       case AppRoutes.aboutTheApplicationPageRoute:
         return MaterialPageRoute(builder: (_) => AboutTheApplicationPage());
       case AppRoutes.accountsStudentsPageRoute:
-        return MaterialPageRoute(builder: (_) => AccountsStudentsPage());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AccountsCubit>()..getAccounts(),
+            child: AccountsStudentsPage(),
+          ),
+        );
       default:
         return null;
     }
