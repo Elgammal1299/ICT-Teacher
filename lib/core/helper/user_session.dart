@@ -13,4 +13,5 @@ class UserSession {
   static Future<void> logout() async {
     await SharedPrefHelper.clearAllSecuredData();
   }
+  
 }

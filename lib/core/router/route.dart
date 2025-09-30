@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
+import 'package:icd_teacher/features/accounts_students/ui/view/accounts_students_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/login_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/grades_cubit/grades_cubit.dart';
@@ -199,6 +200,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ShippingAndReturnPolicyPage());
       case AppRoutes.aboutTheApplicationPageRoute:
         return MaterialPageRoute(builder: (_) => AboutTheApplicationPage());
+      case AppRoutes.accountsStudentsPageRoute:
+        return MaterialPageRoute(builder: (_) => AccountsStudentsPage());
       default:
         return null;
     }

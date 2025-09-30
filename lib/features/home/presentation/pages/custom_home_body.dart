@@ -9,7 +9,7 @@ class CustomHomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
@@ -55,13 +55,7 @@ class CustomHomeBody extends StatelessWidget {
             title: 'الاختبارات الاسبوعية',
             color: Colors.purple.shade400,
             icon: Icons.calendar_view_week,
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.quizWeeklyPageRoute,
-                arguments: termModel,
-              );
-            },
+            onTap: () {},
           ),
         ],
       ),

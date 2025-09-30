@@ -38,8 +38,8 @@ class ChooseTermsPage extends StatelessWidget {
               BlocListener<UserDataCubit, UserDataState>(
                 listener: (context, state) {
                   if (state is UserDataSuccess) {
+                
                     final userId = state.response.gradeId;
-                    // 👇 أول ما يجيب بيانات المستخدم، ننادي على TramGradeCubit
                     context.read<TramGradeCubit>().tramGrade(userId);
                   }
                 },

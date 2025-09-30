@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
+import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/custom_home_body.dart';
 
 class HomePage extends StatelessWidget {
-  final TermModel termModel;
   const HomePage({super.key, required this.termModel});
+  final TermModel termModel;
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +94,65 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 40),
-          Expanded(
-            child: CustomHomeBody(termModel: termModel,),
-         
+          SizedBox(height: 10),
+          BlocBuilder<UserDataCubit, UserDataState>(
+            builder: (context, state) {
+              if (state is UserDataSuccess) {
+                return state.response.role == 'Teacher'
+                    ? Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.accountsStudentsPageRoute,
+                            );
+                          },
+                          child: Container(
+                            height: 170,
+                            decoration: BoxDecoration(
+                              color: Colors.indigo,
+
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.indigo.withOpacity(0.2),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.calendar_view_week,
+                                    size: 40,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'الطلاب المسجلين ',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink();
+              } else {
+                return SizedBox.shrink();
+              }
+            },
           ),
+          Expanded(child: CustomHomeBody(termModel: termModel)),
         ],
       ),
     );
