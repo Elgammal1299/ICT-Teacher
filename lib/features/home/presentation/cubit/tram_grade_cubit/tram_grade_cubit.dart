@@ -8,18 +8,12 @@ part 'tram_grade_state.dart';
 class TramGradeCubit extends Cubit<TramGradeState> {
   TramGradeCubit(this.repo) : super(TramGradeInitial());
   final TramGradeRepo repo;
-  TermModel? activeTerm;
   Future<void> tramGrade(String id) async {
     emit(TramGradeLoading());
     final result = await repo.tramGrade(id);
-    result.fold((failure) => emit(TramGradeError(failure.errMessage)), (
-      response,
-    ) {
-      activeTerm = response.terms.firstWhere(
-        (term) => term.isActive,
-        orElse: () => response.terms.first, // fallback لو مفيش ولا تيرم Active
-      );
-      emit(TramGradeSuccess(response));
-    });
+    result.fold(
+      (failure) => emit(TramGradeError(failure.errMessage)),
+      (response) => emit(TramGradeSuccess(response)),
+    );
   }
 }
