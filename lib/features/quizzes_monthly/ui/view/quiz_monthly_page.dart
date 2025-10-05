@@ -21,7 +21,9 @@ class QuizMonthlyPage extends StatelessWidget {
             final data = state.lessons;
 
             if (state.lessons.isEmpty) {
-              return const CustomNoLesson();
+              return const CustomNoItem(
+                title: 'لا يوجد اختبارات شهرية حتي الان ',
+              );
             }
             return CustomQuizMonthyListView(data: data);
           }

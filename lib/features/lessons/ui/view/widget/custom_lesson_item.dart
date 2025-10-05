@@ -34,13 +34,7 @@ class CustomLessonItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           color: cardBackground,
           border: Border.all(color: borderColor, width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          
         ),
         width: double.infinity,
         child: Row(

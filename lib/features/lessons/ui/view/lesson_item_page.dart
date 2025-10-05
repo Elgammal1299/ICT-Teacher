@@ -23,7 +23,7 @@ class LessonItemPage extends StatelessWidget {
             final data = state.lessons;
 
             if (state.lessons.isEmpty) {
-              return const CustomNoLesson();
+              return const CustomNoItem(title: 'لا يوجد دروس حتي الان ');
             }
             return CustomLessonsListView(data: data);
           }
