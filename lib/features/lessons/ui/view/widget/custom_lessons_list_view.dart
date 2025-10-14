@@ -4,7 +4,7 @@ import 'package:icd_teacher/features/lessons/ui/view/widget/custom_lesson_item.d
 
 class CustomLessonsListView extends StatelessWidget {
   const CustomLessonsListView({super.key, required this.data});
-final  List<LessonsModel> data;
+  final List<LessonsModel> data;
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +13,8 @@ final  List<LessonsModel> data;
       itemCount: data.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: CustomLessonItem(lessonsModel: data[index],),
+          padding: const EdgeInsets.only(top: 12),
+          child: CustomLessonItem(lessonsModel: data[index]),
         );
       },
     );

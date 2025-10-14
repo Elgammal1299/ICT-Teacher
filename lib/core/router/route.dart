@@ -13,7 +13,6 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
-import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_the_application_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_us_page.dart';

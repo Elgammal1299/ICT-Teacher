@@ -55,7 +55,13 @@ class CustomHomeBody extends StatelessWidget {
             title: 'الاختبارات الاسبوعية',
             color: Colors.purple.shade400,
             icon: Icons.calendar_view_week,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.quizWeeklyPageRoute,
+                arguments: termModel,
+              );
+            },
           ),
         ],
       ),
