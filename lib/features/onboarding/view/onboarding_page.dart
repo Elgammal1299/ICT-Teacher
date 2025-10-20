@@ -41,11 +41,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
     _completeOnboarding();
   }
 
-  void _completeOnboarding() async {
+  Future<void> _completeOnboarding() async {
+    // Save onboarding as completed
     await SharedPrefHelper.setData(SharedPreferencesKeys.onboarding, true);
 
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.loginRoute);
+      // Navigate to login, removing all previous routes
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(AppRoutes.loginRoute, (route) => false);
     }
   }
 

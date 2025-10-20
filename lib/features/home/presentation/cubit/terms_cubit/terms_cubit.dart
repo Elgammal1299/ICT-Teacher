@@ -16,5 +16,4 @@ class TermsCubit extends Cubit<TermsState> {
       (response) => emit(TermsSuccess(response)),
     );
   }
-
 }

@@ -54,8 +54,8 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
     _phoneController = TextEditingController();
     _perantPhoneController = TextEditingController();
     _middleNameController = TextEditingController();
-
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -72,7 +72,6 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
     isPasswordHidden2.dispose();
     selectedGrade.dispose();
     selectedRegion.dispose();
-    
   }
 
   @override
@@ -204,7 +203,10 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('تم التسجيل بنجاح 🎉')),
                 );
-                Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutes.loginRoute,
+                  (route) => false,
+                );
               } else if (state is RegisterError) {
                 ScaffoldMessenger.of(
                   context,

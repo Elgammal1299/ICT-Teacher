@@ -117,7 +117,7 @@ class DioFactory {
                   return handler.resolve(retryResponse);
                 } else {
                   log("Refresh response missing tokens");
-                  await _handleLogout();
+                  await _handleLogout(showMessage: true);
                 }
               } catch (refreshError) {
                 log("Refresh token failed: $refreshError");
@@ -127,20 +127,22 @@ class DioFactory {
                   if (refreshError.response?.statusCode == 401 ||
                       refreshError.response?.statusCode == 404) {
                     log("Refresh token is expired or invalid. Logging out...");
+                    await _handleLogout(showMessage: true);
                   } else {
                     log(
                       "Refresh failed with status: ${refreshError.response?.statusCode}",
                     );
+                    await _handleLogout(showMessage: true);
                   }
+                } else {
+                  await _handleLogout(showMessage: true);
                 }
-
-                await _handleLogout();
               } finally {
                 _isRefreshing = false;
               }
             } else {
               log("No refresh token available");
-              await _handleLogout();
+              await _handleLogout(showMessage: true);
             }
           }
 
@@ -164,7 +166,7 @@ class DioFactory {
   }
 
   /// Handle logout by clearing tokens and navigating to login screen
-  static Future<void> _handleLogout() async {
+  static Future<void> _handleLogout({bool showMessage = false}) async {
     log("Handling logout due to token refresh failure");
 
     try {
@@ -175,16 +177,70 @@ class DioFactory {
       final context = navigatorKey.currentContext;
       if (context != null) {
         log("Navigating to login screen");
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRoutes.loginRoute,
-          (route) => false, // Remove all previous routes
-        );
+
+        // Show message dialog if needed
+        if (showMessage) {
+          await _showSessionExpiredDialog(context);
+        }
+
+        // Navigate to login and remove all previous routes
+        if (context.mounted) {
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(AppRoutes.loginRoute, (route) => false);
+        }
       } else {
         log("No context available for navigation");
       }
     } catch (e) {
       log("Error during logout: $e");
     }
+  }
+
+  /// Show session expired dialog
+  static Future<void> _showSessionExpiredDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28),
+              const SizedBox(width: 8),
+              const Text(
+                'انتهت الجلسة',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: const Text(
+            'لقد انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى للمتابعة.',
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+              ),
+              child: const Text(
+                'تسجيل الدخول',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Log error details based on status code

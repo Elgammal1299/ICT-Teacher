@@ -18,16 +18,18 @@ class CustomLoginFormField extends StatefulWidget {
 
 class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late TextEditingController passwordCtrl ;
-  late TextEditingController userCtrl ;
+  late TextEditingController passwordCtrl;
+  late TextEditingController userCtrl;
 
   final ValueNotifier<bool> isPasswordHidden = ValueNotifier(true);
-@override
+
+  @override
   void initState() {
     super.initState();
     passwordCtrl = TextEditingController();
     userCtrl = TextEditingController();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -35,6 +37,7 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
     userCtrl.dispose();
     isPasswordHidden.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -51,7 +54,6 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
           const SizedBox(height: 16),
           CustomFiledPassword(
             hintText: 'ادخل الباسورد',
-
             isPasswordHidden: isPasswordHidden,
             passwordCtrl: passwordCtrl,
           ),
@@ -64,7 +66,14 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("تم تسجيل الدخول ✅")),
                 );
-                Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+                // Navigator.pushReplacementNamed(
+                //   context,
+                //   AppRoutes.chooseTermsRoute,
+                // );
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutes.chooseTermsRoute,
+                  (route) => false,
+                );
               } else if (state is LoginError) {
                 ScaffoldMessenger.of(
                   context,
