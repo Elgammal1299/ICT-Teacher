@@ -43,6 +43,7 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
     return Form(
       key: _formKey,
       child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomTextForm(
             controller: userCtrl,
@@ -66,10 +67,6 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("تم تسجيل الدخول ✅")),
                 );
-                // Navigator.pushReplacementNamed(
-                //   context,
-                //   AppRoutes.chooseTermsRoute,
-                // );
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.chooseTermsRoute,
                   (route) => false,
@@ -88,7 +85,7 @@ class _CustomLoginFormFieldState extends State<CustomLoginFormField> {
               return CustomElevatedButton(
                 text: 'تسجيل الدخول',
                 borderColor: AppColors.primary,
-                textStyle: TextStyle(color: AppColors.white, fontSize: 20),
+                textStyle: TextStyle(color: AppColors.white, fontSize: 20,fontFamily: 'Amiri'),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     context.read<LoginCubit>().login(

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/pages/custom_home_body.dart';
+import 'package:icd_teacher/features/home/presentation/pages/widgets/custom_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, required this.termModel});
@@ -14,93 +17,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
+      appBar: AppBar(centerTitle: true,  backgroundColor: AppColors.darkPrimary,
+      foregroundColor: AppColors.white,title: Text('المنصة'),),
       body: Column(
         children: [
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFF1D4ED8),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-
-                  child: SvgPicture.asset(AppImage.appLogoFram39),
-                ),
-                SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 28,
-                      vertical: 30,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'أهلاً وسهلاً,',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                              ),
-                        ),
-                        const SizedBox(height: 7),
-                        BlocBuilder<UserDataCubit, UserDataState>(
-                          builder: (context, state) {
-                            if (state is UserDataLoading) {
-                              return Text(
-                                '👋 ...',
-                                style: Theme.of(context).textTheme.titleMedium
-                                    ?.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              );
-                            } else if (state is UserDataSuccess) {
-                              return Text(
-                                '👋 ${state.response.username}',
-                                style: Theme.of(context).textTheme.titleMedium
-                                    ?.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              );
-                            } else {
-                              return Text(
-                                '👋 ...',
-                                style: Theme.of(context).textTheme.titleMedium
-                                    ?.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
           BlocBuilder<UserDataCubit, UserDataState>(
             builder: (context, state) {
               if (state is UserDataSuccess) {
                 return state.response.role == 'Teacher'
                     ? Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(16.w),
                         child: InkWell(
                           onTap: () {
                             Navigator.pushNamed(
@@ -109,16 +36,16 @@ class HomePage extends StatelessWidget {
                             );
                           },
                           child: Container(
-                            height: 170,
+                            height: 170.h,
                             decoration: BoxDecoration(
                               color: Colors.indigo,
 
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.indigo.withOpacity(0.2),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
+                                  blurRadius: 8.r,
+                                  offset: Offset(0, 4.h),
                                 ),
                               ],
                             ),
@@ -128,15 +55,15 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Icon(
                                     Icons.calendar_view_week,
-                                    size: 40,
+                                    size: 40.sp,
                                     color: Colors.white,
                                   ),
-                                  const SizedBox(height: 12),
+                                  SizedBox(height: 12.h),
                                   Text(
                                     'الطلاب المسجلين ',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

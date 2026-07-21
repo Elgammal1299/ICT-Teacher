@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icd_teacher/core/constant/app_image.dart';
 
 class CustomNoItem extends StatelessWidget {
   const CustomNoItem({super.key, required this.title});
@@ -6,20 +7,24 @@ class CustomNoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Icon(Icons.info_outline_rounded, size: 100),
-          ),
-          SizedBox(height: 12),
-          Text(
-            title,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+             Image.asset(
+                AppImage.noItem,
+                height: 150,
+              
+            ),
+            SizedBox(height: 16,),
+            Text(
+              title,
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,fontFamily: 'Amiri'),
+            ),
+          ],
+        ),
       ),
     );
   }

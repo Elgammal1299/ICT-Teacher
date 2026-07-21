@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
@@ -36,14 +37,14 @@ class NavBarScreen extends StatelessWidget {
                 BoxShadow(
                   // ignore: deprecated_member_use
                   color: AppColors.grey.withOpacity(0.1),
-                  blurRadius: 20,
+                  blurRadius: 20.r,
                   spreadRadius: 0.1,
                 ),
               ],
             ),
             child: BottomNavigationBar(
-              selectedFontSize: 12,
-              unselectedFontSize: 12,
+              selectedFontSize: 12.sp,
+              unselectedFontSize: 12.sp,
               backgroundColor: Colors.white,
               selectedLabelStyle: Theme.of(context).textTheme.titleLarge,
               unselectedLabelStyle: Theme.of(context).textTheme.bodyLarge,
@@ -78,21 +79,21 @@ class NavBarScreen extends StatelessWidget {
   ) {
     return BottomNavigationBarItem(
       activeIcon: Padding(
-        padding: const EdgeInsets.all(3),
+        padding: EdgeInsets.all(3.w),
         child: Container(
-          margin: EdgeInsets.only(bottom: 5),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          margin: EdgeInsets.only(bottom: 5.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           decoration: BoxDecoration(
             color: AppColors.primary,
 
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(100.r),
           ),
           child: SvgPicture.asset(selectedIcon),
         ),
       ),
       icon: Container(
-        margin: EdgeInsets.only(bottom: 5),
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.only(bottom: 5.h),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: SvgPicture.asset(unselectedIcon),
       ),
       label: title,

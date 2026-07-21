@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:icd_teacher/core/constant/app_image.dart';
+import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
+
+class CustomAppBar extends StatelessWidget {
+  final String title;
+
+  const CustomAppBar({super.key, required this.title,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // ConstrainedBox(
+        //   constraints: BoxConstraints(
+        //     minWidth: 50.w,
+        //     maxWidth: 100.w,
+        //     minHeight: 35.h,
+        //     maxHeight: 40.h,
+        //   ),
+        //   child: CustomElevatedButton(
+        //     borderRadius: 8,
+        //     textDirection: TextDirection.rtl,
+        //     text: 'مشاركة',
+        //     onPressed: () {
+        //       SharePlus.instance.share(
+        //         ShareParams(title: 'Mzaodin', text: 'mzaodin.sa/auction/$slug'),
+        //       );
+        //     },
+        //     textStyle: R.textStyles.font12primaryW600Light,
+        //     backgroundColor: R.colors.colorUnSelected,
+        //     icon: SvgPicture.asset(R.images.shareIcon),
+        //   ),
+        // ),
+        // Spacer(),
+        SizedBox(
+          width: 200.w,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Spacer(),
+        InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: SvgPicture.asset(AppImage.backIcon),
+        ),
+      ],
+    );
+  }
+}

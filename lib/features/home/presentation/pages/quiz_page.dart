@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 
 class QuizPage extends StatefulWidget {
@@ -52,17 +54,11 @@ class _QuizPageState extends State<QuizPage> {
         }
 
         if (questions.isEmpty) {
-          return const Scaffold(
-            body: Center(
-              child: Text(
-                "لا يوجد اختبار حتي الآن",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+          return Scaffold(
+            appBar: AppBar(centerTitle: true,),
+            body: CustomNoItem(
+                title: 'لا يوجد اختبارات حتي الان ',
               ),
-            ),
           );
         }
 
@@ -73,11 +69,11 @@ class _QuizPageState extends State<QuizPage> {
           appBar: AppBar(title: Text(widget.quiz.title ?? 'Quiz')),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30.h),
 
                   // السؤال
                   Text(
@@ -86,14 +82,14 @@ class _QuizPageState extends State<QuizPage> {
                       context,
                     ).textTheme.headlineSmall!.copyWith(color: Colors.black),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // الإجابات
                   Column(
                     children: List.generate(choices.length, (index) {
                       final choice = choices[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
                         child: InkWell(
                           onTap: () {
                             setState(() {
@@ -103,23 +99,23 @@ class _QuizPageState extends State<QuizPage> {
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black12),
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(8.0.r),
                               color: answerChosen == index
                                   ? Colors.green
                                   : Colors.white,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: EdgeInsets.all(16.0.w),
                               child: Row(
                                 children: [
                                   Icon(
                                     Icons.circle,
-                                    size: 20,
+                                    size: 20.r,
                                     color: answerChosen == index
                                         ? Colors.white
                                         : Colors.black,
                                   ),
-                                  const SizedBox(width: 16.0),
+                                  SizedBox(width: 16.0.w),
                                   Text(
                                     choice.body ?? '',
                                     style: Theme.of(context)
@@ -205,7 +201,7 @@ class QuizResultPage extends StatelessWidget {
       appBar: AppBar(title: const Text('نتيجة الاختبار'), centerTitle: true),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.0.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -213,7 +209,7 @@ class QuizResultPage extends StatelessWidget {
                 'لقد أنهيت الاختبار!',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Text(
                 'درجتك: $totalScore / $maxScore',
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -221,12 +217,12 @@ class QuizResultPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 'النسبة المئوية: $percentage%',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);

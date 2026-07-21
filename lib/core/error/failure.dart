@@ -39,6 +39,7 @@ class ServerFailure extends Failure {
 
   /// Factory constructor to handle server response errors
   factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
+    
     if (statusCode == 400 ||
         statusCode == 401 ||
         statusCode == 403 ||

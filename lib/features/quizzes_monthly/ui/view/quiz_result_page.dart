@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
+import 'package:icd_teacher/core/utils/responsive_utils.dart';
 import 'package:icd_teacher/features/home/data/models/answers_questions_model.dart';
 
 class QuizResultPage extends StatelessWidget {
@@ -10,118 +12,174 @@ class QuizResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalQuestions = result.questions.length;
-    final percentage = ((result.score / totalQuestions) * 100).toStringAsFixed(
-      1,
-    );
-    final correctAnswers = result.questions
-        .where((q) => q.answeredCorrectly)
-        .length;
+    final percentage = ((result.score / totalQuestions) * 100).toStringAsFixed(1);
+    final correctAnswers = result.questions.where((q) => q.answeredCorrectly).length;
     final wrongAnswers = totalQuestions - correctAnswers;
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "نتيجة الاختبار",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: RS.heading2,
+          ),
         ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 24),
+        padding: EdgeInsets.only(bottom: RS.spaceL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Score Header Card
+            // Modern Score Header Card with Gradient
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.primary,
-                    AppColors.primary.withOpacity(0.8),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(32.r),
+                  bottomRight: Radius.circular(32.r),
                 ),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.shadowMedium,
+                    blurRadius: 16.r,
+                    offset: Offset(0, 8.h),
+                  ),
+                ],
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: RS.spaceM, vertical: RS.spaceXL),
               child: Column(
                 children: [
-                  // Score Circle
-                  Container(
-                    decoration: BoxDecoration(),
-                    child: Row(
-                      children: [
-                        Text(
-                          "النسبة المئوية :",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Text(
-                          "$percentage%",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: _getScoreColor(double.parse(percentage)),
-                          ),
-                        ),
-                      ],
+                  // Celebratory Icon (changes based on score)
+                  Icon(
+                    _getCelebrationIcon(double.parse(percentage)),
+                    size: 64.r,
+                    color: Colors.white,
+                  ),
+                  RS.vSpaceS,
+
+                  // Score Display
+                  Text(
+                    "النسبة المئوية",
+                    style: TextStyle(
+                      fontSize: RS.textL,
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  RS.vSpaceXS,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(20.r),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        width: 2.w,
+                      ),
+                    ),
+                    child: Text(
+                      "$percentage%",
+                      style: TextStyle(
+                        fontSize: 42.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                      ),
+                    ),
+                  ),
+                  RS.vSpaceL,
 
-                  // Stats Row
+                  // Stats Row with Modern Cards
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildStatItem(
-                        Icons.check_circle,
-                        "$correctAnswers",
-                        "إجابة صحيحة",
-                        Colors.green,
+                      Expanded(
+                        child: _buildModernStatCard(
+                          Icons.check_circle_rounded,
+                          "$correctAnswers",
+                          "إجابة صحيحة",
+                          AppColors.success,
+                        ),
                       ),
-                      Container(
-                        width: 1,
-                        height: 40,
-                        color: Colors.white.withOpacity(0.3),
-                      ),
-                      _buildStatItem(
-                        Icons.cancel,
-                        "$wrongAnswers",
-                        "إجابة خاطئة",
-                        Colors.red,
+                      SizedBox(width: RS.spaceM),
+                      Expanded(
+                        child: _buildModernStatCard(
+                          Icons.cancel_rounded,
+                          "$wrongAnswers",
+                          "إجابة خاطئة",
+                          AppColors.error,
+                        ),
                       ),
                     ],
+                  ),
+                  RS.vSpaceS,
+
+                  // Total questions indicator
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text(
+                      "إجمالي الأسئلة: $totalQuestions",
+                      style: TextStyle(
+                        fontSize: RS.textM,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
 
-            // const SizedBox(height: 16),
+            RS.vSpaceL,
 
-            // Questions List Header
+            // Questions List Header with modern design
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: RS.spaceM, vertical: RS.spaceS),
               child: Row(
                 children: [
-                  Icon(Icons.list_alt, color: AppColors.primary, size: 24),
-                  const SizedBox(width: 8),
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.primarySurface,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Icon(
+                      Icons.assignment_rounded,
+                      color: AppColors.primary,
+                      size: RS.iconM,
+                    ),
+                  ),
+                  SizedBox(width: RS.spaceS),
                   Text(
                     "تفاصيل الإجابات",
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                    decoration: BoxDecoration(
+                      color: AppColors.primarySurface,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      "$totalQuestions سؤال",
+                      style: TextStyle(
+                        fontSize: RS.textS,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -130,7 +188,7 @@ class QuizResultPage extends StatelessWidget {
 
             // Questions List (non-scrollable, embedded)
             ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: RS.spaceM, vertical: RS.spaceS),
               itemCount: result.questions.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -143,28 +201,43 @@ class QuizResultPage extends StatelessWidget {
               },
             ),
 
-            // Bottom Button
+            RS.vSpaceM,
+
+            // Bottom Button - Modern Design
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
+              padding: EdgeInsets.symmetric(horizontal: RS.spaceM),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 12.r,
+                      offset: Offset(0, 6.h),
+                    ),
+                  ],
+                ),
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.home_rounded),
-                  label: const Text(
+                  icon: Icon(Icons.home_rounded, size: RS.iconM),
+                  label: Text(
                     "العودة للصفحة الرئيسية",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: RS.textL,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: Colors.transparent,
                     foregroundColor: Colors.white,
+                    shadowColor: Colors.transparent,
+                    minimumSize: Size(double.infinity, 56.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
-                    elevation: 2,
                   ),
                 ),
               ),
@@ -175,40 +248,58 @@ class QuizResultPage extends StatelessWidget {
     );
   }
 
-  Color _getScoreColor(double percentage) {
-    if (percentage >= 80) return Colors.green;
-    if (percentage >= 60) return Colors.orange;
-    return Colors.red;
+  // Get celebration icon based on score
+  IconData _getCelebrationIcon(double percentage) {
+    if (percentage >= 90) return Icons.emoji_events_rounded; // Trophy for excellent
+    if (percentage >= 75) return Icons.star_rounded; // Star for very good
+    if (percentage >= 60) return Icons.thumb_up_rounded; // Thumbs up for good
+    return Icons.school_rounded; // School icon for needs improvement
   }
 
-  Widget _buildStatItem(
+  // Modern stat card widget
+  Widget _buildModernStatCard(
     IconData icon,
     String value,
     String label,
     Color color,
   ) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.95),
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 8.r,
+            offset: Offset(0, 4.h),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 32.r),
+          SizedBox(height: 8.h),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 28.sp,
+              fontWeight: FontWeight.bold,
+              color: color,
             ),
-            SizedBox(width: 8),
-            Icon(icon, color: Colors.white, size: 28),
-          ],
-        ),
-
-        Text(
-          label,
-          style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.9)),
-        ),
-      ],
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -226,65 +317,103 @@ class _QuestionResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isCorrect = question.answeredCorrectly;
 
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: isCorrect
-              ? Colors.green.withOpacity(0.3)
-              : Colors.red.withOpacity(0.3),
-          width: 2,
+    return Container(
+      margin: EdgeInsets.only(bottom: RS.spaceM),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: isCorrect ? AppColors.quizCorrectBorder : AppColors.quizIncorrectBorder,
+          width: 2.w,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: isCorrect
+                ? AppColors.success.withValues(alpha: 0.1)
+                : AppColors.error.withValues(alpha: 0.1),
+            blurRadius: 12.r,
+            offset: Offset(0, 4.h),
+          ),
+        ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(RS.spaceM),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Question Header
+            // Question Header - Modern Design
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Question Number Badge
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 44.r,
+                  height: 44.r,
                   decoration: BoxDecoration(
-                    color: isCorrect ? Colors.green : Colors.red,
+                    gradient: isCorrect
+                        ? AppColors.successGradient
+                        : AppColors.errorGradient,
                     shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: (isCorrect ? AppColors.success : AppColors.error)
+                            .withValues(alpha: 0.3),
+                        blurRadius: 8.r,
+                        offset: Offset(0, 2.h),
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: Text(
                       "$questionNumber",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: RS.textL,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: RS.spaceS),
+
+                // Question Text
                 Expanded(
-                  child: Text(
-                    question.body,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 4.h),
+                    child: Text(
+                      question.body,
+                      style: TextStyle(
+                        fontSize: RS.textM,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary,
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ),
-                Icon(
-                  isCorrect ? Icons.check_circle : Icons.cancel,
-                  color: isCorrect ? Colors.green : Colors.red,
-                  size: 28,
+                SizedBox(width: RS.spaceS),
+
+                // Status Icon
+                Container(
+                  padding: EdgeInsets.all(8.r),
+                  decoration: BoxDecoration(
+                    color: isCorrect
+                        ? AppColors.successBg
+                        : AppColors.errorBg,
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Icon(
+                    isCorrect ? Icons.check_circle_rounded : Icons.cancel_rounded,
+                    color: isCorrect ? AppColors.success : AppColors.error,
+                    size: RS.iconM,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
 
-            // Choices
+            SizedBox(height: RS.spaceM),
+
+            // Choices Section
             ...question.choices.map((choice) {
               final isCorrectAnswer = choice.isCorrect;
               final isStudentAnswer = choice.isAnswered;
@@ -312,67 +441,89 @@ class _QuestionResultCard extends StatelessWidget {
     Widget? leadingIcon;
     Widget? trailingWidget;
 
+    // Modern color scheme based on answer state
     if (isCorrectAnswer && isStudentAnswer) {
-      backgroundColor = Colors.green.withOpacity(0.1);
-      borderColor = Colors.green;
-      textColor = Colors.green.shade900;
-      leadingIcon = const Icon(
-        Icons.check_circle,
-        color: Colors.green,
-        size: 20,
-      );
-      trailingWidget = _buildTag("إجابتك ✓", Colors.green);
-    } else if (isCorrectAnswer && !isStudentAnswer) {
-      backgroundColor = Colors.green.withOpacity(0.1);
-      borderColor = Colors.green;
-      textColor = Colors.green.shade900;
-      leadingIcon = const Icon(
-        Icons.check_circle,
-        color: Colors.green,
-        size: 20,
-      );
-      trailingWidget = _buildTag("الإجابة الصحيحة", Colors.green);
-    } else if (!isCorrectAnswer && isStudentAnswer) {
-      backgroundColor = Colors.red.withOpacity(0.1);
-      borderColor = Colors.red;
-      textColor = Colors.red.shade900;
-      leadingIcon = const Icon(Icons.cancel, color: Colors.red, size: 20);
-      trailingWidget = _buildTag("إجابتك ✗", Colors.red);
-    } else {
-      backgroundColor = Colors.grey.withOpacity(0.05);
-      borderColor = Colors.grey.shade300;
-      textColor = Colors.grey.shade700;
+      // Student's answer is correct - Green with celebration
+      backgroundColor = AppColors.quizCorrectBg;
+      borderColor = AppColors.quizCorrectBorder;
+      textColor = AppColors.successDark;
       leadingIcon = Icon(
-        Icons.circle_outlined,
-        color: Colors.grey.shade400,
-        size: 20,
+        Icons.check_circle_rounded,
+        color: AppColors.success,
+        size: RS.iconM,
+      );
+      trailingWidget = _buildModernTag("إجابتك ✓", AppColors.success);
+    } else if (isCorrectAnswer && !isStudentAnswer) {
+      // Correct answer not selected by student - Show what should have been selected
+      backgroundColor = AppColors.quizCorrectBg;
+      borderColor = AppColors.quizCorrectBorder;
+      textColor = AppColors.successDark;
+      leadingIcon = Icon(
+        Icons.check_circle_rounded,
+        color: AppColors.success,
+        size: RS.iconM,
+      );
+      trailingWidget = _buildModernTag("الإجابة الصحيحة", AppColors.success);
+    } else if (!isCorrectAnswer && isStudentAnswer) {
+      // Student's incorrect answer - Red highlighting
+      backgroundColor = AppColors.quizIncorrectBg;
+      borderColor = AppColors.quizIncorrectBorder;
+      textColor = AppColors.errorDark;
+      leadingIcon = Icon(
+        Icons.cancel_rounded,
+        color: AppColors.error,
+        size: RS.iconM,
+      );
+      trailingWidget = _buildModernTag("إجابتك ✗", AppColors.error);
+    } else {
+      // Neutral/unselected options - Gray
+      backgroundColor = AppColors.quizNeutral;
+      borderColor = AppColors.quizNeutralBorder;
+      textColor = AppColors.textSecondary;
+      leadingIcon = Icon(
+        Icons.radio_button_unchecked_rounded,
+        color: AppColors.borderDark,
+        size: RS.iconM,
       );
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: RS.spaceS),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(color: borderColor, width: 1.5),
-        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor, width: 2.w),
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          if (isStudentAnswer || isCorrectAnswer)
+            BoxShadow(
+              color: borderColor.withValues(alpha: 0.2),
+              blurRadius: 6.r,
+              offset: Offset(0, 2.h),
+            ),
+        ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          leadingIcon,
-          const SizedBox(width: 12),
+          Padding(
+            padding: EdgeInsets.only(top: 2.h),
+            child: leadingIcon,
+          ),
+          SizedBox(width: RS.spaceS),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: RS.textM,
                 fontWeight: FontWeight.w500,
                 color: textColor,
+                height: 1.5,
               ),
             ),
           ),
           if (trailingWidget != null) ...[
-            const SizedBox(width: 8),
+            SizedBox(width: RS.spaceS),
             trailingWidget,
           ],
         ],
@@ -380,18 +531,29 @@ class _QuestionResultCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(String text, Color color) {
+  Widget _buildModernTag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          colors: [color, color.withValues(alpha: 0.8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.3),
+            blurRadius: 4.r,
+            offset: Offset(0, 2.h),
+          ),
+        ],
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
-          fontSize: 12,
+          fontSize: 11.sp,
           fontWeight: FontWeight.bold,
         ),
       ),

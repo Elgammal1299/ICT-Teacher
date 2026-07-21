@@ -12,10 +12,7 @@ class CustomLessonsListView extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       itemCount: data.length,
       itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: CustomLessonItem(lessonsModel: data[index]),
-        );
+        return CustomLessonItem(lessonsModel: data[index],  index: index);
       },
     );
   }

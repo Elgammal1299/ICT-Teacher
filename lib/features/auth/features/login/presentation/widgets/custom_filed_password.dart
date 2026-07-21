@@ -7,11 +7,13 @@ class CustomFiledPassword extends StatelessWidget {
     required this.isPasswordHidden,
     required this.passwordCtrl,
     required this.hintText,
+    this.validator,
   });
 
   final ValueNotifier<bool> isPasswordHidden;
   final TextEditingController passwordCtrl;
   final String hintText;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class CustomFiledPassword extends StatelessWidget {
           isObscureText: hidden,
           keyboardType: TextInputType.visiblePassword,
           controller: passwordCtrl,
+          validator: validator,
         );
       },
     );

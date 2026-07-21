@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/prefile/ui/view/widget/custom_account_list_tile.dart';
 
@@ -16,7 +17,7 @@ class CustomAppInformationSection extends StatelessWidget {
 
           child: CustomAccountListTile(title: 'من نحن'),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 10.h),
         InkWell(
           onTap: () {
             Navigator.pushNamed(
@@ -27,7 +28,7 @@ class CustomAppInformationSection extends StatelessWidget {
 
           child: CustomAccountListTile(title: 'الشروط والاحكام'),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 10.h),
 
         InkWell(
           onTap: () {
@@ -36,7 +37,7 @@ class CustomAppInformationSection extends StatelessWidget {
 
           child: CustomAccountListTile(title: 'سياسة الخصوصية'),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 10.h),
 
         InkWell(
           onTap: () {

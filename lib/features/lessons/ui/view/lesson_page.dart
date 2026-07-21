@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -31,19 +32,19 @@ class _LessonPageState extends State<LessonPage> {
       appBar: AppBar(
         title: Text(
           widget.lessonsModel.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16.r)),
         ),
       ),
       body: BlocBuilder<GetContentByIdCubit, GetContentByIdState>(
         builder: (context, state) {
           if (state is GetContentByIdLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           } else if (state is GetContentByIdError) {
             return Center(child: Text("خطأ: ${state.errMessage}"));
           } else if (state is GetContentByIdSuccess) {
@@ -56,22 +57,22 @@ class _LessonPageState extends State<LessonPage> {
               _ytController ??= YoutubePlayerController.fromVideoId(
                 videoId: videoId,
                 autoPlay: false,
-                params: const YoutubePlayerParams(showFullscreenButton: true),
+                params: YoutubePlayerParams(showFullscreenButton: true),
               );
             }
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     child: _ytController == null
                         ? Container(
-                            height: 200,
+                            height: 200.h,
                             color: Colors.grey[200],
-                            child: const Center(
+                            child: Center(
                               child: Text("رابط الفيديو غير صالح"),
                             ),
                           )
@@ -80,26 +81,26 @@ class _LessonPageState extends State<LessonPage> {
                             aspectRatio: 16 / 9,
                           ),
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
+                  SizedBox(height: 20.h),
+                  Text(
                     "مقدمة الدرس",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.indigo,
                     ),
                   ),
                   Text(
                     content.intro ?? "لا يوجد وصف",
-                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   // PDF button
                   Material(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15.r),
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                       onTap: () {
                         if (content.pdf != null && content.pdf!.isNotEmpty) {
                           Navigator.push(
@@ -111,7 +112,7 @@ class _LessonPageState extends State<LessonPage> {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("لا يوجد ملف PDF")),
+                            SnackBar(content: Text("لا يوجد ملف PDF")),
                           );
                         }
                       },
@@ -122,66 +123,66 @@ class _LessonPageState extends State<LessonPage> {
                           Text(
                             'ملخص الدرس',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.indigo,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: 10.h),
                           Container(
-                            padding: const EdgeInsets.all(16),
+                            padding: EdgeInsets.all(16.w),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey.withOpacity(0.3),
                               ),
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(15.r),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.1),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
+                                  blurRadius: 8.r,
+                                  offset: Offset(0, 2.h),
                                 ),
                               ],
                             ),
                             child: Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(10.w),
                                   decoration: BoxDecoration(
                                     color: Colors.red[50],
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(12.r),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.picture_as_pdf,
                                     color: Colors.red,
-                                    size: 28,
+                                    size: 28.sp,
                                   ),
                                 ),
-                                const SizedBox(width: 15),
+                                SizedBox(width: 15.w),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const [
+                                    children: [
                                       Text(
                                         "الملخص الكامل للدرس",
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 4),
+                                      SizedBox(height: 4.h),
                                       Text(
                                         "اضغط للمشاهدة",
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 14.sp,
                                           color: Colors.grey,
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.arrow_forward_ios,
                                   color: Colors.indigo,
                                 ),
@@ -192,7 +193,7 @@ class _LessonPageState extends State<LessonPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -206,18 +207,18 @@ class _LessonPageState extends State<LessonPage> {
                           );
                         },
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       Text(
                         'تنبيه',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.indigo,
                         ),
                       ),
                       Text(
                         'يمكنك الاختبار عدة مرات ولكن يتم اخذ الدرجة من الاختبار الاول، تأكد من مراجعة الدرس جيداً قبل البدء بالاختبار.',
-                        style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
                       ),
                     ],
                   ),
@@ -225,7 +226,7 @@ class _LessonPageState extends State<LessonPage> {
               ),
             );
           }
-          return const SizedBox();
+          return SizedBox();
         },
       ),
     );

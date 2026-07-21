@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 
 class CustomTextForm extends StatelessWidget {
@@ -82,9 +83,9 @@ class CustomTextForm extends StatelessWidget {
               context,
             ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
         isDense: true,
-        contentPadding: contentPadding ?? EdgeInsets.all(14),
+        contentPadding: contentPadding ?? EdgeInsets.all(14.r),
         suffixIcon: suffixIcon,
-        suffixIconConstraints: BoxConstraints(minWidth: 14, minHeight: 8),
+        suffixIconConstraints: BoxConstraints(minWidth: 14.w, minHeight: 8.h),
         hoverColor: hoverColor,
         filled: true,
         fillColor: fillColor ?? AppColors.grey.withOpacity(0.1),
@@ -92,19 +93,19 @@ class CustomTextForm extends StatelessWidget {
         prefixIcon: prefixIcon,
         errorText: apiError,
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(8.r)),
           borderSide: BorderSide(color: AppColors.green),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(8.r)),
           borderSide: BorderSide(color: colorEnableBorder ?? AppColors.primary),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(8.r)),
           borderSide: BorderSide(color: Colors.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(8.r)),
           borderSide: BorderSide(color: Colors.red),
         ),
       ),

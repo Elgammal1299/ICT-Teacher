@@ -43,7 +43,7 @@ class IcdTeacherApp extends StatelessWidget {
       ],
       supportedLocales: [const Locale('ar')],
       debugShowCheckedModeBanner: false,
-      title: 'ICD Teacher ',
+      title: 'ICT Teacher',
       initialRoute: AppRoutes.splasahRouter,
       onGenerateRoute: AppRouter.generateRoute,
     );

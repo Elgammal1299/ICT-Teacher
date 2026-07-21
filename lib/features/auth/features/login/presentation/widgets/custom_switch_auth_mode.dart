@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 
 class CustomSwitchAuthMode extends StatelessWidget {
@@ -18,9 +19,10 @@ class CustomSwitchAuthMode extends StatelessWidget {
         Text(
           'هل لديك حساب بالفعل؟',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 20.sp,
             color: AppColors.black,
             fontWeight: FontWeight.w500,
+            fontFamily: 'Amiri'
           ),
         ),
         TextButton(
@@ -30,9 +32,10 @@ class CustomSwitchAuthMode extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 20.sp,
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Amiri'
             ),
           ),
         ),

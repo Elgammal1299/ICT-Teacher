@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/features/onboarding/data/model/onboarding_model.dart';
 
 class CustomNavigationButtons extends StatelessWidget {
@@ -17,7 +18,7 @@ class CustomNavigationButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.only(right: 24.r, left: 24.r, bottom: 16.h),
       child: ValueListenableBuilder<int>(
         valueListenable: currentPageNotifier,
         builder: (_, currentPage, __) => Row(
@@ -34,27 +35,27 @@ class CustomNavigationButtons extends StatelessWidget {
                 child: const Text('Previous'),
               )
             else
-              const SizedBox(width: 80),
+              SizedBox(width: 80.w),
 
             ElevatedButton(
               onPressed: onNextPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: onboardingModelList[currentPage].color,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 12.0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 32.w,
+                  vertical: 12.h,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24.0),
+                  borderRadius: BorderRadius.circular(24.r),
                 ),
               ),
               child: Text(
                 currentPage == onboardingModelList.length - 1
                     ? 'Get Started'
                     : 'Next',
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),

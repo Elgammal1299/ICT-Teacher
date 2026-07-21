@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
@@ -18,90 +19,80 @@ class ChooseTermsPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                SvgPicture.asset(AppImage.splashImage, width: 200, height: 200),
-
-                // const SizedBox(height: 16),
-
-                // Text(
-                //   'اهلا بك في تطبيق ICD Teacher',
-                //   style: theme.titleLarge!.copyWith(
-                //     color: AppColors.primary,
-                //     fontSize: 28,
-                //   ),
-                // ),
-                const SizedBox(height: 16),
-                Text('احمد سيف يرحب بكم ', style: theme.titleLarge),
-                const SizedBox(height: 32),
-
-                BlocListener<UserDataCubit, UserDataState>(
-                  listener: (context, state) {
-                    if (state is UserDataSuccess) {
-                      context.read<TermsCubit>().getTram();
-                    }
-                  },
-                  child: BlocBuilder<TermsCubit, TermsState>(
-                    builder: (context, state) {
-                      if (state is TermsLoading) {
-                        return SizedBox(
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primary,
-                            ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Column(
+            
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 130.h,width: double.infinity,),
+              Image.asset(AppImage.logo2, width: 200.w, height: 200.h),
+              SizedBox(height: 16.h),
+              Text('بوابتك إلى تعلم التكنولوجيا وصناعة المستقبل...\nنتمني لك رحلة تعليمية ممتعة ومثمرة.', style: theme.titleLarge!.copyWith( fontWeight: FontWeight.bold,fontFamily: 'Amiri',height: 1.7.h), textAlign: TextAlign.center),
+              SizedBox(height: 32.h),
+          
+              BlocListener<UserDataCubit, UserDataState>(
+                listener: (context, state) {
+                  if (state is UserDataSuccess) {
+                    context.read<TermsCubit>().getTram();
+                  }
+                },
+                child: BlocBuilder<TermsCubit, TermsState>(
+                  builder: (context, state) {
+                    if (state is TermsLoading) {
+                      return SizedBox(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
                           ),
-                        );
-                      } else if (state is TermsError) {
-                        return _buildErrorWidget(
-                          context: context,
-                          errorMessage: state.errMessage,
-                        );
-                      } else if (state is TermsSuccess) {
-                        // Filter active terms and restrict to the logged-in user's grade when available
-                        final userState = context.watch<UserDataCubit>().state;
-                        List<TermModel> activeTerms = state.data
-                            .where((term) => term.isActive)
+                        ),
+                      );
+                    } else if (state is TermsError) {
+                      return _buildErrorWidget(
+                        context: context,
+                        errorMessage: state.errMessage,
+                      );
+                    } else if (state is TermsSuccess) {
+                      // Filter active terms and restrict to the logged-in user's grade when available
+                      final userState = context.watch<UserDataCubit>().state;
+                      List<TermModel> activeTerms = state.data
+                          .where((term) => term.isActive)
+                          .toList();
+          
+                      if (userState is UserDataSuccess) {
+                        activeTerms = activeTerms
+                            .where(
+                              (term) =>
+                                  term.gradeName ==
+                                  userState.response.gradeName,
+                            )
                             .toList();
-
-                        if (userState is UserDataSuccess) {
-                          activeTerms = activeTerms
-                              .where(
-                                (term) =>
-                                    term.gradeName ==
-                                    userState.response.gradeName,
-                              )
-                              .toList();
-                        }
-
-                        if (activeTerms.isEmpty) {
-                          return _buildEmptyTermsWidget(context);
-                        }
-
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: activeTerms.length,
-                          itemBuilder: (context, index) {
-                            final term = activeTerms[index];
-                            return _buildTermCard(
-                              context: context,
-                              term: term,
-                              index: index,
-                              totalTerms: activeTerms.length,
-                            );
-                          },
-                        );
                       }
-
-                      return const SizedBox.shrink();
-                    },
-                  ),
+          
+                      if (activeTerms.isEmpty) {
+                        return _buildEmptyTermsWidget(context);
+                      }
+          
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: activeTerms.length,
+                        itemBuilder: (context, index) {
+                          final term = activeTerms[index];
+                          return _buildTermCard(
+                            context: context,
+                            term: term,
+                            index: index,
+                            totalTerms: activeTerms.length,
+                          );
+                        },
+                      );
+                    }
+          
+                    return SizedBox.shrink();
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -115,29 +106,31 @@ class ChooseTermsPage extends StatelessWidget {
     required int totalTerms,
   }) {
     final colors = [
-      const Color(0xFF4CAF50), // Green
-      const Color(0xFF2196F3), // Blue
-      const Color(0xFFFF9800), // Orange
-      const Color(0xFF9C27B0), // Purple
-      const Color(0xFFF44336), // Red
+      Color(0xFF4CAF50), // Green
+      Color(0xFF2196F3), // Blue
+      Color(0xFFFF9800), // Orange
+      Color(0xFF9C27B0), // Purple
+      Color(0xFFF44336), // Red
     ];
 
     final cardColor = colors[index % colors.length];
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16.h),
       child: InkWell(
         onTap: () {
           Navigator.pushReplacementNamed(
             context,
-            AppRoutes.navBarScreenRoute,
+            // AppRoutes.navBarScreenRoute,
+            AppRoutes.homeRoute,
+
             arguments: term,
           );
         },
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -146,19 +139,19 @@ class ChooseTermsPage extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: cardColor.withOpacity(0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
+                blurRadius: 12.r,
+                offset: Offset(0, 6.h),
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.w),
             child: Row(
               children: [
                 // Icon Circle
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white.withOpacity(0.2),
@@ -167,11 +160,11 @@ class ChooseTermsPage extends StatelessWidget {
                     child: Icon(
                       _getTermIcon(index),
                       color: Colors.white,
-                      size: 32,
+                      size: 32.sp,
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 // Content
                 Expanded(
                   child: Column(
@@ -179,19 +172,19 @@ class ChooseTermsPage extends StatelessWidget {
                     children: [
                       Text(
                         term.name,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         'الصف: ${term.gradeName}',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           color: Colors.white.withOpacity(0.8),
                         ),
                         maxLines: 1,
@@ -204,7 +197,7 @@ class ChooseTermsPage extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.white.withOpacity(0.7),
-                  size: 20,
+                  size: 20.sp,
                 ),
               ],
             ),
@@ -228,23 +221,23 @@ class ChooseTermsPage extends StatelessWidget {
   Widget _buildEmptyTermsWidget(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0),
+        padding: EdgeInsets.symmetric(vertical: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(40),
+              padding: EdgeInsets.all(40.w),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.primary.withOpacity(0.1),
               ),
               child: Icon(
                 Icons.school_rounded,
-                size: 40,
+                size: 40.sp,
                 color: AppColors.primary.withOpacity(0.5),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Text(
               'لا توجد مراحل دراسية متاحة',
               style: Theme.of(
@@ -252,7 +245,7 @@ class ChooseTermsPage extends StatelessWidget {
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'يرجى التواصل مع الإدارة\nللتحقق من توفر المراحل الدراسية',
               style: Theme.of(
@@ -260,10 +253,10 @@ class ChooseTermsPage extends StatelessWidget {
               ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
               textAlign: TextAlign.center,
             ),
-            // const SizedBox(height: 32),
+            // SizedBox(height: 32.h),
             // CustomElevatedButton(
             //   text: 'العودة',
-            //   width: 150,
+            //   width: 150.w,
             //   onPressed: () {
             //     Navigator.pop(context);
             //   },
@@ -280,23 +273,22 @@ class ChooseTermsPage extends StatelessWidget {
   }) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60),
+        padding: EdgeInsets.symmetric(vertical: 12.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(40),
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.error.withOpacity(0.1),
               ),
               child: Icon(
                 Icons.error_rounded,
-                size: 80,
+                size: 30.sp,
                 color: AppColors.error.withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: 24),
             Text(
               'حدث خطأ',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -304,31 +296,31 @@ class ChooseTermsPage extends StatelessWidget {
                 color: AppColors.error,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 4.h),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 errorMessage,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomElevatedButton(
                   text: 'إعادة محاولة',
-                  width: 140,
+                  width: 140.w,
                   backgroundColor: AppColors.primary,
                   onPressed: () {
                     context.read<TermsCubit>().getTram();
                   },
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 CustomElevatedButton(
                   text: 'العودة',
-                  width: 140,
+                  width: 140.w,
                   backgroundColor: AppColors.grey,
                   onPressed: () {
                     Navigator.pop(context);
@@ -354,14 +346,14 @@ class CustomTermsWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 12),
+        padding: EdgeInsets.only(bottom: 12.h),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.w),
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             border: Border.all(color: AppColors.primary),
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(8.r),
           ),
           child: Row(
             children: [
@@ -371,8 +363,8 @@ class CustomTermsWidget extends StatelessWidget {
                   context,
                 ).textTheme.titleLarge!.copyWith(color: AppColors.primary),
               ),
-              const Spacer(),
-              Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.primary),
+              Spacer(),
+              Icon(Icons.arrow_forward_ios, size: 16.sp, color: AppColors.primary),
             ],
           ),
         ),

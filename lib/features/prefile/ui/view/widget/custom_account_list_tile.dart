@@ -16,7 +16,7 @@ class CustomAccountListTile extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.black.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColors.background),
       ),
       child: ListTile(

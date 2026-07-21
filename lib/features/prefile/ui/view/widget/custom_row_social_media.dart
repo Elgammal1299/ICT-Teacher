@@ -112,7 +112,7 @@ class CustomRowSocialMedia extends StatelessWidget {
             width: 136.w,
             decoration: BoxDecoration(
               color: AppColors.green,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.r),
             ),
             padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
             child: Row(

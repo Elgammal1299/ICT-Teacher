@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/features/accounts_students/data/model/accounts_model.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
 
@@ -17,7 +18,7 @@ class AccountsStudentsPage extends StatelessWidget {
           } else if (state is AccountsSuccess) {
             final accounts = state.data; // List<AccountsModel>
             return ListView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12.w),
               itemCount: accounts.length,
               itemBuilder: (context, index) {
                 final account = accounts[index];
@@ -33,24 +34,24 @@ class AccountsStudentsPage extends StatelessWidget {
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     elevation: 4,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.all(16),
+                      contentPadding: EdgeInsets.all(16.w),
                       title: Text(
                         account.name,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       subtitle: Text(
                         "عدد الطلاب المسجلين: ${account.registeredStudents}",
-                        style: const TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 14.sp),
                       ),
-                      trailing: const Icon(Icons.arrow_forward_ios),
+                      trailing: Icon(Icons.arrow_forward_ios),
                     ),
                   ),
                 );
@@ -76,18 +77,18 @@ class StudentsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Students")),
       body: students.isEmpty
-          ? const Center(child: Text("لا يوجد طلاب"))
+          ? Center(child: Text("لا يوجد طلاب"))
           : ListView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12.w),
               itemCount: students.length,
               itemBuilder: (context, index) {
                 final student = students[index];
                 return Card(
                   elevation: 3,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  margin: EdgeInsets.symmetric(vertical: 6.h),
                   child: ListTile(
                     title: Text(student.fullName),
                     subtitle: Text(student.username),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/constant/shared_preferences_key.dart';
 import 'package:icd_teacher/core/helper/shaerd_pref_helper.dart';
 import 'package:icd_teacher/core/helper/user_session.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
+import 'package:video_player/video_player.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,50 +13,52 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _SplashPageState extends State<SplashPage> {
+  late VideoPlayerController _controller;
+  bool _navigated = false;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-    _controller.forward();
+    _controller = VideoPlayerController.asset('assets/video/splash.mp4')
+      ..initialize().then((_) {
+        if (!mounted) return;
 
-    _decideNavigation();
+        setState(() {});
+        _controller.play();
+      });
+
+    _controller.addListener(() {
+      if (!_controller.value.isInitialized) return;
+
+      if (!_navigated &&
+          _controller.value.position >= _controller.value.duration) {
+        _navigated = true;
+        _decideNavigation();
+      }
+    });
   }
 
   Future<void> _decideNavigation() async {
-    // Wait for animation
-    await Future.delayed(const Duration(seconds: 3));
-
     if (!mounted) return;
 
-    // Check onboarding status
     final isOnboardingCompleted = await SharedPrefHelper.getBool(
       SharedPreferencesKeys.onboarding,
     );
 
+    if (!mounted) return;
+
     if (!isOnboardingCompleted) {
-      // First time: Show onboarding
       Navigator.pushReplacementNamed(context, AppRoutes.onboardingRouter);
     } else {
-      // Check if user is logged in
       final loggedIn = await UserSession.isLoggedIn();
 
       if (!mounted) return;
 
       if (loggedIn) {
-        // User logged in: Go to choose terms
         Navigator.pushReplacementNamed(context, AppRoutes.chooseTermsRoute);
       } else {
-        // User not logged in: Go to login
         Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
       }
     }
@@ -71,40 +73,53 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background with decorative elements
-          Container(
-            color: Colors.white,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: SvgPicture.asset(AppImage.appLogoFram37, width: 150),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: SvgPicture.asset(AppImage.appLogoFram38, width: 150),
-                ),
-              ],
-            ),
-          ),
+      backgroundColor: Colors.white,
+      body: _controller.value.isInitialized
+          ? SafeArea(
+              child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20),
 
-          // Center logo with animation
-          Center(
-            child: ScaleTransition(
-              scale: _animation,
-              child: SvgPicture.asset(
-                AppImage.splashImage,
-                width: 200,
-                height: 200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset(AppImage.logo,height: 150,width: 150,),
+                    // const SizedBox(height: 20),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                      
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: AspectRatio(
+                        
+                          aspectRatio: _controller.value.aspectRatio,
+                          child: VideoPlayer(_controller),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    Text(
+                      "أهلاً وسهلاً بكم\nتعلم التكنولوجيا... واصنع مستقبلك",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Amiri',
+                        color: Colors.black87,
+                        height: 1.4,
+                      ),
+                    ),
+                
+                
+                    
+                  ],
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
+            )
+          : const ColoredBox(color: Colors.white, child: SizedBox.expand()),
     );
   }
 }

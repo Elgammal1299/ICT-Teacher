@@ -18,4 +18,15 @@ class AppImage {
   static const deoIcon = 'assets/images/12.png';
   static const book = 'assets/images/book.svg';
   static const confusion = 'assets/images/confusion.svg';
+  static const backIcon = 'assets/images/backIcon.svg';
+  static const noItem = 'assets/images/no_item.png';
+  static const lessonItem = 'assets/images/lesson.png';
+  static const quizeImage = 'assets/images/quize.png';
+  static const revisionItem = 'assets/images/revision.png';
+  static const quizWeekly = 'assets/images/quiz_weekly.png';
+  static const logo = 'assets/images/logo.png';
+  static const logo2 = 'assets/images/logo2.png';
+  static const ahmed = 'assets/images/ahmed.png';
+  static const ahmedSaif = 'assets/images/ahmed_saif.png';
+  static const saif = 'assets/images/saif.png';
 }

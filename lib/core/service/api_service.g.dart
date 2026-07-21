@@ -10,7 +10,7 @@ part of 'api_service.dart';
 
 class _ApiService implements ApiService {
   _ApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'http://10.0.2.2:8000/api/';
+    baseUrl ??= 'https://ictgate.madrasa-online.com/api/';
   }
 
   final Dio _dio;

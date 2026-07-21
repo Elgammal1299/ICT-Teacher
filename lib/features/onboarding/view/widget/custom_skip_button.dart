@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomSkipButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -10,12 +11,12 @@ class CustomSkipButton extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(right: 16.r, top: 16.h,left: 16.r),
         child: TextButton(
           onPressed: onPressed,
           child: Text(
             'Skip',
-            style: TextStyle(color: Colors.grey[600], fontSize: 16),
+            style: TextStyle(color: Colors.grey[600], fontSize: 16.sp),
           ),
         ),
       ),

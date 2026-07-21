@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/features/onboarding/data/model/onboarding_model.dart';
 
 class OnboardingBody extends StatelessWidget {
@@ -18,33 +19,36 @@ class OnboardingBody extends StatelessWidget {
         final double gapSmall = isShort ? 12.0 : 24.0;
 
         return SingleChildScrollView(
-          padding: EdgeInsets.all(outerPadding),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight - (outerPadding * 2),
             ),
             child: IntrinsicHeight(
               child: Column(
-                mainAxisAlignment: isShort
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(iconPadding),
-                    decoration: BoxDecoration(
-                      color: data.color.withOpacity(0.1),
-                      shape: BoxShape.circle,
+                  CircleAvatar(
+                    radius: 100.r,
+                    child: ClipOval(
+                      child: Image.asset(
+                        data.imagePath,
+                        width: 200.w,
+                        height: 200.h,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    child: Icon(data.icon, size: iconSize, color: data.color),
                   ),
 
-                  SizedBox(height: gapLarge),
-
+                  // SizedBox(height: gapLarge),
                   Text(
                     data.title,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: data.color,
+                      fontFamily: 'Amiri',
+                      height: 1.6,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -54,10 +58,14 @@ class OnboardingBody extends StatelessWidget {
                   Text(
                     data.description,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.grey[600],
+                      // color: Colors.grey[600],
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
                       height: 1.5,
+                      fontFamily: 'Amiri',
+                      fontSize: 20.sp,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.justify,
                   ),
                 ],
               ),

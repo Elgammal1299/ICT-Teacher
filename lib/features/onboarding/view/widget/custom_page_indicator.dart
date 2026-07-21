@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/features/onboarding/data/model/onboarding_model.dart';
 
 class CustomPageIndicator extends StatelessWidget {
@@ -9,7 +10,7 @@ class CustomPageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 16.h),
       child: ValueListenableBuilder<int>(
         valueListenable: currentPageNotifier,
         builder: (_, currentPage, __) => Row(
@@ -17,14 +18,14 @@ class CustomPageIndicator extends StatelessWidget {
           children: List.generate(
             onboardingModelList.length,
             (index) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              width: currentPage == index ? 20.0 : 8.0,
-              height: 8.0,
+              margin: EdgeInsets.symmetric(horizontal: 4.w),
+              width: currentPage == index ? 20.w : 8.w,
+              height: 8.h,
               decoration: BoxDecoration(
                 color: currentPage == index
                     ? onboardingModelList[currentPage].color
                     : Colors.grey[300],
-                borderRadius: BorderRadius.circular(4.0),
+                borderRadius: BorderRadius.circular(4.r),
               ),
             ),
           ),

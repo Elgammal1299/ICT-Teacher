@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_result_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
@@ -48,22 +50,19 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
               final questions = quiz.questions ?? [];
 
               if (questions.isEmpty) {
-                return const Center(
-                  child: Text(
-                    "لا يوجد اختبار حتى الآن",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                );
+                return CustomNoItem(
+                title: 'لا يوجد اختبارات حتي الان ',
+              );
               }
 
               final currentQuestion = questions[questionIndex];
 
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
 
                     /// السؤال
                     Text(
@@ -72,7 +71,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                         context,
                       ).textTheme.headlineSmall!.copyWith(color: Colors.black),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     /// الإجابات
                     Column(
@@ -81,9 +80,9 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                         (index) {
                           final choice = currentQuestion.choices![index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
                             child: SizedBox(
-                              height: 60,
+                              height: 60.h,
                               width: double.infinity,
                               child: InkWell(
                                 onTap: () {
@@ -94,23 +93,23 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black12),
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderRadius: BorderRadius.circular(8.0.r),
                                     color: answerChosen == index
                                         ? Colors.green
                                         : Colors.white,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.all(16.0.w),
                                     child: Row(
                                       children: [
                                         Icon(
                                           Icons.circle,
-                                          size: 20,
+                                          size: 20.r,
                                           color: answerChosen == index
                                               ? Colors.white
                                               : Colors.black,
                                         ),
-                                        const SizedBox(width: 16.0),
+                                        SizedBox(width: 16.0.w),
                                         Text(
                                           choice.body ?? '',
                                           style: Theme.of(context)

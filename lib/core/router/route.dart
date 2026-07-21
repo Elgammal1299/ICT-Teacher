@@ -4,8 +4,10 @@ import 'package:icd_teacher/core/DI/setup_get_it.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view/accounts_students_page.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
+import 'package:icd_teacher/features/auth/features/login/data/models/registration_form_data.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/login_page.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page.dart';
+import 'package:icd_teacher/features/auth/features/login/presentation/pages/register_page_step2.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/grades_cubit/grades_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
@@ -99,6 +101,18 @@ class AppRouter {
               BlocProvider(create: (context) => getIt<RegionsCubit>()),
             ],
             child: const RegisterPage(),
+          ),
+        );
+      case AppRoutes.registerStep2Route:
+        final formData = settings.arguments as RegistrationFormData;
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<RegisterCubit>()),
+              BlocProvider(create: (context) => getIt<GradesCubit>()),
+              BlocProvider(create: (context) => getIt<RegionsCubit>()),
+            ],
+            child: RegisterPageStep2(formData: formData),
           ),
         );
       case AppRoutes.chooseTermsRoute:

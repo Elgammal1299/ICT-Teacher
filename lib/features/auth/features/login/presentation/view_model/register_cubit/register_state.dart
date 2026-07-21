@@ -17,6 +17,16 @@ final class RegisterSuccess extends RegisterState {
 }
 
 final class RegisterError extends RegisterState {
-  const RegisterError(this.message);
+  const RegisterError(this.message, {this.validationErrors});
   final String message;
+  final Map<String, List<String>>? validationErrors;
+}
+
+final class CheckUsernameLoading extends RegisterState {}
+
+final class CheckUsernameSuccess extends RegisterState {}
+
+final class CheckUsernameError extends RegisterState {
+  final String message;
+  const CheckUsernameError(this.message);
 }

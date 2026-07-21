@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 
 /// Generic button widget
@@ -35,7 +36,7 @@ class CustomElevatedButton extends StatelessWidget {
       textDirection: textDirection ?? TextDirection.ltr,
       child: SizedBox(
         width: width ?? double.infinity,
-        height: heigth ?? 50,
+        height: heigth ?? 50.h,
         child: ElevatedButton.icon(
           onPressed: onPressed,
           icon: icon,
@@ -46,7 +47,7 @@ class CustomElevatedButton extends StatelessWidget {
             side: BorderSide(color: borderColor ?? Colors.transparent),
             backgroundColor: backgroundColor ?? AppColors.primary,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
+              borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
             ),
           ),
           label: FittedBox(
