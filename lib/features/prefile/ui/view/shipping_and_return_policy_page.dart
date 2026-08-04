@@ -7,7 +7,7 @@ class ShippingAndReturnPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('سياسة الخصوصية'), centerTitle: true),
+      appBar: AppBar(title: Text('سياسة الخصوصية', style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
       body: Column(children: []),
     );
   }

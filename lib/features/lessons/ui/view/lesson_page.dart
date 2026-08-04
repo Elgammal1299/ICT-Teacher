@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -28,25 +29,24 @@ class _LessonPageState extends State<LessonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      
       appBar: AppBar(
         title: Text(
           widget.lessonsModel.title,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: 'Amiri'),
         ),
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
+       
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16.r)),
-        ),
+        centerTitle: true,
       ),
       body: BlocBuilder<GetContentByIdCubit, GetContentByIdState>(
         builder: (context, state) {
           if (state is GetContentByIdLoading) {
             return Center(child: CircularProgressIndicator());
           } else if (state is GetContentByIdError) {
-            return Center(child: Text("خطأ: ${state.errMessage}"));
+            return ErrorStateWidget(
+    message: state.errMessage,
+  );
           } else if (state is GetContentByIdSuccess) {
             final content = state.contentModel;
             final videoId = YoutubePlayerController.convertUrlToId(
@@ -85,19 +85,19 @@ class _LessonPageState extends State<LessonPage> {
                   Text(
                     "مقدمة الدرس",
                     style: TextStyle(
-                      fontSize: 18.sp,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+                      color: Colors.black,
+                      fontFamily: 'Amiri',
                     ),
                   ),
                   Text(
                     content.intro ?? "لا يوجد وصف",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                    style: TextStyle(fontSize: 16.sp, color: Colors.black,fontWeight: FontWeight.bold,height: 1.5),
                   ),
                   SizedBox(height: 20.h),
                   // PDF button
                   Material(
-                    color: Colors.white,
                     borderRadius: BorderRadius.circular(15.r),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(15.r),
@@ -123,9 +123,9 @@ class _LessonPageState extends State<LessonPage> {
                           Text(
                             'ملخص الدرس',
                             style: TextStyle(
-                              fontSize: 18.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
-                              color: Colors.indigo,
+                             fontFamily: 'Amiri',
                             ),
                           ),
                           SizedBox(height: 10.h),
@@ -168,6 +168,7 @@ class _LessonPageState extends State<LessonPage> {
                                         "الملخص الكامل للدرس",
                                         style: TextStyle(
                                           fontSize: 16.sp,
+                                          
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -209,16 +210,16 @@ class _LessonPageState extends State<LessonPage> {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        'تنبيه',
+                        'تـنـبـيـه',
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.indigo,
+                   fontFamily: 'Amiri',
                         ),
                       ),
                       Text(
                         'يمكنك الاختبار عدة مرات ولكن يتم اخذ الدرجة من الاختبار الاول، تأكد من مراجعة الدرس جيداً قبل البدء بالاختبار.',
-                        style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+                        style: TextStyle(fontSize: 18.sp, color: Colors.grey[700], fontFamily: 'Amiri'),
                       ),
                     ],
                   ),

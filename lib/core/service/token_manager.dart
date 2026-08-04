@@ -133,14 +133,18 @@ class TokenManager {
       }
 
       // Create a separate Dio instance for refresh to avoid interceptor conflicts
-      final refreshDio = Dio(BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
-        connectTimeout: Duration(milliseconds: DioConfig.connectTimeout),
-        receiveTimeout: Duration(milliseconds: DioConfig.receiveTimeout),
-        sendTimeout: Duration(milliseconds: DioConfig.sendTimeout),
-      ));
+      final refreshDio = Dio(
+        BaseOptions(
+          baseUrl: ApiConstants.baseUrl,
+          connectTimeout: Duration(milliseconds: DioConfig.connectTimeout),
+          receiveTimeout: Duration(milliseconds: DioConfig.receiveTimeout),
+          sendTimeout: Duration(milliseconds: DioConfig.sendTimeout),
+        ),
+      );
 
-      log('Sending refresh request to: ${ApiConstants.baseUrl}${ApiConstants.refreshToken}');
+      log(
+        'Sending refresh request to: ${ApiConstants.baseUrl}${ApiConstants.refreshToken}',
+      );
 
       final response = await refreshDio.post(
         ApiConstants.refreshToken,
@@ -190,7 +194,7 @@ class TokenManager {
         originalError: e,
       );
 
-      _refreshCompleter!.completeError(exception);
+      _completeRefreshWithError(exception);
       throw exception;
     } catch (e) {
       log('Token refresh failed with unexpected error: $e');
@@ -200,7 +204,7 @@ class TokenManager {
         originalError: e,
       );
 
-      _refreshCompleter!.completeError(exception);
+      _completeRefreshWithError(exception);
       throw exception;
     } finally {
       _isRefreshing = false;
@@ -209,14 +213,13 @@ class TokenManager {
   }
 
   /// Queue a request to be retried after token refresh
-  Future<Response> queueRequest(
-    RequestOptions requestOptions,
-    Dio dio,
-  ) async {
+  Future<Response> queueRequest(RequestOptions requestOptions, Dio dio) async {
     final completer = Completer<Response>();
     _pendingRequests.add(_PendingRequest(requestOptions, completer));
 
-    log('Request queued during token refresh. Queue size: ${_pendingRequests.length}');
+    log(
+      'Request queued during token refresh. Queue size: ${_pendingRequests.length}',
+    );
 
     return completer.future;
   }
@@ -257,6 +260,14 @@ class TokenManager {
       );
     }
     _pendingRequests.clear();
+  }
+
+  void _completeRefreshWithError(TokenRefreshException exception) {
+    final completer = _refreshCompleter;
+    if (completer == null || completer.isCompleted) return;
+
+    completer.future.catchError((_) => '');
+    completer.completeError(exception);
   }
 }
 

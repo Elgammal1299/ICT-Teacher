@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/helper/user_session.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/service/api_constants.dart';
@@ -41,14 +39,16 @@ class DioFactory {
   /// Creates and configures the instance on first call.
   static Future<Dio> getDio() async {
     if (_dio == null) {
-      _dio = Dio(BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
-        followRedirects: true,
-        connectTimeout: Duration(milliseconds: DioConfig.connectTimeout),
-        receiveTimeout: Duration(milliseconds: DioConfig.receiveTimeout),
-        sendTimeout: Duration(milliseconds: DioConfig.sendTimeout),
-        headers: DioConfig.defaultHeaders,
-      ));
+      _dio = Dio(
+        BaseOptions(
+          baseUrl: ApiConstants.baseUrl,
+          followRedirects: true,
+          connectTimeout: Duration(milliseconds: DioConfig.connectTimeout),
+          receiveTimeout: Duration(milliseconds: DioConfig.receiveTimeout),
+          sendTimeout: Duration(milliseconds: DioConfig.sendTimeout),
+          headers: DioConfig.defaultHeaders,
+        ),
+      );
       _addInterceptors();
     }
     return _dio!;
@@ -65,10 +65,7 @@ class DioFactory {
   static void _addInterceptors() {
     // Add authentication and token refresh interceptor
     _dio?.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: _onRequest,
-        onError: _onError,
-      ),
+      InterceptorsWrapper(onRequest: _onRequest, onError: _onError),
     );
 
     // Add pretty logger for debugging
@@ -104,7 +101,18 @@ class DioFactory {
             log('Token refreshed proactively before request');
           } catch (e) {
             log('Proactive token refresh failed: $e');
-            // Continue with the request, let the error interceptor handle it
+
+            if (_shouldLogoutAfterRefreshFailure(e)) {
+              _handleLogout(showMessage: true);
+            }
+
+            return handler.reject(
+              DioException(
+                requestOptions: options,
+                type: _dioExceptionTypeFromRefreshError(e),
+                error: e,
+              ),
+            );
           }
         }
       } else {
@@ -146,12 +154,12 @@ class DioFactory {
         return handler.resolve(response);
       } on TokenRefreshException catch (e) {
         log('Token refresh failed: $e');
-        // Handle logout if refresh fails
-        await _handleLogout(showMessage: true);
+        if (_shouldLogoutAfterRefreshFailure(e)) {
+          _handleLogout(showMessage: true);
+        }
         return handler.reject(error);
       } catch (e) {
         log('Unexpected error during token refresh: $e');
-        await _handleLogout(showMessage: true);
         return handler.reject(error);
       }
     }
@@ -166,80 +174,71 @@ class DioFactory {
     log('Handling logout due to authentication failure');
 
     try {
-      // Clear tokens and session
+      // Get the current context and navigate to login FIRST
+      final navigator = navigatorKey.currentState;
+
+      if (navigator != null) {
+        navigator.pushNamedAndRemoveUntil(
+          AppRoutes.loginRoute,
+          (route) => false,
+        );
+      } else {
+        log('Navigator is null');
+      }
+
+      // Clear tokens and session after navigation to ensure UI doesn't freeze
       await UserSession.logout();
       _tokenManager.clearPendingRequests();
-
-      // Get the current context
-      final context = navigatorKey.currentContext;
-      if (context != null) {
-        log('Navigating to login screen');
-
-        // Show session expired dialog if needed
-        if (showMessage && context.mounted) {
-          await _showSessionExpiredDialog(context);
-        }
-
-        // Navigate to login and remove all previous routes
-        if (context.mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            AppRoutes.loginRoute,
-            (route) => false,
-          );
-        }
-      } else {
-        log('No context available for navigation');
-      }
     } catch (e) {
       log('Error during logout: $e');
     }
   }
 
   /// Show a dialog informing the user that their session has expired
-  static Future<void> _showSessionExpiredDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          title: Row(
-            children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28.sp),
-              SizedBox(width: 8.w),
-              Text(
-                'انتهت الجلسة',
-                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          content: Text(
-            'لقد انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى للمتابعة.',
-            style: TextStyle(fontSize: 16.sp),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24.w,
-                  vertical: 12.h,
-                ),
-              ),
-              child: Text(
-                'تسجيل الدخول',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // static Future<void> _showSessionExpiredDialog(BuildContext context) async {
+  //   return showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (BuildContext dialogContext) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(16.r),
+  //         ),
+  //         title: Row(
+  //           children: [
+  //             Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28.sp),
+  //             SizedBox(width: 8.w),
+  //             Text(
+  //               'انتهت الجلسة',
+  //               style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+  //             ),
+  //           ],
+  //         ),
+  //         content: Text(
+  //           'لقد انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى للمتابعة.',
+  //           style: TextStyle(fontSize: 16.sp),
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(dialogContext).pop();
+  //             },
+  //             style: TextButton.styleFrom(
+  //               padding: EdgeInsets.symmetric(
+  //                 horizontal: 24.w,
+  //                 vertical: 12.h,
+  //               ),
+  //             ),
+  //             child: Text(
+  //               'تسجيل الدخول',
+  //               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   /// Log detailed error information based on the error type
   static void _logErrorDetails(DioException error) {
@@ -270,5 +269,17 @@ class DioFactory {
           log('Timeout Error - Check your network connection');
         }
     }
+  }
+
+  static bool _shouldLogoutAfterRefreshFailure(Object error) {
+    if (error is! TokenRefreshException) return false;
+    return error.statusCode == 401 || error.statusCode == 403;
+  }
+
+  static DioExceptionType _dioExceptionTypeFromRefreshError(Object error) {
+    if (error is TokenRefreshException && error.originalError is DioException) {
+      return (error.originalError as DioException).type;
+    }
+    return DioExceptionType.unknown;
   }
 }

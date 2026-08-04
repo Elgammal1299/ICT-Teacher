@@ -73,7 +73,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: _controller.value.isInitialized
           ? SafeArea(
               child: Padding(

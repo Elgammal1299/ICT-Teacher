@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
+import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -78,10 +79,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             _DrawerItem(
               icon: Icons.download,
-              title: 'التنزيلات',
+              title: 'من نحن',
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.homeRoute);
+                Navigator.pushNamed(context, AppRoutes.aboutUsPageRoute);
               },
             ),
             _DrawerItem(
@@ -89,15 +90,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
               title: 'عن المنصة',
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.homeRoute);
+                Navigator.pushNamed(context, AppRoutes.aboutPlatformPageRoute);
               },
             ),
             _DrawerItem(
               icon: Icons.person,
-              title: 'عن المطور',
+              title: 'الدعم والتواصل',
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.homeRoute);
+                Navigator.pushNamed(context, AppRoutes.supportPageRoute);
               },
             ),
             _DrawerItem(
@@ -106,41 +107,50 @@ class _CustomDrawerState extends State<CustomDrawer> {
               onTap: () {
                 Navigator.pop(context);
                  Share.share(
-                  'اكتشف تطبيق وَارْتَقِ - رفيقك اليومي للقرآن والأذكار! 🌙📖\n\n'
-                  '🔹 استمع إلى القرآن الكريم بجودة عالية\n'
-                  '🔹 تصفح الأذكار والأدعية اليومية\n'
-                  '🔹 احصل على مواقيت الصلاة واتجاه القبلة\n'
-                  '🔹 واجهة سهلة الاستخدام وتصميم جذاب\n\n'
-                  'حمّل التطبيق الآن وارتقِ بتجربتك الروحية! 🙏✨\n\n'
-                  'رابط التحميل: https://example.com/download',
+                  '📚 جرّب منصة ICT Gate التعليمية! \n\n'
+                  'منصة متخصصة في تعليم تكنولوجيا المعلومات والاتصالات، والكمبيوتر، والبرمجة، والذكاء الاصطناعي لطلاب المدارس، من خلال شرح مبسط، واختبارات تفاعلية، ومراجعات شاملة تساعدك على التفوق.\n'
+                  'حمّل التطبيق الآن ! 🙏✨\n\n'
+                  'رابط التحميل: https://play.google.com/store/apps/details?id=com.ictgate2.app',
     );
               },
             ),
 
             const Spacer(),
-// const SizedBox(height: 4),
-//                   Center(
-//                     child: Padding(
-//                       padding: const EdgeInsets.all(12.0),
-//                       child: Text(
-//                         'نسخة $version',
-//                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-//                           color: Theme.of(context).primaryColorDark,
-//                           fontSize: 20.sp,
-//                           fontFamily: 'Amiri',),
-//                       ),
-//                     ),
-//                   ),
+
+const SizedBox(height: 4),
+  Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: CustomElevatedButton(
+backgroundColor: Colors.red,
+      text: 'تسجيل الخروج',
+      onPressed: () {
+        Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+      },
+    ),
+  ),
+const SizedBox(height: 4),
+                  // Center(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(12.0),
+                  //     child: Text(
+                  //       'نسخة $version',
+                  //       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  //         color: Theme.of(context).primaryColorDark,
+                  //         fontSize: 20.sp,
+                  //         fontFamily: 'Amiri',),
+                  //     ),
+                  //   ),
+                  // ),
             // 🔹 Footer
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 12),
-            //   child: Center(
-            //     child: Text(
-            //       ' جميع الحقوق محفوظة © $year',
-            //       style: Theme.of(context).textTheme.bodySmall,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Center(
+                child: Text(
+                  ' جميع الحقوق محفوظة © $year',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ),
           ],
         ),
       ),

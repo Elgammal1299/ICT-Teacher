@@ -6,6 +6,7 @@ import 'package:icd_teacher/features/home/data/models/answers_request_model.dart
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
+import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_result_page.dart';
 
 class QuizPage extends StatefulWidget {
   final QuizModel quiz;
@@ -31,13 +32,13 @@ class _QuizPageState extends State<QuizPage> {
     return BlocConsumer<AnswersSubmitCubit, AnswersSubmitState>(
       listener: (context, state) {
         if (state is AnswersSubmitSuccess) {
-          final serverScore = state.contentModel.score;
-          final maxScore = questions.length;
+          // final serverScore = state.contentModel.score;
+          // final maxScore = questions.length;
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (_) =>
-                  QuizResultPage(totalScore: serverScore, maxScore: maxScore),
+                  QuizResultPage(result: state.contentModel,),
             ),
           );
         } else if (state is AnswersSubmitError) {
@@ -55,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
 
         if (questions.isEmpty) {
           return Scaffold(
-            appBar: AppBar(centerTitle: true,),
+            appBar: AppBar(centerTitle: true, ),
             body: CustomNoItem(
                 title: 'لا يوجد اختبارات حتي الان ',
               ),
@@ -66,7 +67,9 @@ class _QuizPageState extends State<QuizPage> {
         final choices = currentQuestion.choices ?? [];
 
         return Scaffold(
-          appBar: AppBar(title: Text(widget.quiz.title ?? 'Quiz')),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(widget.quiz.title ?? 'Quiz',style: TextStyle(fontFamily: 'Amiri')),),
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(16.0.w),
@@ -183,56 +186,56 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-class QuizResultPage extends StatelessWidget {
-  final int totalScore;
-  final int maxScore;
+// class QuizResultPage extends StatelessWidget {
+//   final int totalScore;
+//   final int maxScore;
 
-  const QuizResultPage({
-    super.key,
-    required this.totalScore,
-    required this.maxScore,
-  });
+//   const QuizResultPage({
+//     super.key,
+//     required this.totalScore,
+//     required this.maxScore,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    final percentage = (totalScore / maxScore * 100).toStringAsFixed(0);
+//   @override
+//   Widget build(BuildContext context) {
+//     final percentage = (totalScore / maxScore * 100).toStringAsFixed(0);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('نتيجة الاختبار'), centerTitle: true),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'لقد أنهيت الاختبار!',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              SizedBox(height: 20.h),
-              Text(
-                'درجتك: $totalScore / $maxScore',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Text(
-                'النسبة المئوية: $percentage%',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(height: 30.h),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('العودة للصفحة الرئيسية'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('نتيجة الاختبار'), centerTitle: true),
+//       body: Center(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Text(
+//                 'لقد أنهيت الاختبار!',
+//                 style: Theme.of(context).textTheme.headlineMedium,
+//               ),
+//               SizedBox(height: 20.h),
+//               Text(
+//                 'درجتك: $totalScore / $maxScore',
+//                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+//                   color: Colors.green,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//               SizedBox(height: 12.h),
+//               Text(
+//                 'النسبة المئوية: $percentage%',
+//                 style: Theme.of(context).textTheme.titleLarge,
+//               ),
+//               SizedBox(height: 30.h),
+//               ElevatedButton(
+//                 onPressed: () {
+//                   Navigator.pop(context);
+//                 },
+//                 child: const Text('العودة للصفحة الرئيسية'),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

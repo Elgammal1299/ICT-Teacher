@@ -16,7 +16,7 @@ class CustomQuizWeeklyListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(bottom: 8.h),
-          child: CustomQuizWeeklyItem(quizModel: data[index]),
+          child: CustomQuizWeeklyItem(quizModel: data[index], index: index),
         );
       },
     );

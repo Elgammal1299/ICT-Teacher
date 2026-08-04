@@ -16,9 +16,10 @@ import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
-import 'package:icd_teacher/features/prefile/ui/view/about_the_application_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/about_platform_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_us_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/shipping_and_return_policy_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/support_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/terms_and_conditions_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/revision/ui/view/revision_item_page.dart';
@@ -49,6 +50,8 @@ class AppRouter {
     switch (settings.name) {
       case AppRoutes.onboardingRouter:
         return MaterialPageRoute(builder: (_) => const OnboardingPage());
+      case AppRoutes.aboutUsPageRoute:
+        return MaterialPageRoute(builder: (_) => const AboutUsPage());
       case AppRoutes.splasahRouter:
         return MaterialPageRoute(builder: (_) => const SplashPage());
       case AppRoutes.lessonPageRoute:
@@ -209,14 +212,14 @@ class AppRouter {
             child: QuizPage(quiz: quiz),
           ),
         );
-      case AppRoutes.aboutUsPageRoute:
-        return MaterialPageRoute(builder: (_) => AboutUsPage());
+      case AppRoutes.supportPageRoute:
+        return MaterialPageRoute(builder: (_) => SupportPage());
       case AppRoutes.termsAndConditionsPageRoute:
         return MaterialPageRoute(builder: (_) => TermsAndConditionsPage());
       case AppRoutes.shippingAndReturnPolicyPageRoute:
         return MaterialPageRoute(builder: (_) => ShippingAndReturnPolicyPage());
-      case AppRoutes.aboutTheApplicationPageRoute:
-        return MaterialPageRoute(builder: (_) => AboutTheApplicationPage());
+      case AppRoutes.aboutPlatformPageRoute:
+        return MaterialPageRoute(builder: (_) => AboutPlatformPage());
       case AppRoutes.accountsStudentsPageRoute:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(

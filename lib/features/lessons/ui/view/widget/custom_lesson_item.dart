@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 
@@ -38,17 +37,17 @@ class CustomLessonItem extends StatelessWidget {
                 child: Container(
                   height: 75,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: const Color(0xff4A90E2),
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(40),
                       topRight: Radius.circular(40),
                     ),
                   ),
                   alignment: Alignment.center,
-                    padding: const EdgeInsets.only(
-    right: 75, // مساحة الدائرة
-    // left: 10,
-  ),
+                  padding: const EdgeInsets.only(
+                    right: 75, // مساحة الدائرة
+                    // left: 10,
+                  ),
                   child: Align(
                     alignment: AlignmentGeometry.centerRight,
                     child: Text(
@@ -58,8 +57,9 @@ class CustomLessonItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
+                        fontFamily: 'Amiri',
                         height: 1.2,
                       ),
                     ),
@@ -74,15 +74,16 @@ class CustomLessonItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.primary, width: 4),
+                  border: Border.all(color: const Color(0xff4A90E2), width: 4),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   "${index + 1}",
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: const Color(0xff4A90E2),
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Amiri',
                   ),
                 ),
               ),

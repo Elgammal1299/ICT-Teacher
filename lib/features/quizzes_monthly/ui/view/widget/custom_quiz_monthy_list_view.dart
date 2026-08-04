@@ -16,7 +16,7 @@ class CustomQuizMonthyListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(bottom: 8.h),
-          child: CustomQuizMonthyItem(quizModel: data[index]),
+          child: CustomQuizMonthyItem(quizModel: data[index], index: index),
         );
       },
     );

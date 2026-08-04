@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -27,25 +28,25 @@ class _LessonPageState extends State<RevisionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Text(
           widget.lessonsModel.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontFamily: 'Amiri'),
+          
         ),
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
+ 
         elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-        ),
+       centerTitle: true,
+       
       ),
       body: BlocBuilder<GetContentByIdCubit, GetContentByIdState>(
         builder: (context, state) {
           if (state is GetContentByIdLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is GetContentByIdError) {
-            return Center(child: Text("خطأ: ${state.errMessage}"));
+            return ErrorStateWidget(
+    message: state.errMessage,
+  );
           } else if (state is GetContentByIdSuccess) {
             final content = state.contentModel;
             final videoId = YoutubePlayerController.convertUrlToId(

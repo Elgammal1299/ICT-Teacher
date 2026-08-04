@@ -7,7 +7,7 @@ class TermsAndConditionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('الشروط والاحكام'), centerTitle: true),
+      appBar: AppBar(title: Text('الشروط والاحكام', style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
       body: Column(children: []),
     );
   }

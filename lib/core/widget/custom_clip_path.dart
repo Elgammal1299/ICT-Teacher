@@ -18,12 +18,14 @@ class CustomClipPath extends StatelessWidget {
         width: double.infinity,
         height: 150.h,
         color: AppColors.primary,
+
         child: Text(
           title,
           style: TextStyle(
             fontSize: 30.sp,
             fontWeight: FontWeight.w500,
             color: Colors.white,
+            fontFamily: 'Amiri',
           ),
         ),
       ),

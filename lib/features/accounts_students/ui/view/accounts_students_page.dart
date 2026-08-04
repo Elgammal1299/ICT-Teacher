@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/features/accounts_students/data/model/accounts_model.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
 
@@ -10,7 +11,10 @@ class AccountsStudentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Accounts")),
+      appBar: AppBar(
+        centerTitle: true,
+        title:  Text("Accounts",style: TextStyle(fontFamily: 'Amiri')),),
+     
       body: BlocBuilder<AccountsCubit, AccountsState>(
         builder: (context, state) {
           if (state is AccountsLoading) {
@@ -58,7 +62,9 @@ class AccountsStudentsPage extends StatelessWidget {
               },
             );
           } else if (state is AccountsError) {
-            return Center(child: Text("Error: ${state.errMessage}"));
+            return ErrorStateWidget(
+    message: state.errMessage,
+  );
           }
           return const SizedBox();
         },
@@ -75,7 +81,9 @@ class StudentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Students")),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Students",style: TextStyle(fontFamily: 'Amiri'))),
       body: students.isEmpty
           ? Center(child: Text("لا يوجد طلاب"))
           : ListView.builder(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
@@ -25,7 +26,9 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.quizModel.title)),
+      appBar: AppBar(
+        
+        title: Text(widget.quizModel.title, style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
       body: BlocListener<AnswersSubmitCubit, AnswersSubmitState>(
         listener: (context, state) {
           if (state is AnswersSubmitSuccess) {
@@ -50,9 +53,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
               final questions = quiz.questions ?? [];
 
               if (questions.isEmpty) {
-                return CustomNoItem(
-                title: 'لا يوجد اختبارات حتي الان ',
-              );
+                return CustomNoItem(title: 'لا يوجد اختبارات حتي الان ');
               }
 
               final currentQuestion = questions[questionIndex];
@@ -66,7 +67,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
 
                     /// السؤال
                     Text(
-                      currentQuestion.body ?? '',
+                      (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
                       style: Theme.of(
                         context,
                       ).textTheme.headlineSmall!.copyWith(color: Colors.black),
@@ -110,16 +111,21 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                               : Colors.black,
                                         ),
                                         SizedBox(width: 16.0.w),
-                                        Text(
-                                          choice.body ?? '',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium!
-                                              .copyWith(
-                                                color: answerChosen == index
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
+                                        Expanded(
+                                          child: Text(
+                                            (choice.body ?? '').replaceAll(
+                                              r'$',
+                                              '\n',
+                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!
+                                                .copyWith(
+                                                  color: answerChosen == index
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -185,7 +191,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                 ),
               );
             } else if (state is QuizError) {
-              return Center(child: Text(state.message));
+              return ErrorStateWidget(message: state.message);
             }
             return const SizedBox.shrink();
           },

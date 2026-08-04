@@ -7,7 +7,6 @@ import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/nav_bar/ui/view_model/nav_bar_cubit.dart';
-import 'package:icd_teacher/features/prefile/ui/view/profile_screen.dart';
 
 class NavBarScreen extends StatelessWidget {
   const NavBarScreen({super.key, required this.termModel});
@@ -15,7 +14,6 @@ class NavBarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
 
       body: BlocBuilder<NavBarCubit, int>(
         builder: (context, state) {
@@ -23,7 +21,7 @@ class NavBarScreen extends StatelessWidget {
             index: state,
             children: [
               HomePage(termModel: termModel),
-              ProfilePage(),
+              // ProfilePage(),
             ],
           );
         },

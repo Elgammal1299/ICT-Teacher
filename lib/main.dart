@@ -10,8 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // Global navigator key for navigation from anywhere in the app
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() {
-  setupGetIt();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupGetIt();
   Bloc.observer = MyBlocObserver();
   runApp(
     ScreenUtilInit(

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icd_teacher/core/service/api_service.dart';
 import 'package:icd_teacher/core/service/dio_factory.dart';
+import 'package:icd_teacher/core/service/pdf_cache_service.dart';
 import 'package:icd_teacher/features/accounts_students/data/repo/accounts_id_repo.dart';
 import 'package:icd_teacher/features/accounts_students/data/repo/accounts_repo.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
@@ -14,8 +15,10 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/login_cubit/login_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
+import 'package:icd_teacher/features/home/data/local/content_local_data_source.dart';
 import 'package:icd_teacher/features/home/data/repositories/term_repo.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
+import 'package:icd_teacher/features/lessons/data/local/lessons_local_data_source.dart';
 import 'package:icd_teacher/features/quizzes_monthly/data/repo/answers_submit_repo.dart';
 import 'package:icd_teacher/features/home/data/repositories/get_content_by_id_repo.dart';
 import 'package:icd_teacher/features/lessons/data/repo/lesson_repo.dart';
@@ -34,6 +37,7 @@ import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/quizzes_month
 import 'package:icd_teacher/features/quizzes_weekly/ui/view_model/quizzes_weekly_cubit/quizzes_weekly_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/tram_grade_cubit/tram_grade_cubit.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// This is the dependency injection file for the app.
 final getIt = GetIt.instance;
@@ -41,9 +45,20 @@ final getIt = GetIt.instance;
 Future<void> setupGetIt() async {
   // Dio Instance
   Dio dio = await DioFactory.getDio();
+  final sharedPreferences = await SharedPreferences.getInstance();
 
   // ✅ Register ApiService
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
+  getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  getIt.registerLazySingleton<ContentLocalDataSource>(
+    () => ContentLocalDataSource(getIt<SharedPreferences>()),
+  );
+  getIt.registerLazySingleton<LessonsLocalDataSource>(
+    () => LessonsLocalDataSource(getIt<SharedPreferences>()),
+  );
+  getIt.registerLazySingleton<PdfCacheService>(
+    () => PdfCacheService(dio, getIt<SharedPreferences>()),
+  );
 
   //==============================
   // ✅ Register RegisterRepo
@@ -90,7 +105,7 @@ Future<void> setupGetIt() async {
   //=========================
   // ✅ Register Term lesson Repo
   getIt.registerLazySingleton<LessonRepo>(
-    () => LessonRepo(getIt<ApiService>()),
+    () => LessonRepo(getIt<ApiService>(), getIt<LessonsLocalDataSource>()),
   );
   // ✅ Register Term Lesson Cubit
   getIt.registerFactory<GetLessonCubit>(
@@ -99,7 +114,7 @@ Future<void> setupGetIt() async {
   //=========================
   // ✅ Register Term Revesion Repo
   getIt.registerLazySingleton<RevisionsRepo>(
-    () => RevisionsRepo(getIt<ApiService>()),
+    () => RevisionsRepo(getIt<ApiService>(), getIt<LessonsLocalDataSource>()),
   );
   // ✅ Register Term Lesson Cubit
   getIt.registerFactory<GetRevisionsCubit>(
@@ -126,7 +141,10 @@ Future<void> setupGetIt() async {
   //=========================
   // ✅ Register Term Content Repo
   getIt.registerLazySingleton<GetcontentByIdRepo>(
-    () => GetcontentByIdRepo(getIt<ApiService>()),
+    () => GetcontentByIdRepo(
+      getIt<ApiService>(),
+      getIt<ContentLocalDataSource>(),
+    ),
   );
   // ✅ Register Term GetContentByIdCubit
   getIt.registerFactory<GetContentByIdCubit>(
@@ -168,11 +186,7 @@ Future<void> setupGetIt() async {
   );
   //=========================
   // ✅ Register Term Repo
-  getIt.registerLazySingleton<TermRepo>(
-    () => TermRepo(getIt<ApiService>()),
-  );
+  getIt.registerLazySingleton<TermRepo>(() => TermRepo(getIt<ApiService>()));
   // ✅ Register Term AccountsIdCubit
-  getIt.registerFactory<TermsCubit>(
-    () => TermsCubit(getIt<TermRepo>()),
-  );
+  getIt.registerFactory<TermsCubit>(() => TermsCubit(getIt<TermRepo>()));
 }

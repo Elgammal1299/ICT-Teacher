@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/features/quizzes_weekly/ui/view/widget/custom_quiz_weekly_list_view.dart';
 import 'package:icd_teacher/features/quizzes_weekly/ui/view_model/quizzes_weekly_cubit/quizzes_weekly_cubit.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
@@ -11,7 +12,7 @@ class QuizWeeklyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('اختبارات الاسبوعية'),
+        title: const Text('التقييمات الاسبوعية', style: TextStyle(fontFamily: 'Amiri')),
         centerTitle: true,
       ),
       body: BlocBuilder<QuizzesWeeklyCubit, QuizzesWeeklyState>(
@@ -19,7 +20,9 @@ class QuizWeeklyPage extends StatelessWidget {
           if (state is QuizzesWeeklyLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is QuizzesWeeklyError) {
-            return Center(child: Text(state.errMessage));
+            return ErrorStateWidget(
+    message: state.errMessage,
+  );
           } else if (state is QuizzesWeeklySuccess) {
             final data = state.lessons;
 

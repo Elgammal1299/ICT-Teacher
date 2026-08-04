@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/core/widget/custom_text_form.dart';
@@ -161,10 +162,9 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
                       value == null ? 'اختر المرحلة الدراسية' : null,
                 );
               } else if (state is RegionsError) {
-                return Text(
-                  state.message,
-                  style: const TextStyle(color: Colors.red),
-                );
+                return ErrorStateWidget(
+    message: state.message,
+  );
               }
               return const SizedBox.shrink();
             },
@@ -187,10 +187,9 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
                       value == null ? 'اختر المرحلة الدراسية' : null,
                 );
               } else if (state is GradesError) {
-                return Text(
-                  state.message,
-                  style: const TextStyle(color: Colors.red),
-                );
+                return ErrorStateWidget(
+    message: state.message,
+  );
               }
               return const SizedBox.shrink();
             },

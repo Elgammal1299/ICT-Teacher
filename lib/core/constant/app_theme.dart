@@ -402,10 +402,12 @@ class AppTheme {
     // canvasColor: AppColors.primary2,
     primaryColorDark: AppColors.white,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.darkPrimary,
-      foregroundColor: AppColors.white,
       elevation: 0,
-    ),
+       centerTitle: true,
+       titleTextStyle: TextStyle(
+        fontFamily: 'Amiri',
+     
+    ),),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.secondary,

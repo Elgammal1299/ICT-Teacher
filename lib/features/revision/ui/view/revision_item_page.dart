@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/revision/ui/view/widget/custom_reviews_list_view.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
@@ -12,13 +13,15 @@ class RevisionItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('المراجعة')),
+      appBar: AppBar(title: Text('المراجعة', style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
       body: BlocBuilder<GetRevisionsCubit, GetRevisionsState>(
         builder: (context, state) {
           if (state is GetRevisionsLoading) {
             return Center(child: CircularProgressIndicator());
           } else if (state is GetRevisionsError) {
-            return Center(child: Text(state.errMessage));
+            return ErrorStateWidget(
+    message: state.errMessage,
+  );
           } else if (state is GetRevisionsSuccess) {
             final data = state.lessons;
 

@@ -17,13 +17,13 @@ class QuizResultPage extends StatelessWidget {
     final wrongAnswers = totalQuestions - correctAnswers;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      
       appBar: AppBar(
         title: Text(
           "نتيجة الاختبار",
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: RS.heading2,
+            fontFamily: 'Amiri',
+            
           ),
         ),
         elevation: 0,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
+import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/widget/custom_clip_path.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
@@ -20,10 +21,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/widgets/cu
 class RegisterPageStep2 extends StatefulWidget {
   final RegistrationFormData formData;
 
-  const RegisterPageStep2({
-    super.key,
-    required this.formData,
-  });
+  const RegisterPageStep2({super.key, required this.formData});
 
   @override
   State<RegisterPageStep2> createState() => _RegisterPageStep2State();
@@ -85,20 +83,20 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
 
       // Submit registration
       context.read<RegisterCubit>().register(
-            RegisterBody(
-              username: completeData.username!,
-              firstName: completeData.firstName!,
-              middleName: completeData.middleName!,
-              lastName: completeData.lastName!,
-              email: completeData.email!,
-              parentPhone: completeData.parentPhone!,
-              phone: completeData.phone ?? '',
-              password1: completeData.password1!,
-              password2: completeData.password2!,
-              grade: completeData.gradeId!,
-              region: completeData.regionId!,
-            ),
-          );
+        RegisterBody(
+          username: completeData.username!,
+          firstName: completeData.firstName!,
+          middleName: completeData.middleName!,
+          lastName: completeData.lastName!,
+          email: completeData.email!,
+          parentPhone: completeData.parentPhone!,
+          phone: completeData.phone ?? '',
+          password1: completeData.password1!,
+          password2: completeData.password2!,
+          grade: completeData.gradeId!,
+          region: completeData.regionId!,
+        ),
+      );
     }
   }
 
@@ -135,8 +133,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                           if (value == null || value.trim().isEmpty) {
                             return 'يرجى إدخال البريد الإلكتروني';
                           }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(value)) {
+                          if (!RegExp(
+                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          ).hasMatch(value)) {
                             return 'يرجى إدخال بريد إلكتروني صحيح';
                           }
                           return null;
@@ -224,10 +223,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                                   value == null ? 'يرجى اختيار المنطقة' : null,
                             );
                           } else if (state is RegionsError) {
-                            return Text(
-                              state.message,
-                              style: const TextStyle(color: Colors.red),
-                            );
+                            return ErrorStateWidget(
+    message: state.message,
+  );
                           }
                           return const SizedBox.shrink();
                         },
@@ -254,10 +252,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                                   : null,
                             );
                           } else if (state is GradesError) {
-                            return Text(
-                              state.message,
-                              style: const TextStyle(color: Colors.red),
-                            );
+                            return ErrorStateWidget(message: state.message);
                           }
                           return const SizedBox.shrink();
                         },
@@ -346,9 +341,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildStepDot(isActive: true, stepNumber: '1'),
-          Expanded(
-            child: _buildStepLine(isActive: true),
-          ),
+          Expanded(child: _buildStepLine(isActive: true)),
           _buildStepDot(isActive: true, stepNumber: '2'),
         ],
       ),
@@ -404,14 +397,11 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: prefixIcon,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
           items: items
               .map(
                 (item) => DropdownMenuItem<T>(
-                  
                   value: item,
                   child: Text(getLabel(item)),
                 ),

@@ -18,6 +18,7 @@ class AppRoutes {
   static const aboutUsPageRoute = '/AboutUsPage';
   static const termsAndConditionsPageRoute = '/TermsAndConditionsPage';
   static const shippingAndReturnPolicyPageRoute = '/ShippingAndReturnPolicyPage';
-  static const aboutTheApplicationPageRoute = '/AboutTheApplicationPage';
+  static const aboutPlatformPageRoute = '/AboutPlatformPage';
+  static const supportPageRoute = '/SupportPage';
   static const accountsStudentsPageRoute = '/AccountsStudentsPage';
 }
