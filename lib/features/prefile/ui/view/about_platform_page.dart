@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 
 class AboutPlatformPage extends StatelessWidget {
   const AboutPlatformPage({super.key});
@@ -18,12 +19,15 @@ class AboutPlatformPage extends StatelessWidget {
     ];
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         title: const Text('عن منصة ICT Gate', style: TextStyle(fontFamily: 'Amiri')),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.all(12.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -89,7 +93,7 @@ class AboutPlatformPage extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.check_circle_rounded,
-                              color: Colors.green,
+                              color: AppColors.primary,
                               size: 22.r,
                             ),
                             SizedBox(width: 10.w),
@@ -124,7 +128,7 @@ class AboutPlatformPage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.lightbulb_outline_rounded,
-                    color: Theme.of(context).primaryColor,
+                    color: AppColors.primary,
                     size: 35.r,
                   ),
                   SizedBox(height: 12.h),
@@ -132,13 +136,13 @@ class AboutPlatformPage extends StatelessWidget {
                     'ICT Gate...',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
+                          color: AppColors.primary,
                           fontFamily: 'Amiri',
                         ),
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    'بوابتك إلى تعلم التكنولوجيا وصناعة المستقبل.',
+                    'بوابتك إلى تعلم التكنولوجيا والمعلومات وصناعة المستقبل.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontFamily: 'Amiri',
@@ -170,32 +174,46 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                color: Theme.of(context).primaryColor,
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Amiri',
-                      fontSize: 20.sp,
-                     
-                    ),
-              ),
-            ],
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
-          SizedBox(height: 16.h),
-          child,
         ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(8.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  icon,
+                  color: AppColors.primary,
+                ),
+                SizedBox(width: 10.w),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Amiri',
+                        fontSize: 20.sp,
+                       
+                      ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.h),
+            child,
+          ],
+        ),
       ),
     );
   }

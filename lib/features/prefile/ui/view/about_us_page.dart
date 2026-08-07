@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
@@ -7,7 +8,10 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         title: const Text('من نحن', style: TextStyle(fontFamily: 'Amiri')),
         centerTitle: true,
       ),
@@ -45,8 +49,10 @@ class AboutUsPage extends StatelessWidget {
 
             Card(
               elevation: 0,
+              color: AppColors.primary.withOpacity(0.1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
+                
               ),
               child: Padding(
                 padding: EdgeInsets.all(16.w),
@@ -91,8 +97,19 @@ class _PersonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -117,8 +134,7 @@ class _PersonCard extends StatelessWidget {
           Text(
             description,
             style: TextStyle(
-              fontSize: 16.sp,
-              fontFamily: 'Amiri',
+              fontSize: 18.sp,
             ),
           ),
         ],

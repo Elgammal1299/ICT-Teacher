@@ -49,7 +49,7 @@ mainAxisAlignment: MainAxisAlignment.center,
             controller: userCtrl,
             keyboardType: TextInputType.text,
             hintText: 'ادخل اسم المستخدم',
-            prefixIcon: const Icon(Icons.person_outline),
+            prefixIcon: const Icon(Icons.person_outline,color: AppColors.primary,),
           ),
 
           const SizedBox(height: 16),

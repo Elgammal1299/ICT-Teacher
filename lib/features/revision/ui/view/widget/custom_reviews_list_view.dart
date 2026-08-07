@@ -16,7 +16,7 @@ class CustomRevisionsListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(bottom: 8.h),
-          child: CustomRevisionsItem(lessonsModel: data[index],),
+          child: CustomRevisionsItem(lessonsModel: data[index], index: index,),
         );
       },
     );

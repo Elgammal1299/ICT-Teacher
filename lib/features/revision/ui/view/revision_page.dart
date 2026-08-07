@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/lesson_content_section.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/lesson_introduction_card.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/revision/ui/view_model/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 
@@ -28,25 +31,24 @@ class _LessonPageState extends State<RevisionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
         title: Text(
           widget.lessonsModel.title,
           style: const TextStyle(fontFamily: 'Amiri'),
-          
         ),
- 
+
         elevation: 0,
-       centerTitle: true,
-       
+        centerTitle: true,
       ),
       body: BlocBuilder<GetContentByIdCubit, GetContentByIdState>(
         builder: (context, state) {
           if (state is GetContentByIdLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is GetContentByIdError) {
-            return ErrorStateWidget(
-    message: state.errMessage,
-  );
+            return ErrorStateWidget(message: state.errMessage);
           } else if (state is GetContentByIdSuccess) {
             final content = state.contentModel;
             final videoId = YoutubePlayerController.convertUrlToId(
@@ -82,7 +84,48 @@ class _LessonPageState extends State<RevisionPage> {
                           ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
+                  LessonIntroductionCard(
+                    introduction: content.intro ?? "لا يوجد وصف",
+                  ),
+                  SizedBox(height: 20.h),
+
+                  // PDF button
+                  LessonContentSection(
+                    onPdfTap: () {
+                      if (content.pdf != null && content.pdf!.isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => PdfViewerPage(pdfUrl: content.pdf!),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("لا يوجد ملف PDF")),
+                        );
+                      }
+                    },
+                    onQuizTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.quizPageRoute,
+                        arguments: state.contentModel.quiz,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
+    );
+  }
+}
+/*
+
+const Text(
                     "مقدمة الدرس",
                     style: TextStyle(
                       fontSize: 18,
@@ -186,13 +229,4 @@ class _LessonPageState extends State<RevisionPage> {
                       );
                     },
                   ),
-                ],
-              ),
-            );
-          }
-          return const SizedBox();
-        },
-      ),
-    );
-  }
-}
+ */

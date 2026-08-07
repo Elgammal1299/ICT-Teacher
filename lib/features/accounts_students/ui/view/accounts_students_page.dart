@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/features/accounts_students/data/model/accounts_model.dart';
 import 'package:icd_teacher/features/accounts_students/ui/view_model/accounts_cubit/accounts_cubit.dart';
@@ -12,6 +13,8 @@ class AccountsStudentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         centerTitle: true,
         title:  Text("Accounts",style: TextStyle(fontFamily: 'Amiri')),),
      
@@ -82,6 +85,8 @@ class StudentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         centerTitle: true,
         title: const Text("Students",style: TextStyle(fontFamily: 'Amiri'))),
       body: students.isEmpty

@@ -28,8 +28,8 @@ class AppTheme {
 
     // AppBar Theme - Modern elevated design
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.cardBackground,
-      foregroundColor: AppColors.textPrimary,
+       backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
@@ -402,6 +402,8 @@ class AppTheme {
     // canvasColor: AppColors.primary2,
     primaryColorDark: AppColors.white,
     appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
       elevation: 0,
        centerTitle: true,
        titleTextStyle: TextStyle(

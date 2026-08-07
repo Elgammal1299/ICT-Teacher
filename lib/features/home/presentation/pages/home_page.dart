@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/user_data_cubit/user_data_cubit.dart';
@@ -16,7 +17,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         centerTitle: true,
+        elevation: 1,
+        // shadowColor: Colors.black.withOpacity(0.5),
+        
         title: Text(' ICT Gate', style: TextStyle(fontFamily: 'Amiri')),
         
       ),

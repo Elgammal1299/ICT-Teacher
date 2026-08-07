@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 
@@ -24,70 +26,31 @@ class CustomLessonItem extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        child: SizedBox(
-          height: 85,
-          child: Stack(
-            alignment: Alignment.centerRight,
-            children: [
-              /// المستطيل الأزرق
-              Positioned(
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff4A90E2),
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(
-                    right: 75, // مساحة الدائرة
-                    // left: 10,
-                  ),
-                  child: Align(
-                    alignment: AlignmentGeometry.centerRight,
-                    child: Text(
-                      lessonsModel.title,
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Amiri',
-                        height: 1.2,
-                      ),
-                    ),
-                  ),
-                ),
+        padding: const EdgeInsets.symmetric(horizontal:12, vertical: 4),
+        child: Container(
+          padding: const EdgeInsets.symmetric( vertical: 8,horizontal: 8),
+          decoration: BoxDecoration(
+            color: Color(0xffffffff),
+            borderRadius: BorderRadius.circular(12),
+        
+          ),
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(0),
+            leading: CircleAvatar(
+              backgroundColor: AppColors.primary,
+              child: Text(
+                '${index + 1}',
+                style: const TextStyle(color: Colors.white),
               ),
-
-              /// الدائرة
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xff4A90E2), width: 4),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "${index + 1}",
-                  style: TextStyle(
-                    color: const Color(0xff4A90E2),
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Amiri',
-                  ),
-                ),
-              ),
-            ],
+            ),
+            title: Text(lessonsModel.title, style: const TextStyle(  fontWeight: FontWeight.bold),),
+            trailing: Container(
+               padding: EdgeInsets.all(6.w),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withOpacity(.1),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+              child: const Icon(Icons.arrow_forward_ios_rounded)),
           ),
         ),
       ),

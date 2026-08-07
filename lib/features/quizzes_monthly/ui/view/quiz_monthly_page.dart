@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view/widget/custom_quiz_monthy_list_view.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/quizzes_monthly_cubit/quizzes_monthly_cubit.dart';
@@ -11,7 +12,10 @@ class QuizMonthlyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         title: const Text(
           'الاختبارات الشهرية',
           style: TextStyle(fontFamily: 'Amiri'),

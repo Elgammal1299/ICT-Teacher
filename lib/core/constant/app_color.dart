@@ -13,7 +13,7 @@ class AppColors {
   /// -------- Primary Colors (Learning & Knowledge) --------
 
   // Main brand color - Deep Purple for wisdom & learning
-  static const Color primary = Color(0xFF6366F1); // Vibrant Indigo
+  static const Color primary = Color(0xFF2563EB); // Vibrant Indigo
   static const Color primaryLight = Color(0xFF818CF8); // Light Indigo
   static const Color primaryDark = Color(0xFF4F46E5); // Dark Indigo
   static const Color primarySurface = Color(0xFFEEF2FF); // Very light indigo for surfaces
@@ -62,7 +62,7 @@ class AppColors {
 
   /// -------- Backgrounds (Clean & Professional) --------
 
-  static const Color background = Color(0xFFF9FAFB); // Very light gray
+  static const Color background = Color(0xFFF5F5F5); // Very light gray
   static const Color backgroundSecondary = Color(0xFFF3F4F6); // Light gray
   static const Color cardBackground = Color(0xFFFFFFFF); // Pure white for cards
   static const Color surfaceElevated = Color(0xFFFFFFFF); // White with elevation

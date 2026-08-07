@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/widget/shimmer/custom_lesson_item_shimmer.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
@@ -14,7 +15,14 @@ class LessonItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
+      
+    
+  
       appBar: AppBar(
+       backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
+      
         title: const Text('الدروس', style: TextStyle(fontFamily: 'Amiri')),
         centerTitle: true,
       ),

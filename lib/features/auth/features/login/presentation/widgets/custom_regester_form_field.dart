@@ -85,49 +85,52 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
             keyboardType: TextInputType.text,
             controller: _userNameController,
             hintText: 'ادخل الاسم',
-            prefixIcon: const Icon(Icons.person),
+            prefixIcon: const Icon(Icons.person, color: AppColors.primary),
           ),
           const SizedBox(height: 16),
           CustomTextForm(
             keyboardType: TextInputType.text,
             controller: _fristNameController,
             hintText: 'ادخل الاسم الاول',
-            prefixIcon: const Icon(Icons.person),
+            prefixIcon: const Icon(Icons.person, color: AppColors.primary),
           ),
           const SizedBox(height: 16),
           CustomTextForm(
             keyboardType: TextInputType.text,
             controller: _middleNameController,
             hintText: 'ادخل الاسم الثاني',
-            prefixIcon: const Icon(Icons.person),
+            prefixIcon: const Icon(Icons.person, color: AppColors.primary),
           ),
           const SizedBox(height: 16),
           CustomTextForm(
             keyboardType: TextInputType.text,
             controller: _lastNameController,
             hintText: 'ادخل الاسم الاخير',
-            prefixIcon: const Icon(Icons.person),
+            prefixIcon: const Icon(Icons.person, color: AppColors.primary),
           ),
           const SizedBox(height: 16),
           CustomTextForm(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             hintText: 'ادخل الايميل الاكتروني',
-            prefixIcon: const Icon(Icons.email_outlined),
+            prefixIcon: const Icon(
+              Icons.email_outlined,
+              color: AppColors.primary,
+            ),
           ),
           const SizedBox(height: 16),
           CustomTextForm(
             controller: _perantPhoneController,
             keyboardType: TextInputType.phone,
             hintText: 'ادخل رقم هاتف الاب ',
-            prefixIcon: const Icon(Icons.phone),
+            prefixIcon: const Icon(Icons.phone, color: AppColors.primary),
           ),
           const SizedBox(height: 16),
           CustomTextForm(
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             hintText: 'ادخل رقم هاتف الطالب ان وجد',
-            prefixIcon: const Icon(Icons.phone),
+            prefixIcon: const Icon(Icons.phone, color: AppColors.primary),
           ),
           const SizedBox(height: 16),
           CustomFiledPassword(
@@ -154,7 +157,10 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
 
                 return CustomDropdown<RegionModel>(
                   hintText: 'اختر المرحلة الدراسية',
-                  prefixIcon: const Icon(Icons.school),
+                  prefixIcon: const Icon(
+                    Icons.school,
+                    color: AppColors.primary,
+                  ),
                   items: regions,
                   selectedValue: selectedRegion,
                   getLabel: (g) => g.name,
@@ -162,9 +168,7 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
                       value == null ? 'اختر المرحلة الدراسية' : null,
                 );
               } else if (state is RegionsError) {
-                return ErrorStateWidget(
-    message: state.message,
-  );
+                return ErrorStateWidget(message: state.message);
               }
               return const SizedBox.shrink();
             },
@@ -179,7 +183,10 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
 
                 return CustomDropdown<GradeModel>(
                   hintText: 'اختر المرحلة الدراسية',
-                  prefixIcon: const Icon(Icons.school),
+                  prefixIcon: const Icon(
+                    Icons.school,
+                    color: AppColors.primary,
+                  ),
                   items: grades,
                   selectedValue: selectedGrade,
                   getLabel: (g) => g.name,
@@ -187,9 +194,7 @@ class _CustomRegesterFormFieldState extends State<CustomRegesterFormField> {
                       value == null ? 'اختر المرحلة الدراسية' : null,
                 );
               } else if (state is GradesError) {
-                return ErrorStateWidget(
-    message: state.message,
-  );
+                return ErrorStateWidget(message: state.message);
               }
               return const SizedBox.shrink();
             },

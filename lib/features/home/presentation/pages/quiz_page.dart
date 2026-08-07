@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
@@ -56,7 +57,10 @@ class _QuizPageState extends State<QuizPage> {
 
         if (questions.isEmpty) {
           return Scaffold(
-            appBar: AppBar(centerTitle: true, ),
+            appBar: AppBar(
+              backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
+              centerTitle: true, ),
             body: CustomNoItem(
                 title: 'لا يوجد اختبارات حتي الان ',
               ),
@@ -68,6 +72,8 @@ class _QuizPageState extends State<QuizPage> {
 
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
             centerTitle: true,
             title: Text(widget.quiz.title ?? 'Quiz',style: TextStyle(fontFamily: 'Amiri')),),
           body: SafeArea(
@@ -80,7 +86,7 @@ class _QuizPageState extends State<QuizPage> {
 
                   // السؤال
                   Text(
-                    currentQuestion.body ?? '',
+                    (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
                     style: Theme.of(
                       context,
                     ).textTheme.headlineSmall!.copyWith(color: Colors.black),

@@ -12,10 +12,7 @@ class OnboardingBody extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final bool isShort = constraints.maxHeight < 600;
-        final double iconSize = isShort ? 56 : 80;
         final double outerPadding = 24.0;
-        final double iconPadding = isShort ? 24.0 : 32.0;
-        final double gapLarge = isShort ? 24.0 : 48.0;
         final double gapSmall = isShort ? 12.0 : 24.0;
 
         return SingleChildScrollView(
@@ -45,12 +42,10 @@ class OnboardingBody extends StatelessWidget {
                   Text(
                     data.title,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
                       color: data.color,
                       fontFamily: 'Amiri',
-                      height: 1.6,
+                      fontSize: 24.sp,
                     ),
-                    textAlign: TextAlign.center,
                   ),
 
                   SizedBox(height: gapSmall),
@@ -61,9 +56,6 @@ class OnboardingBody extends StatelessWidget {
                       // color: Colors.grey[600],
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
-                      height: 1.5,
-                      fontFamily: 'Amiri',
-                      fontSize: 20.sp,
                     ),
                     textAlign: TextAlign.justify,
                   ),

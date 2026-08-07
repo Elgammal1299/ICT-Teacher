@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/widget/custom_text_form.dart';
 
 class CustomFiledPassword extends StatelessWidget {
@@ -22,7 +23,7 @@ class CustomFiledPassword extends StatelessWidget {
       builder: (context, hidden, child) {
         return CustomTextForm(
           prefixIcon: IconButton(
-            icon: Icon(hidden ? Icons.visibility_off : Icons.visibility),
+            icon: Icon(hidden ? Icons.visibility_off : Icons.visibility,color: AppColors.primary,),
             onPressed: () {
               isPasswordHidden.value = !hidden;
             },

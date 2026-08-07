@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
@@ -33,16 +34,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return SafeArea(
       child: Drawer(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // 🔹 Header
             Container(
               padding: const EdgeInsets.all(20),
-              color: Theme.of(context).primaryColor,
+              color: AppColors.primary, // Use the primary color from AppColors
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                 Image.asset(AppImage.logo,height: 100,),
+                 Image.asset(AppImage.logo,height: 100,color: Colors.white,),
                  SizedBox(height: 12),
                   Align(
                     alignment: AlignmentGeometry.bottomCenter,
@@ -123,6 +124,7 @@ const SizedBox(height: 4),
     child: CustomElevatedButton(
 backgroundColor: Colors.red,
       text: 'تسجيل الخروج',
+      icon: Icon(Icons.logout, color: Colors.white),
       onPressed: () {
         Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
       },
@@ -171,10 +173,25 @@ class _DrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 20.sp, fontFamily: 'Amiri',)),
-      onTap: onTap,
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+
+      child: ListTile(
+
+        contentPadding: EdgeInsets.all(0),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon,color: Colors.white,),),
+        ),
+        title: Text(title, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 20.sp, fontFamily: 'Amiri',)),
+        onTap: onTap,
+      ),
     );
   }
 }

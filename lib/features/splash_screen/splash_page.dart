@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/constant/shared_preferences_key.dart';
 import 'package:icd_teacher/core/helper/shaerd_pref_helper.dart';
@@ -73,6 +74,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: _controller.value.isInitialized
           ? SafeArea(
               child: Padding(

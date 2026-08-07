@@ -18,82 +18,109 @@ class ChooseTermsPage extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Column(
-            
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 130.h,width: double.infinity,),
-              Image.asset(AppImage.logo2, width: 200.w, height: 200.h),
-              SizedBox(height: 16.h),
-              Text('بوابتك إلى تعلم التكنولوجيا وصناعة المستقبل...\nنتمني لك رحلة تعليمية ممتعة ومثمرة.', style: theme.titleLarge!.copyWith( fontWeight: FontWeight.bold,fontFamily: 'Amiri',height: 1.7.h), textAlign: TextAlign.center),
-              SizedBox(height: 32.h),
-          
-              BlocListener<UserDataCubit, UserDataState>(
-                listener: (context, state) {
-                  if (state is UserDataSuccess) {
-                    context.read<TermsCubit>().getTram();
-                  }
-                },
-                child: BlocBuilder<TermsCubit, TermsState>(
-                  builder: (context, state) {
-                    if (state is TermsLoading) {
-                      return SizedBox(
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      );
-                    } else if (state is TermsError) {
-                      return _buildErrorWidget(
-                        context: context,
-                        errorMessage: state.errMessage,
-                      );
-                    } else if (state is TermsSuccess) {
-                      // Filter active terms and restrict to the logged-in user's grade when available
-                      final userState = context.watch<UserDataCubit>().state;
-                      List<TermModel> activeTerms = state.data
-                          .where((term) => term.isActive)
-                          .toList();
-          
-                      if (userState is UserDataSuccess) {
-                        activeTerms = activeTerms
-                            .where(
-                              (term) =>
-                                  term.gradeName ==
-                                  userState.response.gradeName,
-                            )
-                            .toList();
+        backgroundColor:  AppColors.white,
+        body: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              child: SvgPicture.asset(AppImage.ellipse),
+            ),
+        
+            /// الصورة اليمين
+            Positioned(
+              top: 200.h,
+              right: 0,
+              child: SvgPicture.asset(AppImage.ellipse2),
+            ),
+            Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 130.h, width: double.infinity),
+                  Image.asset(AppImage.logo2, width: 200.w, height: 200.h),
+                  SizedBox(height: 16.h),
+                  Text(
+                    'بوابتك إلى تعلم التكنولوجيا والمعلومات وصناعة المستقبل...\nنتمني لك رحلة تعليمية ممتعة ومثمرة.',
+                    style: theme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Amiri',
+                      height: 1.7.h,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 32.h),
+              
+                  BlocListener<UserDataCubit, UserDataState>(
+                    listener: (context, state) {
+                      if (state is UserDataSuccess) {
+                        context.read<TermsCubit>().getTram();
                       }
-          
-                      if (activeTerms.isEmpty) {
-                        return _buildEmptyTermsWidget(context);
-                      }
-          
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: activeTerms.length,
-                        itemBuilder: (context, index) {
-                          final term = activeTerms[index];
-                          return _buildTermCard(
-                            context: context,
-                            term: term,
-                            index: index,
-                            totalTerms: activeTerms.length,
+                    },
+                    child: BlocBuilder<TermsCubit, TermsState>(
+                      builder: (context, state) {
+                        if (state is TermsLoading) {
+                          return SizedBox(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primary,
+                              ),
+                            ),
                           );
-                        },
-                      );
-                    }
-          
-                    return SizedBox.shrink();
-                  },
-                ),
+                        } else if (state is TermsError) {
+                          return _buildErrorWidget(
+                            context: context,
+                            errorMessage: state.errMessage,
+                          );
+                        } else if (state is TermsSuccess) {
+                          // Filter active terms and restrict to the logged-in user's grade when available
+                          final userState = context
+                              .watch<UserDataCubit>()
+                              .state;
+                          List<TermModel> activeTerms = state.data
+                              .where((term) => term.isActive)
+                              .toList();
+              
+                          if (userState is UserDataSuccess) {
+                            activeTerms = activeTerms
+                                .where(
+                                  (term) =>
+                                      term.gradeName ==
+                                      userState.response.gradeName,
+                                )
+                                .toList();
+                          }
+              
+                          if (activeTerms.isEmpty) {
+                            return _buildEmptyTermsWidget(context);
+                          }
+              
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: activeTerms.length,
+                            itemBuilder: (context, index) {
+                              final term = activeTerms[index];
+                              return _buildTermCard(
+                                context: context,
+                                term: term,
+                                index: index,
+                                totalTerms: activeTerms.length,
+                              );
+                            },
+                          );
+                        }
+              
+                        return SizedBox.shrink();
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -105,15 +132,15 @@ class ChooseTermsPage extends StatelessWidget {
     required int index,
     required int totalTerms,
   }) {
-    final colors = [
-      Color(0xFF4CAF50), // Green
-      Color(0xFF2196F3), // Blue
-      Color(0xFFFF9800), // Orange
-      Color(0xFF9C27B0), // Purple
-      Color(0xFFF44336), // Red
-    ];
+    // final colors = [
+    //   Color(0xFF2196F3), // Blue
+    //   Color(0xFFF5F5F5), // Green
+    //   Color(0xFFFF9800), // Orange
+    //   Color(0xFF9C27B0), // Purple
+    //   Color(0xFFF44336), // Red
+    // ];
 
-    final cardColor = colors[index % colors.length];
+    // final cardColor = colors[index % colors.length];
 
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
@@ -131,18 +158,15 @@ class ChooseTermsPage extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [cardColor.withOpacity(0.8), cardColor],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: cardColor.withOpacity(0.3),
-                blurRadius: 12.r,
-                offset: Offset(0, 6.h),
-              ),
-            ],
+           shape: BoxShape.rectangle,
+            color: AppColors.white,
+       
+          boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black.withOpacity(0.1),
+                        blurRadius: 6.r,
+                      ),
+                    ],
           ),
           child: Padding(
             padding: EdgeInsets.all(20.w),
@@ -154,7 +178,8 @@ class ChooseTermsPage extends StatelessWidget {
                   height: 60.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.2),
+                    color: AppColors.primary,
+                    
                   ),
                   child: Center(
                     child: Icon(
@@ -175,7 +200,7 @@ class ChooseTermsPage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -185,7 +210,7 @@ class ChooseTermsPage extends StatelessWidget {
                         'الصف: ${term.gradeName}',
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.black,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -194,10 +219,14 @@ class ChooseTermsPage extends StatelessWidget {
                   ),
                 ),
                 // Arrow Icon
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white.withOpacity(0.7),
-                  size: 20.sp,
+                CircleAvatar(
+                  radius: 20.r,
+                  backgroundColor: AppColors.primary,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 20.sp,
+                  ),
                 ),
               ],
             ),
@@ -234,7 +263,7 @@ class ChooseTermsPage extends StatelessWidget {
               child: Icon(
                 Icons.school_rounded,
                 size: 40.sp,
-                color: AppColors.primary.withOpacity(0.5),
+                color: AppColors.primary.withOpacity(0.1),
               ),
             ),
             SizedBox(height: 10.h),
@@ -364,7 +393,11 @@ class CustomTermsWidget extends StatelessWidget {
                 ).textTheme.titleLarge!.copyWith(color: AppColors.primary),
               ),
               Spacer(),
-              Icon(Icons.arrow_forward_ios, size: 16.sp, color: AppColors.primary),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16.sp,
+                color: AppColors.primary,
+              ),
             ],
           ),
         ),

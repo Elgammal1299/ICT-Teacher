@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportPage extends StatelessWidget {
@@ -23,7 +24,10 @@ class SupportPage extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         title: const Text(
           'الدعم والتواصل',
           style: TextStyle(fontFamily: 'Amiri'),
@@ -89,7 +93,7 @@ class SupportPage extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.check_circle_rounded,
-                              color: Colors.green,
+                              color: AppColors.primary,
                               size: 20.r,
                             ),
                             SizedBox(width: 10.w),
@@ -194,7 +198,7 @@ class SupportPage extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(18.w),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(.08),
+                color: AppColors.primary.withOpacity(.08),
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
@@ -240,13 +244,14 @@ class _SectionCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: Theme.of(context).primaryColor),
+              Icon(icon, color: AppColors.primary),
               SizedBox(width: 10.w),
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Amiri',
+                  fontSize: 18.sp,
                 ),
               ),
             ],
@@ -274,10 +279,15 @@ class _ContactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: EdgeInsets.only(bottom: 10.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: Colors.black12),
+      ),
       child: ListTile(
-        leading: Icon(icon, color: Theme.of(context).primaryColor),
+        leading: Icon(icon, color: AppColors.primary),
         title: Text(title),
         subtitle: Text(
           value,
@@ -286,7 +296,14 @@ class _ContactTile extends StatelessWidget {
             fontSize: 18.sp,
           ),
         ),
-        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+        trailing: Container(
+          padding: EdgeInsets.all(6.w),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withOpacity(.1),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          
+          child: const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: AppColors.primary)),
         onTap: onTap,
       ),
     );

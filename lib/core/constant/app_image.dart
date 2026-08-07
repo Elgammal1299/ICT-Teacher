@@ -17,6 +17,7 @@ class AppImage {
   static const snapIcon = 'assets/images/snapIcon.svg';
   static const deoIcon = 'assets/images/12.png';
   static const book = 'assets/images/book.svg';
+  static const book2 = 'assets/images/book2.png';
   static const confusion = 'assets/images/confusion.svg';
   static const backIcon = 'assets/images/backIcon.svg';
   static const noItem = 'assets/images/no_item.png';
@@ -29,4 +30,6 @@ class AppImage {
   static const ahmed = 'assets/images/ahmed.png';
   static const ahmedSaif = 'assets/images/ahmed_saif.png';
   static const saif = 'assets/images/saif.png';
+  static const ellipse = 'assets/images/Ellipse.svg';
+  static const ellipse2 = 'assets/images/Ellipse2.svg';
 }

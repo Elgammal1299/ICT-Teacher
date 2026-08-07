@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
@@ -26,8 +27,10 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        
+        backgroundColor: AppColors.primary, 
+       foregroundColor: Colors.white,
         title: Text(widget.quizModel.title, style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
       body: BlocListener<AnswersSubmitCubit, AnswersSubmitState>(
         listener: (context, state) {
@@ -63,14 +66,29 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 30.h),
 
                     /// السؤال
-                    Text(
-                      (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall!.copyWith(color: Colors.black),
+                    Container(
+                      padding: EdgeInsets.all(16.0.w),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0.r),
+                        border: Border.all(color: Colors.black12),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black12,
+                        //     blurRadius: 4.0.r,
+                        //     offset: Offset(0, 2.h),
+                        //   ),
+                        // ],
+                      ),
+                      child: Text(
+                        (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall!.copyWith(color: Colors.black),
+                      ),
                     ),
                     SizedBox(height: 20.h),
 
@@ -104,7 +122,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                     child: Row(
                                       children: [
                                         Icon(
-                                          Icons.circle,
+                                          Icons.circle_outlined,
                                           size: 20.r,
                                           color: answerChosen == index
                                               ? Colors.white
@@ -143,8 +161,8 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                     /// زر Next / Finish
                     CustomElevatedButton(
                       text: questionIndex + 1 < questions.length
-                          ? 'Next'
-                          : 'Finish',
+                          ? 'التالى'
+                          : 'انتهاء',
                       onPressed: () {
                         if (answerChosen == -1) return;
 
