@@ -13,10 +13,9 @@ class AccountsStudentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
+       
         centerTitle: true,
-        title:  Text("Accounts",style: TextStyle(fontFamily: 'Amiri')),),
+        title:  Text("Accounts",style: TextStyle(fontFamily: 'IBMPlexSansArabic')),),
      
       body: BlocBuilder<AccountsCubit, AccountsState>(
         builder: (context, state) {
@@ -88,7 +87,7 @@ class StudentsPage extends StatelessWidget {
         backgroundColor: AppColors.primary, 
        foregroundColor: Colors.white,
         centerTitle: true,
-        title: const Text("Students",style: TextStyle(fontFamily: 'Amiri'))),
+        title: const Text("Students",style: TextStyle(fontFamily: 'IBMPlexSansArabic'))),
       body: students.isEmpty
           ? Center(child: Text("لا يوجد طلاب"))
           : ListView.builder(

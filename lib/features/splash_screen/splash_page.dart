@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icd_teacher/core/constant/app_color.dart';
-import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/constant/shared_preferences_key.dart';
 import 'package:icd_teacher/core/helper/shaerd_pref_helper.dart';
 import 'package:icd_teacher/core/helper/user_session.dart';
@@ -74,11 +72,10 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: _controller.value.isInitialized
           ? SafeArea(
               child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -89,12 +86,13 @@ class _SplashPageState extends State<SplashPage> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                      
+                        color: Theme.of(context).cardColor
                       ),
                       child: ClipRRect(
+                        
                         borderRadius: BorderRadius.circular(24),
                         child: AspectRatio(
-                        
+                          
                           aspectRatio: _controller.value.aspectRatio,
                           child: VideoPlayer(_controller),
                         ),
@@ -105,22 +103,13 @@ class _SplashPageState extends State<SplashPage> {
                     Text(
                       "أهلاً وسهلاً بكم\nتعلم التكنولوجيا... واصنع مستقبلك",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Amiri',
-                        color: Colors.black87,
-                        height: 1.4,
-                      ),
+                      style:Theme.of(context).textTheme.titleLarge
                     ),
-                
-                
-                    
                   ],
                 ),
               ),
             )
-          : const ColoredBox(color: Colors.white, child: SizedBox.expand()),
+          :  ColoredBox(color: Theme.of(context).cardColor, child: SizedBox.expand()),
     );
   }
 }

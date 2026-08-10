@@ -397,6 +397,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: prefixIcon,
+            fillColor: Theme.of(context).cardColor,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
           items: items

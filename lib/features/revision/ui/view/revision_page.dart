@@ -31,17 +31,12 @@ class _LessonPageState extends State<RevisionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+      
         title: Text(
           widget.lessonsModel.title,
-          style: const TextStyle(fontFamily: 'Amiri'),
         ),
 
-        elevation: 0,
-        centerTitle: true,
       ),
       body: BlocBuilder<GetContentByIdCubit, GetContentByIdState>(
         builder: (context, state) {
@@ -73,7 +68,7 @@ class _LessonPageState extends State<RevisionPage> {
                     child: _ytController == null
                         ? Container(
                             height: 200,
-                            color: Colors.grey[200],
+                            color:  Theme.of(context).hintColor,
                             child: const Center(
                               child: Text("رابط الفيديو غير صالح"),
                             ),

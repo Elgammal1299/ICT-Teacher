@@ -63,6 +63,7 @@ class _QuizPageState extends State<QuizPage> {
               centerTitle: true, ),
             body: CustomNoItem(
                 title: 'لا يوجد اختبارات حتي الان ',
+              
               ),
           );
         }
@@ -71,25 +72,23 @@ class _QuizPageState extends State<QuizPage> {
         final choices = currentQuestion.choices ?? [];
 
         return Scaffold(
+
           appBar: AppBar(
-            backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
             centerTitle: true,
-            title: Text(widget.quiz.title ?? 'Quiz',style: TextStyle(fontFamily: 'Amiri')),),
+            title: Text(widget.quiz.title ?? 'Quiz'),),
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(16.0.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 30.h),
 
                   // السؤال
                   Text(
                     (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineSmall!.copyWith(color: Colors.black),
+                    ).textTheme.headlineSmall!.copyWith(color: Colors.black,fontFamily: 'IBMPlexSansArabic',height: 1.5),
                   ),
                   SizedBox(height: 20.h),
 
@@ -118,7 +117,7 @@ class _QuizPageState extends State<QuizPage> {
                               child: Row(
                                 children: [
                                   Icon(
-                                    Icons.circle,
+                                    Icons.circle_outlined,
                                     size: 20.r,
                                     color: answerChosen == index
                                         ? Colors.white
@@ -126,7 +125,7 @@ class _QuizPageState extends State<QuizPage> {
                                   ),
                                   SizedBox(width: 16.0.w),
                                   Text(
-                                    choice.body ?? '',
+                                    (choice.body ?? '').replaceAll(r'$', '\n'),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium!
@@ -150,8 +149,8 @@ class _QuizPageState extends State<QuizPage> {
                   // زر Next / Finish
                   CustomElevatedButton(
                     text: questionIndex + 1 < questions.length
-                        ? 'Next'
-                        : 'Finish',
+                        ? 'التالى'
+                        : 'انهاء',
                     onPressed: () {
                       if (answerChosen == -1) return;
 

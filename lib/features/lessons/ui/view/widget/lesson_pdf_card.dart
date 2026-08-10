@@ -22,18 +22,12 @@ class LessonPdfCard extends StatelessWidget {
           children: [
             Text(
               'ملخص الدرس',
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Amiri',
-              ),
+              style:Theme.of(context).textTheme.titleLarge
             ),
             SizedBox(height: 10.h),
             Text(
               'يمكنك مراجهة أهم النقاط قبل الاختبار',
-              style: TextStyle(
-                fontFamily: 'Amiri',
-              ),
+              style:Theme.of(context).textTheme.titleSmall
             ),
             SizedBox(height: 10.h),
             Container(
@@ -72,25 +66,19 @@ class LessonPdfCard extends StatelessWidget {
                       children: [
                         Text(
                           "الملخص الكامل للدرس",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
                         ),
                         SizedBox(height: 4.h),
                         Text(
                           "اضغط للمشاهدة",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.grey,
-                          ),
+                          style: Theme.of(context).textTheme.titleSmall
                         ),
                       ],
                     ),
                   ),
-                  const Icon(
+                   Icon(
                     Icons.arrow_forward_ios,
-                    color: Colors.indigo,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ],
               ),

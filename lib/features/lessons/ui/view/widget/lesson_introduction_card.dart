@@ -14,9 +14,9 @@ class LessonIntroductionCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         border: Border.all(
-          color: Colors.grey.withOpacity(.3),
+          color: Theme.of(context).hintColor,
         ),
         borderRadius: BorderRadius.circular(15.r),
       ),
@@ -25,21 +25,16 @@ class LessonIntroductionCard extends StatelessWidget {
         children: [
           Text(
             "مقدمة الدرس",
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Amiri',
-            ),
+            style: Theme.of(context).textTheme.titleLarge
           ),
 
-          SizedBox(height: 5.h),
 
           Text(
             "نبذة سريعة عن الدرس",
             style: TextStyle(
               fontSize: 16.sp,
               color: Colors.grey,
-              fontFamily: 'Amiri',
+              fontFamily: 'IBMPlexSansArabic',
             ),
           ),
 
@@ -47,11 +42,7 @@ class LessonIntroductionCard extends StatelessWidget {
 
           Text(
             introduction,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              height: 1.5,
-            ),
+            style: Theme.of(context).textTheme.titleMedium
           ),
         ],
       ),

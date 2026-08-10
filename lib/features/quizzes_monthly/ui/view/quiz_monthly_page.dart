@@ -12,15 +12,10 @@ class QuizMonthlyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
         title: const Text(
           'الاختبارات الشهرية',
-          style: TextStyle(fontFamily: 'Amiri'),
         ),
-        centerTitle: true,
       ),
       body: BlocBuilder<QuizzesMonthyCubit, QuizzesMonthyState>(
         builder: (context, state) {

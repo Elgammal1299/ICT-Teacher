@@ -21,4 +21,6 @@ class AppRoutes {
   static const aboutPlatformPageRoute = '/AboutPlatformPage';
   static const supportPageRoute = '/SupportPage';
   static const accountsStudentsPageRoute = '/AccountsStudentsPage';
+  static const profilePageRoute = '/ProfilePage';
 }
+

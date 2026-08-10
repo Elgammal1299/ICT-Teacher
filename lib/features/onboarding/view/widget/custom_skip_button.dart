@@ -16,7 +16,9 @@ class CustomSkipButton extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             'Skip',
-            style: TextStyle(color: Colors.grey[600], fontSize: 16.sp),
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              fontSize: 18
+            ),
           ),
         ),
       ),

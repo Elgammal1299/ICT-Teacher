@@ -18,12 +18,8 @@ class CustomSwitchAuthMode extends StatelessWidget {
       children: [
         Text(
           'هل لديك حساب بالفعل؟',
-          style: TextStyle(
-            fontSize: 20.sp,
-            color: AppColors.black,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Amiri'
-          ),
+          style:                 Theme.of(context).textTheme.titleLarge,
+
         ),
         TextButton(
           onPressed: () {
@@ -31,11 +27,8 @@ class CustomSwitchAuthMode extends StatelessWidget {
           },
           child: Text(
             title,
-            style: TextStyle(
-              fontSize: 20.sp,
-              color: AppColors.primary,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Amiri'
+            style:  Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: AppColors.primary
             ),
           ),
         ),

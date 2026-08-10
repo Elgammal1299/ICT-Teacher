@@ -3,4 +3,5 @@ class SharedPreferencesKeys {
   static const String refreshToken = 'refresh_token';
   static const String fcmToken = 'fcm_token';
   static const String onboarding = 'onboarding_completed';
+  static const String cachedUserData = 'cached_user_data';
 }

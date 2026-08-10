@@ -18,6 +18,7 @@ import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_platform_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/about_us_page.dart';
+import 'package:icd_teacher/features/prefile/ui/view/profile_screen.dart';
 import 'package:icd_teacher/features/prefile/ui/view/shipping_and_return_policy_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/support_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/terms_and_conditions_page.dart';
@@ -225,6 +226,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<AccountsCubit>()..getAccounts(),
             child: AccountsStudentsPage(),
+          ),
+        );
+      case AppRoutes.profilePageRoute:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<UserDataCubit>()..userData(),
+            child: const ProfilePage(),
           ),
         );
       default:

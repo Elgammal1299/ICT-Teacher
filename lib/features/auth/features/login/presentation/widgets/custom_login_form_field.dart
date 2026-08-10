@@ -85,7 +85,6 @@ mainAxisAlignment: MainAxisAlignment.center,
               return CustomElevatedButton(
                 text: 'تسجيل الدخول',
                 borderColor: AppColors.primary,
-                textStyle: TextStyle(color: AppColors.white, fontSize: 20,fontFamily: 'Amiri'),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     context.read<LoginCubit>().login(

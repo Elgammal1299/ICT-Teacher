@@ -16,6 +16,7 @@ import 'package:icd_teacher/features/auth/features/login/presentation/view_model
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/regions_cubit/regions_cubit.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/view_model/register_cubit/register_cubit.dart';
 import 'package:icd_teacher/features/home/data/local/content_local_data_source.dart';
+import 'package:icd_teacher/features/home/data/local/user_local_data_source.dart';
 import 'package:icd_teacher/features/home/data/repositories/term_repo.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/terms_cubit/terms_cubit.dart';
 import 'package:icd_teacher/features/lessons/data/local/lessons_local_data_source.dart';
@@ -53,6 +54,9 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<ContentLocalDataSource>(
     () => ContentLocalDataSource(getIt<SharedPreferences>()),
   );
+  getIt.registerLazySingleton<UserLocalDataSource>(
+    () => UserLocalDataSource(getIt<SharedPreferences>()),
+  );
   getIt.registerLazySingleton<LessonsLocalDataSource>(
     () => LessonsLocalDataSource(getIt<SharedPreferences>()),
   );
@@ -76,7 +80,9 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt<LoginRepo>()));
   //==============================
   // ✅ Register UserDataRepo
-  getIt.registerLazySingleton<UserRepo>(() => UserRepo(getIt<ApiService>()));
+  getIt.registerLazySingleton<UserRepo>(
+    () => UserRepo(getIt<ApiService>(), getIt<UserLocalDataSource>()),
+  );
   // ✅ Register UserDataCubit
   getIt.registerFactory<UserDataCubit>(() => UserDataCubit(getIt<UserRepo>()));
   //=========================

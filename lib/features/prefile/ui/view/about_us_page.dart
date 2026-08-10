@@ -8,12 +8,9 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
-        title: const Text('من نحن', style: TextStyle(fontFamily: 'Amiri')),
-        centerTitle: true,
+   
+        title: const Text('من نحن',),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.w),
@@ -22,10 +19,7 @@ class AboutUsPage extends StatelessWidget {
           children: [
             Text(
               'يقف خلف ICT Gate فريق تعليمي يجمع بين الخبرة الأكاديمية والرؤية الحديثة في تعليم التكنولوجيا.',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontFamily: 'Amiri',
-                    fontSize: 20.sp,
-                  ),
+              style: Theme.of(context).textTheme.titleMedium
             ),
 
             SizedBox(height: 16.h),
@@ -67,10 +61,10 @@ class AboutUsPage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'يجمع هذا التعاون بين الخبرة التربوية الطويلة والأساليب التعليمية الحديثة لتقديم تجربة تعليمية موثوقة ومتميزة لجميع الطلاب.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'Amiri',
-                              fontSize: 18.sp,
-                            ),
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontSize: 14.sp,
+                          color: AppColors.textTertiary
+                        )
                       ),
                     ),
                   ],
@@ -100,7 +94,7 @@ class _PersonCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
@@ -115,27 +109,17 @@ class _PersonCard extends StatelessWidget {
         children: [
           Text(
             name,
-            style:  TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.sp,
-              fontFamily: 'Amiri',
-            ),
+            style:  Theme.of(context).textTheme.titleLarge
           ),
           const SizedBox(height: 4),
           Text(
             title,
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 18.sp,
-              fontFamily: 'Amiri',
-            ),
+            style:Theme.of(context).textTheme.titleSmall
           ),
           const SizedBox(height: 10),
           Text(
             description,
-            style: TextStyle(
-              fontSize: 18.sp,
-            ),
+            style:Theme.of(context).textTheme.titleMedium
           ),
         ],
       ),

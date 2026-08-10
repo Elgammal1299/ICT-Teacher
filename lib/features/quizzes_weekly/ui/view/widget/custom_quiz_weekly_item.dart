@@ -28,7 +28,7 @@ class CustomQuizWeeklyItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
           decoration: BoxDecoration(
-            color: Color(0xffffffff),
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
@@ -42,12 +42,12 @@ class CustomQuizWeeklyItem extends StatelessWidget {
             ),
             title: Text(
               quizModel.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             trailing: Container(
               padding: EdgeInsets.all(6.w),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(.1),
+                color: AppColors.primarySurface,
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: const Icon(Icons.arrow_forward_ios_rounded),

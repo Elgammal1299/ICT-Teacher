@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 
 class AppTheme {
@@ -19,32 +18,21 @@ class AppTheme {
     cardColor: AppColors.cardBackground,
     dividerColor: AppColors.divider,
     fontFamily: 'Cairo',
-    secondaryHeaderColor: AppColors.secondary,
+    secondaryHeaderColor: AppColors.secondarySuccess,
     hintColor: AppColors.textTertiary,
     primaryColorDark: AppColors.primaryDark,
-    splashColor: AppColors.primaryLight.withValues(alpha: 0.1),
-    highlightColor: AppColors.primaryLight.withValues(alpha: 0.05),
+    // splashColor: AppColors.primaryLight.withValues(alpha: 0.1),
+    // highlightColor: AppColors.primaryLight.withValues(alpha: 0.05),
     useMaterial3: true,
 
     // AppBar Theme - Modern elevated design
     appBarTheme: AppBarTheme(
-       backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
+      backgroundColor: AppColors.primary,
+      foregroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: AppColors.shadowLight,
-      systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-      titleTextStyle: TextStyle(
-        fontFamily: 'Cairo',
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: AppColors.textPrimary,
-      ),
-      iconTheme: IconThemeData(color: AppColors.textPrimary),
+      titleTextStyle: TextStyle(fontFamily: 'IBMPlexSansArabic', fontSize: 20),
+      iconTheme: IconThemeData(color: AppColors.backgroundSecondary),
     ),
 
     // Card Theme - Clean with subtle shadow
@@ -52,9 +40,7 @@ class AppTheme {
       color: AppColors.cardBackground,
       elevation: 2,
       shadowColor: AppColors.shadowLight,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
     ),
     // Slider Theme - Modern interactive design
@@ -111,9 +97,7 @@ class AppTheme {
         elevation: 2,
         shadowColor: AppColors.shadowMedium,
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: TextStyle(
           fontFamily: 'Cairo',
           fontSize: 16,
@@ -141,9 +125,7 @@ class AppTheme {
         foregroundColor: AppColors.primary,
         side: BorderSide(color: AppColors.primary, width: 1.5),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: TextStyle(
           fontFamily: 'Cairo',
           fontSize: 16,
@@ -207,6 +189,7 @@ class AppTheme {
         fontFamily: 'Cairo',
         fontSize: 16,
         fontWeight: FontWeight.w600,
+        height: 1.5,
         color: AppColors.textPrimary,
       ),
       titleSmall: TextStyle(
@@ -218,19 +201,19 @@ class AppTheme {
 
       // Body styles - For regular content
       bodyLarge: TextStyle(
-        fontFamily: 'Cairo',
+        fontFamily: 'IBMPlexSansArabic',
         fontSize: 16,
         color: AppColors.textPrimary,
         height: 1.5,
       ),
       bodyMedium: TextStyle(
-        fontFamily: 'Cairo',
+        fontFamily: 'IBMPlexSansArabic',
         fontSize: 14,
         color: AppColors.textPrimary,
         height: 1.5,
       ),
       bodySmall: TextStyle(
-        fontFamily: 'Cairo',
+        fontFamily: 'IBMPlexSansArabic',
         fontSize: 12,
         color: AppColors.textSecondary,
         height: 1.4,
@@ -238,19 +221,19 @@ class AppTheme {
 
       // Label styles - For buttons, tabs
       labelLarge: TextStyle(
-        fontFamily: 'Cairo',
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
+        fontFamily: 'IBMPlexSansArabic',
         color: AppColors.textPrimary,
+        // fontFamily: 'Montserrat',
+        fontWeight: FontWeight.bold,
       ),
       labelMedium: TextStyle(
-        fontFamily: 'Cairo',
+        fontFamily: 'IBMPlexSansArabic',
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
       ),
       labelSmall: TextStyle(
-        fontFamily: 'Cairo',
+        fontFamily: 'IBMPlexSansArabic',
         fontSize: 12,
         fontWeight: FontWeight.w500,
         color: AppColors.textSecondary,
@@ -258,47 +241,21 @@ class AppTheme {
     ),
 
     // Icon Theme - Consistent sizing
-    iconTheme: IconThemeData(
-      color: AppColors.textPrimary,
-      size: 24,
-    ),
+    iconTheme: IconThemeData(color: AppColors.textPrimary, size: 24),
 
     // Bottom Navigation Bar Theme - Modern and clean
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      elevation: 8,
-      backgroundColor: AppColors.cardBackground,
-      selectedItemColor: AppColors.primary,
-      unselectedItemColor: AppColors.textSecondary,
-      selectedIconTheme: IconThemeData(color: AppColors.primary, size: 26),
-      unselectedIconTheme: IconThemeData(color: AppColors.textSecondary, size: 24),
-      selectedLabelStyle: TextStyle(
-        fontFamily: 'Cairo',
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-      ),
-      unselectedLabelStyle: TextStyle(
-        fontFamily: 'Cairo',
-        fontSize: 11,
-        fontWeight: FontWeight.w500,
-      ),
-      type: BottomNavigationBarType.fixed,
-      showSelectedLabels: true,
-      showUnselectedLabels: true,
-    ),
 
     // Floating Action Button Theme
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: AppColors.primary,
       foregroundColor: AppColors.textOnPrimary,
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
 
     // Chip Theme
     chipTheme: ChipThemeData(
-      backgroundColor: AppColors.primarySurface,
+      // backgroundColor: AppColors.primarySurface,
       selectedColor: AppColors.primary,
       labelStyle: TextStyle(
         fontFamily: 'Cairo',
@@ -306,9 +263,7 @@ class AppTheme {
         color: AppColors.textPrimary,
       ),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
 
     // Dialog Theme
@@ -316,9 +271,7 @@ class AppTheme {
       backgroundColor: AppColors.cardBackground,
       elevation: 8,
       shadowColor: AppColors.shadowMedium,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       titleTextStyle: TextStyle(
         fontFamily: 'Cairo',
         fontSize: 20,
@@ -341,78 +294,39 @@ class AppTheme {
         fontSize: 14,
         color: AppColors.white,
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       behavior: SnackBarBehavior.floating,
     ),
 
     // Color Scheme - Modern educational palette
-    colorScheme: ColorScheme.light(
-      // Primary colors
-      primary: AppColors.primary,
-      onPrimary: AppColors.textOnPrimary,
-      primaryContainer: AppColors.primarySurface,
-      onPrimaryContainer: AppColors.primaryDark,
-
-      // Secondary colors
-      secondary: AppColors.secondary,
-      onSecondary: AppColors.textOnPrimary,
-      secondaryContainer: AppColors.secondarySurface,
-      onSecondaryContainer: AppColors.secondaryDark,
-
-      // Tertiary/Accent colors
-      tertiary: AppColors.accent,
-      onTertiary: AppColors.textOnPrimary,
-      tertiaryContainer: AppColors.accentSurface,
-      onTertiaryContainer: AppColors.accentDark,
-
-      // Error colors
-      error: AppColors.error,
-      onError: AppColors.textOnPrimary,
-      errorContainer: AppColors.errorBg,
-      onErrorContainer: AppColors.errorDark,
-
-      // Background colors
-      surface: AppColors.cardBackground,
-      onSurface: AppColors.textPrimary,
-      surfaceContainerHighest: AppColors.background,
-      onSurfaceVariant: AppColors.textSecondary,
-
-      // Outline
-      outline: AppColors.border,
-      outlineVariant: AppColors.borderLight,
-
-      // Shadow
-      shadow: AppColors.shadowMedium,
-      scrim: Colors.black.withValues(alpha: 0.5),
-    ),
   );
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.darkBackground,
-    primaryColor: AppColors.darkPrimary,
+    primaryColor: AppColors.primaryDark,
     cardColor: AppColors.darkCardBackground,
     dividerColor: AppColors.darkDivider,
     fontFamily: 'Cairo',
 
-    secondaryHeaderColor: AppColors.secondary,
-    hintColor: AppColors.black,
-    // canvasColor: AppColors.primary2,
-    primaryColorDark: AppColors.white,
+    secondaryHeaderColor: AppColors.secondarySuccess,
+    hintColor: AppColors.textTertiaryDark,
+    primaryColorDark: AppColors.primaryDark,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
+      backgroundColor: AppColors.primaryDark,
+      foregroundColor: Colors.black,
       elevation: 0,
-       centerTitle: true,
-       titleTextStyle: TextStyle(
-        fontFamily: 'Amiri',
-     
-    ),),
+      centerTitle: true,
+      titleTextStyle: TextStyle(
+        fontFamily: 'IBMPlexSansArabic',
+        fontSize: 20,
+        color: AppColors.black,
+      ),
+      iconTheme: IconThemeData(color: AppColors.black),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.secondary,
+      fillColor: AppColors.secondarySuccess,
       floatingLabelStyle: const TextStyle(color: AppColors.black),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       labelStyle: const TextStyle(color: AppColors.primary),
@@ -440,9 +354,24 @@ class AppTheme {
     ),
 
     textTheme: TextTheme(
-      bodyLarge: TextStyle(color: AppColors.darkTextPrimary, fontSize: 16),
-      bodyMedium: TextStyle(color: AppColors.darkTextSecondary, fontSize: 14),
-      bodySmall: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+      bodyLarge: TextStyle(
+        color: AppColors.darkTextPrimary,
+        fontSize: 16,
+        fontFamily: 'IBMPlexSansArabic',
+        height: 1.5,
+      ),
+      bodyMedium: TextStyle(
+        color: AppColors.darkTextSecondary,
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansArabic',
+        height: 1.5,
+      ),
+      bodySmall: TextStyle(
+        color: AppColors.textSecondary,
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansArabic',
+        height: 1.5,
+      ),
       titleMedium: TextStyle(
         color: AppColors.white,
         fontWeight: FontWeight.bold,
@@ -454,7 +383,7 @@ class AppTheme {
         fontSize: 18,
       ),
       labelLarge: TextStyle(
-        fontFamily: "arsura",
+        fontFamily: "IBMPlexSansArabic",
         fontWeight: FontWeight.bold,
         fontSize: 30,
         color: AppColors.white,
@@ -462,29 +391,5 @@ class AppTheme {
     ),
 
     iconTheme: const IconThemeData(color: AppColors.accent),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      elevation: 0,
-      backgroundColor: AppColors.secondary,
-      selectedItemColor: AppColors.primary,
-      unselectedItemColor: AppColors.black,
-      selectedIconTheme: IconThemeData(color: AppColors.white, size: 24),
-      unselectedIconTheme: IconThemeData(color: AppColors.black, size: 24),
-      selectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-      unselectedLabelStyle: TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-
-    colorScheme: const ColorScheme.dark(
-      primary: AppColors.darkPrimary,
-      secondary: AppColors.accent,
-      surface: AppColors.darkCardBackground,
-      onPrimary: Colors.white,
-      onSecondary: Colors.black,
-      onSurface: AppColors.darkTextPrimary,
-      error: AppColors.error,
-      onError: Colors.white,
-    ),
   );
 }

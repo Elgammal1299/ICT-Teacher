@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_inappwebview_windows
+  flutter_js
   flutter_secure_storage_windows
   no_screenshot
   share_plus

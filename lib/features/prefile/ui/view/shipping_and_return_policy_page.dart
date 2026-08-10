@@ -11,7 +11,7 @@ class ShippingAndReturnPolicyPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.primary, 
        foregroundColor: Colors.white,
-        title: Text('سياسة الخصوصية', style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
+        title: Text('سياسة الخصوصية', style: TextStyle(fontFamily: 'IBMPlexSansArabic')), centerTitle: true),
       body: Column(children: []),
     );
   }

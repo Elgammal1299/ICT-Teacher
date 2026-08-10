@@ -11,7 +11,7 @@ class TermsAndConditionsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.primary, 
        foregroundColor: Colors.white,
-        title: Text('الشروط والاحكام', style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
+        title: Text('الشروط والاحكام', style: TextStyle(fontFamily: 'IBMPlexSansArabic')), centerTitle: true),
       body: Column(children: []),
     );
   }

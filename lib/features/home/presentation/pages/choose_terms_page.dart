@@ -16,22 +16,24 @@ class ChooseTermsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor:  AppColors.white,
         body: Stack(
           children: [
             Positioned(
               top: 0,
               left: 0,
-              child: SvgPicture.asset(AppImage.ellipse),
+              child:isDark ? SvgPicture.asset(AppImage.ellipse,color: AppColors.black.withOpacity(0.5),):SvgPicture.asset(AppImage.ellipse),
             ),
         
             /// الصورة اليمين
             Positioned(
               top: 200.h,
               right: 0,
-              child: SvgPicture.asset(AppImage.ellipse2),
+              child:isDark ? SvgPicture.asset(AppImage.ellipse2,color: AppColors.black.withOpacity(0.5),):SvgPicture.asset(AppImage.ellipse2),
+              
             ),
             Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -43,12 +45,8 @@ class ChooseTermsPage extends StatelessWidget {
                   Image.asset(AppImage.logo2, width: 200.w, height: 200.h),
                   SizedBox(height: 16.h),
                   Text(
-                    'بوابتك إلى تعلم التكنولوجيا والمعلومات وصناعة المستقبل...\nنتمني لك رحلة تعليمية ممتعة ومثمرة.',
-                    style: theme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Amiri',
-                      height: 1.7.h,
-                    ),
+                    'بوابتك إلى تعلم تكنولوجيا والمعلومات وصناعة المستقبل...\nنتمني لك رحلة تعليمية ممتعة ومثمرة.',
+                    style: theme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 32.h),
@@ -132,15 +130,7 @@ class ChooseTermsPage extends StatelessWidget {
     required int index,
     required int totalTerms,
   }) {
-    // final colors = [
-    //   Color(0xFF2196F3), // Blue
-    //   Color(0xFFF5F5F5), // Green
-    //   Color(0xFFFF9800), // Orange
-    //   Color(0xFF9C27B0), // Purple
-    //   Color(0xFFF44336), // Red
-    // ];
-
-    // final cardColor = colors[index % colors.length];
+   
 
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
@@ -159,7 +149,7 @@ class ChooseTermsPage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
            shape: BoxShape.rectangle,
-            color: AppColors.white,
+            color:Theme.of(context).cardColor,
        
           boxShadow: [
                       BoxShadow(
@@ -197,21 +187,15 @@ class ChooseTermsPage extends StatelessWidget {
                     children: [
                       Text(
                         term.name,
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                        style:Theme.of(context).textTheme.titleLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 4.h),
                       Text(
                         'الصف: ${term.gradeName}',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: Colors.black,
-                        ),
+                                               style:Theme.of(context).textTheme.titleMedium,
+
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

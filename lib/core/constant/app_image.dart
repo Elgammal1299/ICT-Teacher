@@ -32,4 +32,5 @@ class AppImage {
   static const saif = 'assets/images/saif.png';
   static const ellipse = 'assets/images/Ellipse.svg';
   static const ellipse2 = 'assets/images/Ellipse2.svg';
+  static const code = 'assets/images/code.png';
 }

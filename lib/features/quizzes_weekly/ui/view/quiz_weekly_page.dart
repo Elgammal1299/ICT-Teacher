@@ -12,12 +12,8 @@ class QuizWeeklyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
-        title: const Text('التقييمات الاسبوعية', style: TextStyle(fontFamily: 'Amiri')),
-        centerTitle: true,
+        title: const Text('التقييمات الاسبوعية',),
       ),
       body: BlocBuilder<QuizzesWeeklyCubit, QuizzesWeeklyState>(
         builder: (context, state) {

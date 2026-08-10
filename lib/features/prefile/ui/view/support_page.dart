@@ -24,15 +24,10 @@ class SupportPage extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
         title: const Text(
           'الدعم والتواصل',
-          style: TextStyle(fontFamily: 'Amiri'),
         ),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.w),
@@ -71,9 +66,8 @@ class SupportPage extends StatelessWidget {
                 'نسعد دائمًا بخدمتكم والإجابة عن جميع استفساراتكم المتعلقة بمنصة ICT Gate.\n'
                 'إذا واجهت أي مشكلة تقنية، أو كان لديك استفسار حول المحتوى التعليمي، أو واجهت صعوبة في استخدام التطبيق، فلا تتردد في التواصل معنا، وسنعمل على مساعدتك في أسرع وقت ممكن.',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontFamily: 'Amiri',
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Cairo',
+            fontSize: 18.sp
                 ),
               ),
             ),
@@ -102,9 +96,9 @@ class SupportPage extends StatelessWidget {
                                 item,
                                 style: Theme.of(context).textTheme.bodyLarge!
                                     .copyWith(
-                                      fontFamily: 'Amiri',
+                                      fontFamily: 'IBMPlexSansArabic',
                                       fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600,
+                                      
                                     ),
                               ),
                             ),
@@ -122,7 +116,7 @@ class SupportPage extends StatelessWidget {
               'وسائل التواصل',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Amiri',
+                fontFamily: 'IBMPlexSansArabic',
                 fontSize: 18.sp,
               ),
             ),
@@ -210,7 +204,7 @@ class SupportPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: Theme.of(
                       context,
-                    ).textTheme.bodyLarge!.copyWith(fontFamily: 'Amiri'),
+                    ).textTheme.bodyLarge!.copyWith(fontFamily: 'IBMPlexSansArabic'),
                   ),
                 ],
               ),
@@ -250,7 +244,7 @@ class _SectionCard extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Amiri',
+                  fontFamily: 'IBMPlexSansArabic',
                   fontSize: 18.sp,
                 ),
               ),
@@ -282,13 +276,13 @@ class _ContactTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color:Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: Colors.black12),
       ),
       child: ListTile(
         leading: Icon(icon, color: AppColors.primary),
-        title: Text(title),
+        title: Text(title,style: Theme.of(context).textTheme.bodyLarge,),
         subtitle: Text(
           value,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(

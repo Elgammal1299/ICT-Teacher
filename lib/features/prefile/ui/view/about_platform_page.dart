@@ -19,12 +19,9 @@ class AboutPlatformPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
-        title: const Text('عن منصة ICT Gate', style: TextStyle(fontFamily: 'Amiri')),
-        centerTitle: true,
+      
+        title: const Text('عن منصة ICT Gate',),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(12.w),
@@ -40,10 +37,7 @@ class AboutPlatformPage extends StatelessWidget {
               child: Text(
                 'ICT Gate هي منصة تعليمية مصرية متخصصة في تدريس تكنولوجيا المعلومات والاتصالات، والكمبيوتر، والبرمجة، والذكاء الاصطناعي لطلاب المرحلة الابتدائية والإعدادية والثانوية، وفقًا للمناهج الدراسية المعتمدة.\n'
                 'تهدف المنصة إلى تقديم تجربة تعليمية متكاملة تجمع بين الشرح المبسط، والتطبيق العملي، والاختبارات التفاعلية، بما يساعد الطلاب على الفهم الحقيقي للمحتوى الدراسي وتنمية مهاراتهم التقنية.',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontFamily: 'Amiri',
-                      fontSize: 20.sp,
-                    ),
+                style: Theme.of(context).textTheme.titleMedium
               ),
             ),
 
@@ -55,10 +49,7 @@ class AboutPlatformPage extends StatelessWidget {
               title: 'رؤيتنا',
               child: Text(
                 'أن نكون المنصة التعليمية الرائدة في تعليم التكنولوجيا والبرمجة والذكاء الاصطناعي لطلاب المدارس، من خلال محتوى احترافي يواكب التطور الرقمي ويسهم في إعداد جيل قادر على الإبداع والابتكار.',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontFamily: 'Amiri',
-                      fontSize: 20.sp,
-                    ),
+                style: Theme.of(context).textTheme.titleMedium
               ),
             ),
 
@@ -70,10 +61,7 @@ class AboutPlatformPage extends StatelessWidget {
               title: 'رسالتنا',
               child: Text(
                 'تقديم تعليم رقمي عالي الجودة يعتمد على الفهم والتطبيق، ويجعل التكنولوجيا أكثر سهولة ومتعة، مع توفير بيئة تعليمية آمنة وتفاعلية تدعم الطلاب في تحقيق أفضل نتائجهم الأكاديمية.',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontFamily: 'Amiri',
-                      fontSize: 20.sp,
-                    ),
+                style: Theme.of(context).textTheme.titleMedium
               ),
             ),
 
@@ -100,10 +88,7 @@ class AboutPlatformPage extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 feature,
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontFamily: 'Amiri',
-                                      fontSize: 20.sp,
-                                    ),
+                                style: Theme.of(context).textTheme.titleMedium
                               ),
                             ),
                           ],
@@ -137,18 +122,14 @@ class AboutPlatformPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
-                          fontFamily: 'Amiri',
+                          fontFamily: 'Cairo',
                         ),
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    'بوابتك إلى تعلم التكنولوجيا والمعلومات وصناعة المستقبل.',
+                    'بوابتك إلى تعلم تكنولوجيا والمعلومات وصناعة المستقبل.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontFamily: 'Amiri',
-                          fontSize: 18.sp,
-                        ),
-                  ),
+                    style: Theme.of(context).textTheme.bodyLarge),
                 ],
               ),
             ),
@@ -177,7 +158,7 @@ class _SectionCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
@@ -201,12 +182,7 @@ class _SectionCard extends StatelessWidget {
                 SizedBox(width: 10.w),
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Amiri',
-                        fontSize: 20.sp,
-                       
-                      ),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

@@ -15,25 +15,18 @@ class LessonItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      
-    
-  
       appBar: AppBar(
        backgroundColor: AppColors.primary, 
        foregroundColor: Colors.white,
       
-        title: const Text('الدروس', style: TextStyle(fontFamily: 'Amiri')),
+        title: const Text('الدروس', style: TextStyle(fontFamily: 'IBMPlexSansArabic')),
         centerTitle: true,
       ),
 
       body: BlocBuilder<GetLessonCubit, GetLessonState>(
         builder: (context, state) {
           if (state is GetLessonLoading) {
-            return ListView.builder(
-              itemCount: 10,
-              itemBuilder: (_, __) => const CustomLessonItemShimmer(),
-            );
+          return const Center(child: CircularProgressIndicator());
           } else if (state is GetLessonError) {
             return ErrorStateWidget(message: state.errMessage);
           } else if (state is GetLessonSuccess) {

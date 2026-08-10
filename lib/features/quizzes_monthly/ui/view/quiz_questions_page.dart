@@ -27,11 +27,8 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary, 
-       foregroundColor: Colors.white,
-        title: Text(widget.quizModel.title, style: TextStyle(fontFamily: 'Amiri')), centerTitle: true),
+        title: Text(widget.quizModel.title, )),
       body: BlocListener<AnswersSubmitCubit, AnswersSubmitState>(
         listener: (context, state) {
           if (state is AnswersSubmitSuccess) {
@@ -72,7 +69,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                       padding: EdgeInsets.all(16.0.w),
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(8.0.r),
                         border: Border.all(color: Colors.black12),
                         // boxShadow: [
@@ -87,7 +84,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                         (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
                         style: Theme.of(
                           context,
-                        ).textTheme.headlineSmall!.copyWith(color: Colors.black),
+                        ).textTheme.titleLarge,
                       ),
                     ),
                     SizedBox(height: 20.h),
@@ -115,7 +112,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                     borderRadius: BorderRadius.circular(8.0.r),
                                     color: answerChosen == index
                                         ? Colors.green
-                                        : Colors.white,
+                                        : Theme.of(context).cardColor,
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(16.0.w),
@@ -125,8 +122,8 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                           Icons.circle_outlined,
                                           size: 20.r,
                                           color: answerChosen == index
-                                              ? Colors.white
-                                              : Colors.black,
+                                              ? Colors.black
+                                              : Theme.of(context).primaryColor,
                                         ),
                                         SizedBox(width: 16.0.w),
                                         Expanded(
@@ -137,12 +134,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                             ),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .titleMedium!
-                                                .copyWith(
-                                                  color: answerChosen == index
-                                                      ? Colors.white
-                                                      : Colors.black,
-                                                ),
+                                                .titleMedium
                                           ),
                                         ),
                                       ],

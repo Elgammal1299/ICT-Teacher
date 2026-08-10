@@ -20,11 +20,11 @@ class LessonContentSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(.1),
+            color: Theme.of(context).hintColor,
             blurRadius: 8.r,
             offset: Offset(0, 2.h),
           ),

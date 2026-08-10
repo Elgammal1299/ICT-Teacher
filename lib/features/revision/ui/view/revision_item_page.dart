@@ -13,13 +13,9 @@ class RevisionItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
 
-        title: const Text('المراجعة', style: TextStyle(fontFamily: 'Amiri')),
-        centerTitle: true,
+        title: const Text('المراجعة',),
       ),
       body: BlocBuilder<GetRevisionsCubit, GetRevisionsState>(
         builder: (context, state) {

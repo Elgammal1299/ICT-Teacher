@@ -38,13 +38,12 @@ class OnboardingBody extends StatelessWidget {
                     ),
                   ),
 
-                  // SizedBox(height: gapLarge),
-                  Text(
-                    data.title,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: data.color,
-                      fontFamily: 'Amiri',
-                      fontSize: 24.sp,
+                  SizedBox(height: gapSmall),
+                  Align(
+                    alignment: AlignmentGeometry.bottomRight,
+                    child: Text(
+                      data.title,
+                      style: Theme.of(context).textTheme.titleLarge
                     ),
                   ),
 
@@ -52,11 +51,7 @@ class OnboardingBody extends StatelessWidget {
 
                   Text(
                     data.description,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      // color: Colors.grey[600],
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.justify,
                   ),
                 ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/theme_cubit/theme_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -39,21 +41,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
             // 🔹 Header
             Container(
               padding: const EdgeInsets.all(20),
-              color: AppColors.primary, // Use the primary color from AppColors
+              color: Theme.of(context).primaryColor, // Use the primary color from AppColors
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                 Image.asset(AppImage.logo,height: 100,color: Colors.white,),
+                 Image.asset(AppImage.logo,height: 100,color: Theme.of(context).hintColor),
                  SizedBox(height: 12),
                   Align(
                     alignment: AlignmentGeometry.bottomCenter,
                     child: Text(
                       'ICT Gate',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Amiri'
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge
                     ),
                   ),
                   
@@ -64,7 +62,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
             const SizedBox(height: 8),
 
             // 🔹 Theme Switcher
-           
+           BlocBuilder<ThemeCubit, ThemeState>(
+              builder: (context, state) {
+                final isDark = state is ThemeChanged ? state.isDark : false;
+
+                return SwitchListTile(
+                  title:  Text('الوضع الليلي',style: Theme.of(context).textTheme.titleLarge),
+                  secondary: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
+                  value: isDark,
+                  onChanged: (_) => context.read<ThemeCubit>().changeTheme(),
+                );
+              },
+            ),
 
             // 🔹 Drawer Items
             _DrawerItem(
@@ -74,7 +83,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 Navigator.pop(context);
                 Navigator.pushNamed(
                   context,
-                  AppRoutes.homeRoute,
+                  AppRoutes.profilePageRoute,
                 );
               },
             ),
@@ -175,7 +184,7 @@ class _DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-
+color: Theme.of(context).cardColor,
       child: ListTile(
 
         contentPadding: EdgeInsets.all(0),
@@ -189,7 +198,7 @@ class _DrawerItem extends StatelessWidget {
             ),
             child: Icon(icon,color: Colors.white,),),
         ),
-        title: Text(title, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 20.sp, fontFamily: 'Amiri',)),
+        title: Text(title, style: Theme.of(context).textTheme.titleLarge),
         onTap: onTap,
       ),
     );

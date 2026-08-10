@@ -176,10 +176,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           return CustomElevatedButton(
                             text: 'التالي',
                             borderColor: AppColors.primary,
-                            textStyle: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 20.sp,
-                            ),
+                            textStyle: Theme.of(context).textTheme.titleLarge,
                             onPressed: _onNextPressed,
                           );
                         },
@@ -227,7 +224,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
       width: 36.w,
       height: 36.h,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : Colors.grey[300],
+        color: isActive ? Theme.of(context).primaryColor : Colors.grey[300],
         shape: BoxShape.circle,
       ),
       child: Center(

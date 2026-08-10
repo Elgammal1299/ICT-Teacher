@@ -27,14 +27,14 @@ class CustomQuizMonthyItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric( vertical: 8,horizontal: 8),
           decoration: BoxDecoration(
-            color: Color(0xffffffff),
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(12),
         
           ),
           child: ListTile(
             contentPadding: const EdgeInsets.all(0),
             leading: CircleAvatar(
-              backgroundColor: AppColors.primary,
+              backgroundColor: Theme.of(context).primaryColor,
               child: Text(
                 '${index + 1}',
                 style: const TextStyle(color: Colors.white),
@@ -44,7 +44,7 @@ class CustomQuizMonthyItem extends StatelessWidget {
             trailing: Container(
                padding: EdgeInsets.all(6.w),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(.1),
+            color: AppColors.primarySurface,
             borderRadius: BorderRadius.circular(8.r),
           ),
               child: const Icon(Icons.arrow_forward_ios_rounded)),

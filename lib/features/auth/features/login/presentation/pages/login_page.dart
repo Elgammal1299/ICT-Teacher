@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).cardColor,
         floatingActionButton: Padding(
           padding: const EdgeInsets.all(35.0),
           child: Align(
@@ -22,8 +22,8 @@ class LoginPage extends StatelessWidget {
             child: SpeedDial(
               animatedIcon: AnimatedIcons.menu_close,
               icon: Icons.info_outline,
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              backgroundColor:       Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).cardColor,
               spacing: 10,
               overlayOpacity: 0.5,
               children: [
@@ -77,27 +77,24 @@ class LoginPage extends StatelessWidget {
                   Container(
                     height: 250.h,
                     width: double.infinity,
-                    color: const Color(0xff3366F5),
+                    color: Theme.of(context).primaryColor,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:  [
                         Text(
                           "تسجيل الدخول",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:Theme.of(context).textTheme.titleLarge
                         ),
+                        SizedBox(height: 12,),
                         Text(
                           "مرحباً بك مجدداً، يرجى تسجيل الدخول للمتابعة",
-                          style: TextStyle(color: Colors.white70, fontSize: 15.sp),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ],
                     ),
                   ),
 
-                  Expanded(child: Container(color: const Color(0xffF8F9FD))),
+                  Expanded(child: Container(color:  Theme.of(context).cardColor)),
                 ],
               ),
 
@@ -125,7 +122,7 @@ class LoginPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(24.w),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(28.r),
                     boxShadow: [
                       BoxShadow(

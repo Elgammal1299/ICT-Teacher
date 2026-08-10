@@ -31,13 +31,9 @@ class _LessonPageState extends State<LessonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
         title: Text(
           widget.lessonsModel.title,
-          style: TextStyle(fontFamily: 'Amiri'),
         ),
 
         elevation: 0,
@@ -70,10 +66,10 @@ class _LessonPageState extends State<LessonPage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                       ),
                     ),
                     child: ClipRRect(
@@ -81,7 +77,7 @@ class _LessonPageState extends State<LessonPage> {
                       child: _ytController == null
                           ? Container(
                               height: 200.h,
-                              color: Colors.grey[200],
+                              color: Theme.of(context).hintColor,
                               child: Center(child: Text("رابط الفيديو غير صالح")),
                             )
                           : YoutubePlayer(

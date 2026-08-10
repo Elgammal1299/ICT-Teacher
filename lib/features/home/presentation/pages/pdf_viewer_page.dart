@@ -31,7 +31,7 @@
 //         backgroundColor: AppColors.primary, 
 //        foregroundColor: Colors.white,
 //         centerTitle: true,
-//         title: const Text('عرض الملف' ,style: TextStyle(fontFamily: 'Amiri')),
+//         title: const Text('عرض الملف' ,style: TextStyle(fontFamily: 'IBMPlexSansArabic')),
        
 //       ),
 //       body: FutureBuilder<String>(
@@ -114,7 +114,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         title: const Text(
           'عرض الملف',
           style: TextStyle(
-            fontFamily: 'Amiri',
+            fontFamily: 'IBMPlexSansArabic',
           ),
         ),
       ),
