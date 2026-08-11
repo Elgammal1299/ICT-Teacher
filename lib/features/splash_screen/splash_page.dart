@@ -101,7 +101,7 @@ class _SplashPageState extends State<SplashPage> {
                     const SizedBox(height: 20),
 
                     Text(
-                      "أهلاً وسهلاً بكم\nتعلم التكنولوجيا... واصنع مستقبلك",
+                      "أهلاً وسهلاً بكم\nتعلم تكنولوجيا المعلومات... واصنع مستقبلك",
                       textAlign: TextAlign.center,
                       style:Theme.of(context).textTheme.titleLarge
                     ),

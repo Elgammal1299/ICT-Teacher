@@ -1,32 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/presentation/pages/pdf_viewer_page.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/lesson_content_section.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/lesson_introduction_card.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:icd_teacher/features/lessons/ui/view/widget/lesson_video_player.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/revision/ui/view_model/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 
-class RevisionPage extends StatefulWidget {
+class RevisionPage extends StatelessWidget {
   final LessonsModel lessonsModel;
   const RevisionPage({super.key, required this.lessonsModel});
-
-  @override
-  State<RevisionPage> createState() => _LessonPageState();
-}
-
-class _LessonPageState extends State<RevisionPage> {
-  YoutubePlayerController? _ytController;
-
-  @override
-  void dispose() {
-    _ytController?.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +20,7 @@ class _LessonPageState extends State<RevisionPage> {
       appBar: AppBar(
       
         title: Text(
-          widget.lessonsModel.title,
+          lessonsModel.title,
         ),
 
       ),
@@ -46,37 +32,17 @@ class _LessonPageState extends State<RevisionPage> {
             return ErrorStateWidget(message: state.errMessage);
           } else if (state is GetContentByIdSuccess) {
             final content = state.contentModel;
-            final videoId = YoutubePlayerController.convertUrlToId(
-              content.videoUrl ?? '',
-            );
+          
 
-            if (videoId != null && videoId.isNotEmpty) {
-              _ytController ??= YoutubePlayerController.fromVideoId(
-                videoId: videoId,
-                autoPlay: false,
-                params: const YoutubePlayerParams(showFullscreenButton: true),
-              );
-            }
+           
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: _ytController == null
-                        ? Container(
-                            height: 200,
-                            color:  Theme.of(context).hintColor,
-                            child: const Center(
-                              child: Text("رابط الفيديو غير صالح"),
-                            ),
-                          )
-                        : YoutubePlayer(
-                            controller: _ytController!,
-                            aspectRatio: 16 / 9,
-                          ),
+                   LessonVideoPlayer(
+                    videoUrl: content.videoUrl,
                   ),
                   const SizedBox(height: 20),
                   LessonIntroductionCard(
@@ -118,6 +84,7 @@ class _LessonPageState extends State<RevisionPage> {
     );
   }
 }
+
 /*
 
 const Text(

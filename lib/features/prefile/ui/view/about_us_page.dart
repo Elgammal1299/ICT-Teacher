@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
+import 'package:icd_teacher/core/constant/app_image.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
@@ -8,18 +9,29 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-   
-        title: const Text('من نحن',),
-      ),
+      appBar: AppBar(title: const Text('من نحن')),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: CircleAvatar(
+                radius: 100.r,
+                child: ClipOval(
+                  child: Image.asset(
+                    AppImage.ahmedSaif,
+                    width: 200.w,
+                    height: 200.h,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.h),
             Text(
               'يقف خلف ICT Gate فريق تعليمي يجمع بين الخبرة الأكاديمية والرؤية الحديثة في تعليم التكنولوجيا.',
-              style: Theme.of(context).textTheme.titleMedium
+              style: Theme.of(context).textTheme.titleMedium,
             ),
 
             SizedBox(height: 16.h),
@@ -46,7 +58,6 @@ class AboutUsPage extends StatelessWidget {
               color: AppColors.primary.withOpacity(0.1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
-                
               ),
               child: Padding(
                 padding: EdgeInsets.all(16.w),
@@ -61,10 +72,11 @@ class AboutUsPage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'يجمع هذا التعاون بين الخبرة التربوية الطويلة والأساليب التعليمية الحديثة لتقديم تجربة تعليمية موثوقة ومتميزة لجميع الطلاب.',
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontSize: 14.sp,
-                          color: AppColors.textTertiary
-                        )
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary,
+                            ),
                       ),
                     ),
                   ],
@@ -107,20 +119,11 @@ class _PersonCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            name,
-            style:  Theme.of(context).textTheme.titleLarge
-          ),
+          Text(name, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 4),
-          Text(
-            title,
-            style:Theme.of(context).textTheme.titleSmall
-          ),
+          Text(title, style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 10),
-          Text(
-            description,
-            style:Theme.of(context).textTheme.titleMedium
-          ),
+          Text(description, style: Theme.of(context).textTheme.titleMedium),
         ],
       ),
     );

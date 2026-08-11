@@ -44,7 +44,7 @@ class CustomHomeBody extends StatelessWidget {
               arguments: termModel,
             );
           },
-          supTitle: 'مراجعات شاملة لكل الدروس',
+          supTitle: 'عملى ومراجعات شاملة',
           subColor: isDark?const Color(0xFF064E3B):Color(0xffECFDF5),
         ),
         const SizedBox(height: 18),
@@ -75,7 +75,7 @@ class CustomHomeBody extends StatelessWidget {
               arguments: termModel,
             );
           },
-          supTitle: 'اختبارات شهرية لتقييم مستواك',
+          supTitle: 'اختبارات شهرية واختبارات الترم',
           subColor:isDark?const Color(0xFF064E3B): Color(0xffECFDF5),
         ),
         const SizedBox(height: 18),
