@@ -15,7 +15,7 @@ class SupportPage extends StatelessWidget {
       'الاستفسار عن الاشتراكات والخدمات.',
       'الإبلاغ عن أي خطأ في المحتوى.',
     ];
-    Future<void> _launchUrl(String url) async {
+    Future<void> openLink(String url) async {
       final uri = Uri.parse(url);
 
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
@@ -128,7 +128,7 @@ class SupportPage extends StatelessWidget {
               title: 'البريد الإلكتروني',
               value: 'salm64187@gmail.com',
               onTap: () {
-                _launchUrl('mailto:salm64187@gmail.com');
+                openLink('mailto:salm64187@gmail.com');
               },
             ),
 
@@ -137,7 +137,7 @@ class SupportPage extends StatelessWidget {
               title: 'رقم الهاتف / واتساب',
               value: '01038340374',
               onTap: () {
-                _launchUrl('https://wa.me/201038340374');
+                openLink('https://wa.me/201038340374');
               },
             ),
 
@@ -146,7 +146,7 @@ class SupportPage extends StatelessWidget {
               title: 'Facebook',
               value: 'ICT Gate',
               onTap: () {
-                _launchUrl('https://www.facebook.com/ICTGate');
+                openLink('https://www.facebook.com/ICTGate');
               },
             ),
 
@@ -155,7 +155,7 @@ class SupportPage extends StatelessWidget {
               title: 'TikTok',
               value: '@ictgate',
               onTap: () {
-                _launchUrl('https://www.tiktok.com/@ictgate');
+                openLink('https://www.tiktok.com/@ictgate');
               },
             ),
 
@@ -164,7 +164,7 @@ class SupportPage extends StatelessWidget {
               title: 'YouTube',
               value: 'ICT Gate',
               onTap: () {
-                _launchUrl('https://www.youtube.com/@ictgate-academy');
+                openLink('https://www.youtube.com/@ictgate-academy');
               },
             ),
 
@@ -173,7 +173,7 @@ class SupportPage extends StatelessWidget {
               title: 'Instagram',
               value: '@ictgate',
               onTap: () {
-                _launchUrl('https://www.instagram.com/ictgate/');
+                openLink('https://www.instagram.com/ictgate/');
               },
             ),
 
@@ -182,7 +182,7 @@ class SupportPage extends StatelessWidget {
               title: 'Telegram',
               value: '@ICTGatee',
               onTap: () {
-                _launchUrl('https://t.me/ICTGatee');
+                openLink('https://t.me/ICTGatee');
               },
             ),
 

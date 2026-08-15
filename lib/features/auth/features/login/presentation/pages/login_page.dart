@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/features/auth/features/login/presentation/widgets/custom_login_form_field.dart';
 import 'package:url_launcher/url_launcher_string.dart';
