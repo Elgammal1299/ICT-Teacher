@@ -296,95 +296,96 @@ class _QuizPageState extends State<QuizPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // السؤال
-                          Text(
-                            (currentQuestion.body ?? '')
-                                .replaceAll(r'$', '\n'),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
-                                  color: Colors.black,
-                                  fontFamily: 'IBMPlexSansArabic',
-                                  height: 1.5,
+                          // Text(
+                          //   (currentQuestion.body ?? '')
+                          //       .replaceAll(r'$', '\n'),
+                          //   style: Theme.of(context).textTheme.titleLarge,
+                          // ),
+                          Container(
+                              padding: EdgeInsets.all(16.w),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(8.r),
+                                border: Border.all(color: Colors.black12),
+                              ),
+                              child: Text(
+                                (currentQuestion.body ?? '').replaceAll(
+                                  r'$',
+                                  '\n',
                                 ),
-                          ),
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
 
                           SizedBox(height: 20.h),
 
                           // الإجابات
                           Column(
-                            children: List.generate(
-                              choices.length,
-                              (index) {
-                                final choice = choices[index];
+                              children: List.generate(
+                                (currentQuestion.choices ?? []).length,
+                                (index) {
+                                  final choice =
+                                      currentQuestion.choices![index];
 
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 8.h,
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        answerChosen = index;
-                                      });
-                                    },
-                                    borderRadius:
-                                        BorderRadius.circular(8.r),
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black12,
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 8.h,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          answerChosen = index;
+                                        });
+                                      },
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                          color: answerChosen == index
+                                              ? Colors.green
+                                              : Theme.of(context).cardColor,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: answerChosen == index
-                                            ? Colors.green
-                                            : Colors.white,
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16.w),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.circle_outlined,
-                                              size: 20.r,
-                                              color: answerChosen == index
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-
-                                            SizedBox(width: 16.w),
-
-                                            Expanded(
-                                              child: Text(
-                                                (choice.body ?? '')
-                                                    .replaceAll(
-                                                  r'$',
-                                                  '\n',
-                                                ),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium!
-                                                    .copyWith(
-                                                      color:
-                                                          answerChosen ==
-                                                                  index
-                                                              ? Colors.white
-                                                              : Colors.black,
-                                                    ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(16.w),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.circle_outlined,
+                                                size: 20.r,
+                                                color: answerChosen == index
+                                                    ? Colors.black
+                                                    : Theme.of(
+                                                        context,
+                                                      ).primaryColor,
                                               ),
-                                            ),
-                                          ],
+
+                                              SizedBox(width: 16.w),
+
+                                              Expanded(
+                                                child: Text(
+                                                  (choice.body ?? '')
+                                                      .replaceAll(r'$', '\n'),
+                                                  style: Theme.of(
+                                                    context,
+                                                  ).textTheme.titleMedium,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
 
                           SizedBox(height: 20.h),
                         ],

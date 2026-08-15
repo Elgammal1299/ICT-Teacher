@@ -42,25 +42,35 @@ class NetworkException implements Exception {
 /// Utility class to parse Dio exceptions into user-friendly error messages
 class DioExceptionHandler {
   static String getMessage(DioException error) {
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-        return 'Connection timeout. Please check your internet connection.';
-      case DioExceptionType.sendTimeout:
-        return 'Send timeout. Please try again.';
-      case DioExceptionType.receiveTimeout:
-        return 'Receive timeout. The server took too long to respond.';
-      case DioExceptionType.badResponse:
-        return _handleStatusCode(error.response?.statusCode);
-      case DioExceptionType.cancel:
-        return 'Request was cancelled.';
-      case DioExceptionType.connectionError:
-        return 'Connection error. Please check your internet connection.';
-      case DioExceptionType.badCertificate:
-        return 'Invalid SSL certificate.';
-      case DioExceptionType.unknown:
-        return 'An unexpected error occurred. Please try again.';
-    }
+  switch (error.type) {
+    case DioExceptionType.connectionTimeout:
+      return 'Connection timeout. Please check your internet connection.';
+
+    case DioExceptionType.sendTimeout:
+      return 'Send timeout. Please try again.';
+
+    case DioExceptionType.receiveTimeout:
+      return 'Receive timeout. The server took too long to respond.';
+
+    case DioExceptionType.transformTimeout:
+      return 'Transform timeout. Please try again.';
+
+    case DioExceptionType.badResponse:
+      return _handleStatusCode(error.response?.statusCode);
+
+    case DioExceptionType.cancel:
+      return 'Request was cancelled.';
+
+    case DioExceptionType.connectionError:
+      return 'Connection error. Please check your internet connection.';
+
+    case DioExceptionType.badCertificate:
+      return 'Invalid SSL certificate.';
+
+    case DioExceptionType.unknown:
+      return 'An unexpected error occurred. Please try again.';
   }
+}
 
   static String _handleStatusCode(int? statusCode) {
     switch (statusCode) {

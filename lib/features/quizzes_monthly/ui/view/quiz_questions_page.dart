@@ -26,8 +26,7 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.quizModel.title, )),
+      appBar: AppBar(title: Text(widget.quizModel.title)),
       body: BlocListener<AnswersSubmitCubit, AnswersSubmitState>(
         listener: (context, state) {
           if (state is AnswersSubmitSuccess) {
@@ -58,166 +57,162 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
               final currentQuestion = questions[questionIndex];
 
               return Padding(
-  padding: EdgeInsets.all(16.w),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      // ========================================
-      // السؤال + الإجابات = Scrollable
-      // ========================================
-      Expanded(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// السؤال
-              Container(
                 padding: EdgeInsets.all(16.w),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(
-                    color: Colors.black12,
-                  ),
-                ),
-                child: Text(
-                  (currentQuestion.body ?? '')
-                      .replaceAll(r'$', '\n'),
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-
-              SizedBox(height: 20.h),
-
-              /// الإجابات
-              Column(
-                children: List.generate(
-                  (currentQuestion.choices ?? []).length,
-                  (index) {
-                    final choice =
-                        currentQuestion.choices![index];
-
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 8.h,
-                      ),
-                      child: SizedBox(
-                        height: 60.h,
-                        width: double.infinity,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              answerChosen = index;
-                            });
-                          },
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black12,
-                              ),
-                              borderRadius:
-                                  BorderRadius.circular(8.r),
-                              color: answerChosen == index
-                                  ? Colors.green
-                                  : Theme.of(context)
-                                      .cardColor,
-                            ),
-                            child: Padding(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ========================================
+                    // السؤال + الإجابات = Scrollable
+                    // ========================================
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// السؤال
+                            Container(
                               padding: EdgeInsets.all(16.w),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.circle_outlined,
-                                    size: 20.r,
-                                    color: answerChosen == index
-                                        ? Colors.black
-                                        : Theme.of(context)
-                                            .primaryColor,
-                                  ),
-
-                                  SizedBox(width: 16.w),
-
-                                  Expanded(
-                                    child: Text(
-                                      (choice.body ?? '')
-                                          .replaceAll(
-                                        r'$',
-                                        '\n',
-                                      ),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ),
-                                ],
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(8.r),
+                                border: Border.all(color: Colors.black12),
+                              ),
+                              child: Text(
+                                (currentQuestion.body ?? '').replaceAll(
+                                  r'$',
+                                  '\n',
+                                ),
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ),
-                          ),
+
+                            SizedBox(height: 20.h),
+
+                            /// الإجابات
+                            Column(
+                              children: List.generate(
+                                (currentQuestion.choices ?? []).length,
+                                (index) {
+                                  final choice =
+                                      currentQuestion.choices![index];
+
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 8.h,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          answerChosen = index;
+                                        });
+                                      },
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                          color: answerChosen == index
+                                              ? Colors.green
+                                              : Theme.of(context).cardColor,
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(16.w),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.circle_outlined,
+                                                size: 20.r,
+                                                color: answerChosen == index
+                                                    ? Colors.black
+                                                    : Theme.of(
+                                                        context,
+                                                      ).primaryColor,
+                                              ),
+
+                                              SizedBox(width: 16.w),
+
+                                              Expanded(
+                                                child: Text(
+                                                  (choice.body ?? '')
+                                                      .replaceAll(r'$', '\n'),
+                                                  style: Theme.of(
+                                                    context,
+                                                  ).textTheme.titleMedium,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+
+                            // مساحة صغيرة في آخر الـ Scroll
+                            SizedBox(height: 20.h),
+                          ],
                         ),
                       ),
-                    );
-                  },
+                    ),
+
+                    SizedBox(height: 12.h),
+
+                    // ========================================
+                    // زر Next / Finish ثابت تحت
+                    // ========================================
+                    CustomElevatedButton(
+                      text: questionIndex + 1 < questions.length
+                          ? 'التالى'
+                          : 'انتهاء',
+                      onPressed: () {
+                        if (answerChosen == -1) return;
+
+                        final selectedChoice =
+                            currentQuestion.choices![answerChosen];
+
+                        // حفظ إجابة المستخدم
+                        userAnswers[currentQuestion.id ?? ""] =
+                            selectedChoice.id ?? "";
+
+                        context.read<QuizCubit>().selectAnswer(
+                          questionId: currentQuestion.id ?? '',
+                          choiceId: selectedChoice.id ?? '',
+                        );
+
+                        if (questionIndex + 1 < questions.length) {
+                          setState(() {
+                            questionIndex++;
+                            answerChosen = -1;
+                          });
+                        } else {
+                          // إرسال كل الإجابات مرة واحدة عند الانتهاء
+                          final answersList = userAnswers.entries
+                              .map((e) => e.value)
+                              .toList();
+
+                          final answersBody = AnswersRequestModel(
+                            answers: answersList,
+                          );
+
+                          context.read<AnswersSubmitCubit>().getSubmit(
+                            widget.quizModel.id,
+                            answersBody,
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ),
-
-              // مساحة صغيرة في آخر الـ Scroll
-              SizedBox(height: 20.h),
-            ],
-          ),
-        ),
-      ),
-
-      SizedBox(height: 12.h),
-
-      // ========================================
-      // زر Next / Finish ثابت تحت
-      // ========================================
-      CustomElevatedButton(
-        text: questionIndex + 1 < questions.length
-            ? 'التالى'
-            : 'انتهاء',
-        onPressed: () {
-          if (answerChosen == -1) return;
-
-          final selectedChoice =
-              currentQuestion.choices![answerChosen];
-
-          // حفظ إجابة المستخدم
-          userAnswers[currentQuestion.id ?? ""] =
-              selectedChoice.id ?? "";
-
-          context.read<QuizCubit>().selectAnswer(
-                questionId: currentQuestion.id ?? '',
-                choiceId: selectedChoice.id ?? '',
               );
-
-          if (questionIndex + 1 < questions.length) {
-            setState(() {
-              questionIndex++;
-              answerChosen = -1;
-            });
-          } else {
-            // إرسال كل الإجابات مرة واحدة عند الانتهاء
-            final answersList = userAnswers.entries
-                .map((e) => e.value)
-                .toList();
-
-            final answersBody = AnswersRequestModel(
-              answers: answersList,
-            );
-
-            context.read<AnswersSubmitCubit>().getSubmit(
-                  widget.quizModel.id,
-                  answersBody,
-                );
-          }
-        },
-      ),
-    ],
-  ),
-);
             } else if (state is QuizError) {
               return ErrorStateWidget(message: state.message);
             }

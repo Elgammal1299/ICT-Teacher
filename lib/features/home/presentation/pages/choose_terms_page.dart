@@ -25,19 +25,28 @@ class ChooseTermsPage extends StatelessWidget {
             Positioned(
               top: 0,
               left: 0,
-              child:isDark ? SvgPicture.asset(AppImage.ellipse,color: AppColors.black.withOpacity(0.5),):SvgPicture.asset(AppImage.ellipse),
+              child: isDark
+                  ? SvgPicture.asset(
+                      AppImage.ellipse,
+                      color: AppColors.black.withOpacity(0.5),
+                    )
+                  : SvgPicture.asset(AppImage.ellipse),
             ),
-        
+
             /// الصورة اليمين
             Positioned(
               top: 200.h,
               right: 0,
-              child:isDark ? SvgPicture.asset(AppImage.ellipse2,color: AppColors.black.withOpacity(0.5),):SvgPicture.asset(AppImage.ellipse2),
-              
+              child: isDark
+                  ? SvgPicture.asset(
+                      AppImage.ellipse2,
+                      color: AppColors.black.withOpacity(0.5),
+                    )
+                  : SvgPicture.asset(AppImage.ellipse2),
             ),
             Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -50,7 +59,7 @@ class ChooseTermsPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 32.h),
-              
+
                   BlocListener<UserDataCubit, UserDataState>(
                     listener: (context, state) {
                       if (state is UserDataSuccess) {
@@ -80,7 +89,7 @@ class ChooseTermsPage extends StatelessWidget {
                           List<TermModel> activeTerms = state.data
                               .where((term) => term.isActive)
                               .toList();
-              
+
                           if (userState is UserDataSuccess) {
                             activeTerms = activeTerms
                                 .where(
@@ -90,11 +99,11 @@ class ChooseTermsPage extends StatelessWidget {
                                 )
                                 .toList();
                           }
-              
+
                           if (activeTerms.isEmpty) {
                             return _buildEmptyTermsWidget(context);
                           }
-              
+
                           return ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -110,7 +119,7 @@ class ChooseTermsPage extends StatelessWidget {
                             },
                           );
                         }
-              
+
                         return SizedBox.shrink();
                       },
                     ),
@@ -130,8 +139,6 @@ class ChooseTermsPage extends StatelessWidget {
     required int index,
     required int totalTerms,
   }) {
-   
-
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
       child: InkWell(
@@ -148,15 +155,15 @@ class ChooseTermsPage extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
-           shape: BoxShape.rectangle,
-            color:Theme.of(context).cardColor,
-       
-          boxShadow: [
-                      BoxShadow(
-                        color: AppColors.black.withOpacity(0.1),
-                        blurRadius: 6.r,
-                      ),
-                    ],
+            shape: BoxShape.rectangle,
+            color: Theme.of(context).cardColor,
+
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withOpacity(0.1),
+                blurRadius: 6.r,
+              ),
+            ],
           ),
           child: Padding(
             padding: EdgeInsets.all(20.w),
@@ -169,7 +176,6 @@ class ChooseTermsPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.primary,
-                    
                   ),
                   child: Center(
                     child: Icon(
@@ -187,14 +193,14 @@ class ChooseTermsPage extends StatelessWidget {
                     children: [
                       Text(
                         term.name,
-                        style:Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 4.h),
                       Text(
                         'الصف: ${term.gradeName}',
-                                               style:Theme.of(context).textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.titleMedium,
 
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

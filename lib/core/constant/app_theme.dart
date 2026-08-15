@@ -14,6 +14,7 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.background,
+    canvasColor: AppColors.black,
     primaryColor: AppColors.primary,
     cardColor: AppColors.cardBackground,
     dividerColor: AppColors.divider,
@@ -28,7 +29,7 @@ class AppTheme {
     // AppBar Theme - Modern elevated design
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
+      foregroundColor: Colors.black,
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(fontFamily: 'IBMPlexSansArabic', fontSize: 20),
@@ -302,6 +303,8 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData(
+    canvasColor: AppColors.white,
+
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.darkBackground,
     primaryColor: AppColors.primaryDark,
@@ -314,7 +317,7 @@ class AppTheme {
     primaryColorDark: AppColors.primaryDark,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.primaryDark,
-      foregroundColor: Colors.black,
+      foregroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(

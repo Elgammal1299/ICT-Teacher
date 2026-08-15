@@ -24,7 +24,7 @@ android {
 
     compileSdk = flutter.compileSdkVersion
 
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -38,12 +38,11 @@ android {
     defaultConfig {
         applicationId = "com.ictgate2.app"
 
-        // flutter_js requires Android 21+
         minSdk = flutter.minSdkVersion
 
         targetSdk = flutter.targetSdkVersion
 
-        versionCode = 5
+        versionCode = 7
         versionName = flutter.versionName
     }
 
@@ -73,19 +72,8 @@ android {
     }
 }
 
-/*
- * JavaScriptCore Runtime
- *
- * نستخدمه مع flutter_js بدل QuickJS
- * لتجنب خطأ:
- *
- * libfastdev_quickjs_runtime.so not found
- */
-dependencies {
-    implementation(
-        "com.github.fast-development.android-js-runtimes:fastdev-jsruntimes-jsc:0.3.4"
-    )
-}
+
+
 
 flutter {
     source = "../.."

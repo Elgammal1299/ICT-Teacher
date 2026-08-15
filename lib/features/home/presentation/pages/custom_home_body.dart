@@ -79,27 +79,27 @@ class CustomHomeBody extends StatelessWidget {
           subColor:isDark?const Color(0xFF064E3B): Color(0xffECFDF5),
         ),
         const SizedBox(height: 18),
-        _HomeFeatureCard(
-          color:isDark? const Color(0xFF422006): const Color(0xffFEF3C7),
-          title: 'تجربة JavaScript',
-          image: AppImage.code,
-          onTap: () {
-           Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const NativeCodePlaygroundScreen(
-                    exercise: CodeExercise(
-                      title: 'تجربة JavaScript',
-                      initialCode: '''
-console.log("Hello ICT Gate");
-''',
-                    ),
-                  ),
-                ),
-              );
-          },
-          supTitle: 'محرر اكواد JavaScript',
-          subColor:isDark ?Color(0xFF064E3B): Color(0xffECFDF5),
-        ),
+//         _HomeFeatureCard(
+//           color:isDark? const Color(0xFF422006): const Color(0xffFEF3C7),
+//           title: 'تجربة JavaScript',
+//           image: AppImage.code,
+//           onTap: () {
+//            Navigator.of(context).push(
+//                 MaterialPageRoute(
+//                   builder: (_) => const NativeCodePlaygroundScreen(
+//                     exercise: CodeExercise(
+//                       title: 'تجربة JavaScript',
+//                       initialCode: '''
+// console.log("Hello ICT Gate");
+// ''',
+//                     ),
+//                   ),
+//                 ),
+//               );
+//           },
+//           supTitle: 'محرر اكواد JavaScript',
+//           subColor:isDark ?Color(0xFF064E3B): Color(0xffECFDF5),
+//         ),
         const SizedBox(height: 18),
         const SizedBox(height: 18),
         

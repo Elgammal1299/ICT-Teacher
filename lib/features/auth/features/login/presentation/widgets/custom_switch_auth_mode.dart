@@ -16,12 +16,17 @@ class CustomSwitchAuthMode extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          'هل لديك حساب بالفعل؟',
-          style:                 Theme.of(context).textTheme.titleLarge,
-
+        Expanded(
+          child: Text(
+            
+            'هل لديك حساب بالفعل؟',
+            style:                 Theme.of(context).textTheme.titleLarge,
+          
+          ),
         ),
         TextButton(
+          
+          
           onPressed: () {
             onToggle();
           },

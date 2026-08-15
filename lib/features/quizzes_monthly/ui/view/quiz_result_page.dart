@@ -371,6 +371,7 @@ class _QuestionResultCard extends StatelessWidget {
               final isStudentAnswer = choice.isAnswered;
 
               return _buildChoiceItem(
+                context,
                 choice.body,
                 isCorrectAnswer: isCorrectAnswer,
                 isStudentAnswer: isStudentAnswer,
@@ -383,105 +384,123 @@ class _QuestionResultCard extends StatelessWidget {
   }
 
   Widget _buildChoiceItem(
-    String text, {
-    required bool isCorrectAnswer,
-    required bool isStudentAnswer,
-  }) {
-    Color backgroundColor;
-    Color borderColor;
-    Color textColor;
-    Widget? leadingIcon;
-    Widget? trailingWidget;
+  BuildContext context,
+  String text, {
+  required bool isCorrectAnswer,
+  required bool isStudentAnswer,
+}) {
+  Color backgroundColor;
+  Color borderColor;
+  Color textColor;
+  Widget? leadingIcon;
+  Widget? trailingWidget;
 
-    // Modern color scheme based on answer state
-    if (isCorrectAnswer && isStudentAnswer) {
-      // Student's answer is correct - Green with celebration
-      backgroundColor = AppColors.quizCorrectBg;
-      borderColor = AppColors.success;
-      textColor = AppColors.successDark;
-      leadingIcon = Icon(
-        Icons.check_circle_rounded,
-        color: AppColors.success,
-        size: RS.iconM,
-      );
-      trailingWidget = _buildModernTag("إجابتك ✓", AppColors.success);
-    } else if (isCorrectAnswer && !isStudentAnswer) {
-      // Correct answer not selected by student - Show what should have been selected
-      backgroundColor = AppColors.quizCorrectBg;
-      borderColor = AppColors.success;
-      textColor = AppColors.successDark;
-      leadingIcon = Icon(
-        Icons.check_circle_rounded,
-        color: AppColors.success,
-        size: RS.iconM,
-      );
-      trailingWidget = _buildModernTag("الإجابة الصحيحة", AppColors.success);
-    } else if (!isCorrectAnswer && isStudentAnswer) {
-      // Student's incorrect answer - Red highlighting
-      backgroundColor = AppColors.quizIncorrectBg;
-      borderColor = AppColors.quizIncorrectBorder;
-      textColor = AppColors.errorDark;
-      leadingIcon = Icon(
-        Icons.cancel_rounded,
-        color: AppColors.error,
-        size: RS.iconM,
-      );
-      trailingWidget = _buildModernTag("إجابتك ✗", AppColors.error);
-    } else {
-      // Neutral/unselected options - Gray
-      backgroundColor = AppColors.quizNeutral;
-      borderColor = AppColors.quizNeutralBorder;
-      textColor = AppColors.textSecondary;
-      leadingIcon = Icon(
-        Icons.radio_button_unchecked_rounded,
-        color: AppColors.borderDark,
-        size: RS.iconM,
-      );
-    }
+  if (isCorrectAnswer && isStudentAnswer) {
+    backgroundColor = AppColors.quizCorrectBg;
+    borderColor = AppColors.success;
+    textColor = AppColors.successDark;
 
-    return Container(
-      margin: EdgeInsets.only(bottom: RS.spaceS),
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        border: Border.all(color: borderColor, width: 2.w),
-        borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          if (isStudentAnswer || isCorrectAnswer)
-            BoxShadow(
-              color: borderColor.withValues(alpha: 0.2),
-              blurRadius: 6.r,
-              offset: Offset(0, 2.h),
-            ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 2.h),
-            child: leadingIcon,
-          ),
-          SizedBox(width: RS.spaceS),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: RS.textM,
-                fontWeight: FontWeight.w500,
-                color: textColor,
-                height: 1.5,
-              ),
-            ),
-          ),
-          if (trailingWidget != null) ...[
-            SizedBox(width: RS.spaceS),
-            trailingWidget,
-          ],
-        ],
-      ),
+    leadingIcon = Icon(
+      Icons.check_circle_rounded,
+      color: AppColors.success,
+      size: RS.iconM,
+    );
+
+    trailingWidget = _buildModernTag(
+      "إجابتك ✓",
+      AppColors.success,
+    );
+  } else if (isCorrectAnswer && !isStudentAnswer) {
+    backgroundColor = AppColors.quizCorrectBg;
+    borderColor = AppColors.success;
+    textColor = AppColors.successDark;
+
+    leadingIcon = Icon(
+      Icons.check_circle_rounded,
+      color: AppColors.success,
+      size: RS.iconM,
+    );
+
+    trailingWidget = _buildModernTag(
+      "الإجابة الصحيحة",
+      AppColors.success,
+    );
+  } else if (!isCorrectAnswer && isStudentAnswer) {
+    backgroundColor = AppColors.quizIncorrectBg;
+    borderColor = AppColors.quizIncorrectBorder;
+    textColor = AppColors.errorDark;
+
+    leadingIcon = Icon(
+      Icons.cancel_rounded,
+      color: AppColors.error,
+      size: RS.iconM,
+    );
+
+    trailingWidget = _buildModernTag(
+      "إجابتك ✗",
+      AppColors.error,
+    );
+  } else {
+    backgroundColor = AppColors.quizNeutral;
+    borderColor = AppColors.quizNeutralBorder;
+    textColor = Theme.of(context).canvasColor;
+
+    leadingIcon = Icon(
+      Icons.radio_button_unchecked_rounded,
+      color: AppColors.borderDark,
+      size: RS.iconM,
     );
   }
+
+  return Container(
+    margin: EdgeInsets.only(bottom: RS.spaceS),
+    padding: EdgeInsets.all(14.r),
+    decoration: BoxDecoration(
+      color: Theme.of(context).cardColor,
+      border: Border.all(
+        color: borderColor,
+        width: 2.w,
+      ),
+      borderRadius: BorderRadius.circular(12.r),
+      boxShadow: [
+        if (isStudentAnswer || isCorrectAnswer)
+          BoxShadow(
+            color: borderColor.withValues(alpha: 0.2),
+            blurRadius: 6.r,
+            offset: Offset(0, 2.h),
+          ),
+      ],
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 2.h),
+          child: leadingIcon,
+        ),
+
+        SizedBox(width: RS.spaceS),
+
+        Expanded(
+          child: Text(
+            text.replaceAll(r'$', '\n'),
+            style: TextStyle(
+              fontSize: RS.textM,
+              fontWeight: FontWeight.w500,
+              color: textColor,
+              height: 1.5,
+            ),
+          ),
+        ),
+
+        if (trailingWidget != null) ...[
+          SizedBox(width: RS.spaceS),
+          trailingWidget,
+        ],
+      ],
+    ),
+  );
+}
 
   Widget _buildModernTag(String text, Color color) {
     return Container(
