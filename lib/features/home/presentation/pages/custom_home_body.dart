@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:icd_teacher/code_exercise.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
@@ -79,27 +78,6 @@ class CustomHomeBody extends StatelessWidget {
           subColor:isDark?const Color(0xFF064E3B): Color(0xffECFDF5),
         ),
         const SizedBox(height: 18),
-//         _HomeFeatureCard(
-//           color:isDark? const Color(0xFF422006): const Color(0xffFEF3C7),
-//           title: 'تجربة JavaScript',
-//           image: AppImage.code,
-//           onTap: () {
-//            Navigator.of(context).push(
-//                 MaterialPageRoute(
-//                   builder: (_) => const NativeCodePlaygroundScreen(
-//                     exercise: CodeExercise(
-//                       title: 'تجربة JavaScript',
-//                       initialCode: '''
-// console.log("Hello ICT Gate");
-// ''',
-//                     ),
-//                   ),
-//                 ),
-//               );
-//           },
-//           supTitle: 'محرر اكواد JavaScript',
-//           subColor:isDark ?Color(0xFF064E3B): Color(0xffECFDF5),
-//         ),
         const SizedBox(height: 18),
         const SizedBox(height: 18),
         
@@ -107,7 +85,6 @@ class CustomHomeBody extends StatelessWidget {
     );
   }
 }
-
 
 class _HomeFeatureCard extends StatelessWidget {
   final String title;
@@ -130,70 +107,69 @@ class _HomeFeatureCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
 
-      child: SizedBox(
+      child: Container(
         height: 150.h,
-        child: Stack(
-          clipBehavior: Clip.antiAlias,
-
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.only(right: 24),
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Align(
-                alignment: Alignment.centerRight,
+            /// المحتوى
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 16,
+                  left: 4,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       title,
-                      style:Theme.of(context).textTheme.titleLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
+
                     const SizedBox(height: 8),
+
                     Text(
                       supTitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
+
                     const SizedBox(height: 8),
+
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: subColor,
-                      child: Icon(Icons.arrow_back_rounded, size: 22),
+                      child:  Icon(
+                        Icons.arrow_back_rounded,
+                        size: 22.sp,
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
 
-            /// الصورة
-            Positioned(
-              left: 0,
-              top: 0, // الصورة طالعة فوق الكارد 25px
-              child: Container(
-                decoration: BoxDecoration(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.30,
+                height: double.infinity,
                 child: Image.asset(
-                  image, // الصورة الخاصة بالعنصر
-                  height: 150.h, // ارتفاع الصورة
-                  fit: BoxFit.cover,
+                  image,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-            // Positioned(
-            //   left: -60,
-            //   top: -30,
-            //   child: Container(
-            //     width: 220,
-            //     height: 220,
-            //     decoration: BoxDecoration(
-            //       color: Colors.blue.withOpacity(0.1),
-            //       shape: BoxShape.circle,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
