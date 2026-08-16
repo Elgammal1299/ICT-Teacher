@@ -115,14 +115,15 @@ class CustomTextForm extends StatelessWidget {
       obscureText: isObscureText ?? false,
       cursorColor: cursorColor ?? AppColors.black,
       cursorErrorColor: cursorErrorColor ?? Colors.red,
-      validator: isValidator ?? true
-          ? (value) {
-              if (value == null || value.isEmpty) {
-                return '$hintText مطلوب';
-              }
-              return null;
-            }
-          : null,
+      validator: validator ??
+          ((isValidator ?? true)
+              ? (value) {
+                  if (value == null || value.isEmpty) {
+                    return '$hintText مطلوب';
+                  }
+                  return null;
+                }
+              : null),
     );
   }
 }

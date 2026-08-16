@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
@@ -102,8 +101,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -167,6 +165,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                         keyboardType: TextInputType.phone,
                         hintText: 'ادخل رقم هاتف الطالب (اختياري)',
                         prefixIcon: const Icon(Icons.phone_android),
+                        isValidator: false,
                       ),
                       const SizedBox(height: 16),
 
@@ -263,10 +262,12 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                       BlocConsumer<RegisterCubit, RegisterState>(
                         listener: (context, state) {
                           if (state is RegisterSuccess) {
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('تم التسجيل بنجاح 🎉'),
                                 backgroundColor: Colors.green,
+                                duration: Duration(seconds: 2),
                               ),
                             );
                             Navigator.of(context).pushNamedAndRemoveUntil(
@@ -274,10 +275,12 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                               (route) => false,
                             );
                           } else if (state is RegisterError) {
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(state.message),
                                 backgroundColor: Colors.red,
+                                duration: const Duration(seconds: 3),
                               ),
                             );
                           }
@@ -329,8 +332,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   /// Build step indicator widget showing current progress (Step 2 of 2)
@@ -392,6 +394,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
       valueListenable: selectedValue,
       builder: (context, currentValue, _) {
         return DropdownButtonFormField<T>(
+          dropdownColor: Theme.of(context).cardColor,
           isExpanded: true,
           initialValue: currentValue,
           decoration: InputDecoration(

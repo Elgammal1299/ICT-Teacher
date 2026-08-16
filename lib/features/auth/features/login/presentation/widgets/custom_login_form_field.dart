@@ -49,7 +49,13 @@ mainAxisAlignment: MainAxisAlignment.center,
             controller: userCtrl,
             keyboardType: TextInputType.text,
             hintText: 'ادخل اسم المستخدم',
-            prefixIcon: const Icon(Icons.person_outline,color: AppColors.primary,),
+            prefixIcon: const Icon(Icons.person_outline, color: AppColors.primary),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'يرجى إدخال اسم المستخدم';
+              }
+              return null;
+            },
           ),
 
           const SizedBox(height: 16),
@@ -57,6 +63,12 @@ mainAxisAlignment: MainAxisAlignment.center,
             hintText: 'ادخل الباسورد',
             isPasswordHidden: isPasswordHidden,
             passwordCtrl: passwordCtrl,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'يرجى إدخال كلمة المرور';
+              }
+              return null;
+            },
           ),
 
           const SizedBox(height: 32),
@@ -64,17 +76,27 @@ mainAxisAlignment: MainAxisAlignment.center,
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state is LoginSuccess) {
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("تم تسجيل الدخول ✅")),
+                  const SnackBar(
+                    content: Text("تم تسجيل الدخول ✅"),
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
+                  ),
                 );
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.chooseTermsRoute,
                   (route) => false,
                 );
               } else if (state is LoginError) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
               }
             },
             builder: (context, state) {

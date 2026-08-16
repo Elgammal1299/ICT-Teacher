@@ -55,8 +55,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -143,6 +142,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                       BlocConsumer<RegisterCubit, RegisterState>(
                         listener: (context, state) {
                           if (state is CheckUsernameSuccess) {
+                            if (!context.mounted) return;
                             // Create form data with personal info
                             final formData = RegistrationFormData(
                               username: _usernameController.text.trim(),
@@ -158,10 +158,12 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                               arguments: formData,
                             );
                           } else if (state is CheckUsernameError) {
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(state.message),
                                 backgroundColor: Colors.red,
+                                duration: const Duration(seconds: 3),
                               ),
                             );
                           }
@@ -197,8 +199,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   /// Build step indicator widget showing current progress (Step 1 of 2)
