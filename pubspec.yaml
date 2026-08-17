@@ -64,22 +64,22 @@ flutter:
   fonts:
     - family: arsura
       fonts:
-        - asset: assets\fonts\arsura.ttf
+        - asset: assets/fonts/arsura.ttf
     
     - family: uthmanic
       fonts:
-        - asset: assets\fonts\QCF2BSMLfonts\UthmanTN1 Ver10.otf
+        - asset: assets/fonts/QCF2BSMLfonts/UthmanTN1 Ver10.otf
     - family: Amiri
       fonts:
-        - asset: assets\fonts\amiri-regular.ttf
+        - asset: assets/fonts/amiri-regular.ttf
     - family: Cairo
       fonts:
-        - asset: assets\fonts\Cairo-Bold-3.ttf
-        - asset: assets\fonts\Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Bold-3.ttf
+        - asset: assets/fonts/Cairo-Regular.ttf
     - family: IBMPlexSansArabic
       fonts:
-        - asset: assets\fonts\IBMPlexSansArabic-Bold.ttf
-        - asset: assets\fonts\IBMPlexSansArabic-Regular.ttf
+        - asset: assets/fonts/IBMPlexSansArabic-Bold.ttf
+        - asset: assets/fonts/IBMPlexSansArabic-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

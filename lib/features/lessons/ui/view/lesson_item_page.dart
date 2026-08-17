@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
-import 'package:icd_teacher/core/widget/shimmer/custom_lesson_item_shimmer.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_lessons_list_view.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
