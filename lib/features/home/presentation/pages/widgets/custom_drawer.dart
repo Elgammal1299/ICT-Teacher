@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
@@ -117,11 +116,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               onTap: () {
                 Navigator.pop(context);
                  Share.share(
-                  '📚 جرّب منصة ICT Gate التعليمية! \n\n'
-                  'منصة متخصصة في تعليم تكنولوجيا المعلومات والاتصالات، والكمبيوتر، والبرمجة، والذكاء الاصطناعي لطلاب المدارس، من خلال شرح مبسط، واختبارات تفاعلية، ومراجعات شاملة تساعدك على التفوق.\n'
-                  'حمّل التطبيق الآن ! 🙏✨\n\n'
-                  'رابط التحميل: https://play.google.com/store/apps/details?id=com.ictgate2.app',
-    );
+                  '📚 جرّب تطبيق ICT Gate التعليمي!\n\n'
+                  'منصة متخصصة في تعليم تكنولوجيا المعلومات والاتصالات والكمبيوتر والبرمجة والذكاء الاصطناعي لطلاب المدارس، من خلال شرح مبسط واختبارات تفاعلية ومراجعات شاملة.\n\n'
+                  'حمّل تطبيق ICT Gate الآن وابدأ التعلم! ✨',
+                );
               },
             ),
 

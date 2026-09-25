@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/revision/ui/view/widget/custom_reviews_list_view.dart';

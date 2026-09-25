@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/shared_preferences_key.dart';
 import 'package:icd_teacher/core/helper/shaerd_pref_helper.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';

@@ -389,14 +389,12 @@ class _QuestionResultCard extends StatelessWidget {
   required bool isCorrectAnswer,
   required bool isStudentAnswer,
 }) {
-  Color backgroundColor;
   Color borderColor;
   Color textColor;
   Widget? leadingIcon;
   Widget? trailingWidget;
 
   if (isCorrectAnswer && isStudentAnswer) {
-    backgroundColor = AppColors.quizCorrectBg;
     borderColor = AppColors.success;
     textColor = AppColors.successDark;
 
@@ -411,7 +409,6 @@ class _QuestionResultCard extends StatelessWidget {
       AppColors.success,
     );
   } else if (isCorrectAnswer && !isStudentAnswer) {
-    backgroundColor = AppColors.quizCorrectBg;
     borderColor = AppColors.success;
     textColor = AppColors.successDark;
 
@@ -426,7 +423,6 @@ class _QuestionResultCard extends StatelessWidget {
       AppColors.success,
     );
   } else if (!isCorrectAnswer && isStudentAnswer) {
-    backgroundColor = AppColors.quizIncorrectBg;
     borderColor = AppColors.quizIncorrectBorder;
     textColor = AppColors.errorDark;
 
@@ -441,7 +437,6 @@ class _QuestionResultCard extends StatelessWidget {
       AppColors.error,
     );
   } else {
-    backgroundColor = AppColors.quizNeutral;
     borderColor = AppColors.quizNeutralBorder;
     textColor = Theme.of(context).canvasColor;
 

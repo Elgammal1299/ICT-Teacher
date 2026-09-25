@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icd_teacher/core/constant/app_color.dart';
 
 class CustomSwitchAuthMode extends StatelessWidget {

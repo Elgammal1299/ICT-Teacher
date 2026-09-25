@@ -8,7 +8,6 @@ import Foundation
 import device_info_plus
 import flutter_inappwebview_macos
 import flutter_secure_storage_macos
-import no_screenshot
 import package_info_plus
 import share_plus
 import shared_preferences_foundation
@@ -21,7 +20,6 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))
   InAppWebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "InAppWebViewFlutterPlugin"))
   FlutterSecureStoragePlugin.register(with: registry.registrar(forPlugin: "FlutterSecureStoragePlugin"))
-  MacOSNoScreenshotPlugin.register(with: registry.registrar(forPlugin: "MacOSNoScreenshotPlugin"))
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
   SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
