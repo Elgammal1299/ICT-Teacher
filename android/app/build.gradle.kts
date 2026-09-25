@@ -42,7 +42,8 @@ android {
 
         targetSdk = flutter.targetSdkVersion
 
-        versionCode = 11
+
+        versionCode = 12
         versionName = flutter.versionName
     }
 
