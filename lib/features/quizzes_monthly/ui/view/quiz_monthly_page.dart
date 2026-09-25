@@ -21,7 +21,7 @@ class QuizMonthlyPage extends StatelessWidget {
           if (state is QuizzesMonthyLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is QuizzesMonthyError) {
-            ErrorStateWidget(message: state.errMessage);
+            return ErrorStateWidget(message: state.errMessage);
           } else if (state is QuizzesMonthySuccess) {
             final data = state.lessons;
 

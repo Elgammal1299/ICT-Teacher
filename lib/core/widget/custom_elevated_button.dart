@@ -32,6 +32,14 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultStyle = (textStyle ??
+            Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(color: AppColors.white) ??
+            const TextStyle(color: AppColors.white))
+        .copyWith(inherit: true);
+
     return Directionality(
       textDirection: textDirection ?? TextDirection.ltr,
       child: SizedBox(
@@ -41,23 +49,21 @@ class CustomElevatedButton extends StatelessWidget {
           onPressed: onPressed,
           icon: icon,
           iconAlignment: IconAlignment.start,
-          style: OutlinedButton.styleFrom(
+          style: ElevatedButton.styleFrom(
             shadowColor: Colors.transparent,
             overlayColor: overlayColor ?? AppColors.background,
             side: BorderSide(color: borderColor ?? Colors.transparent),
             backgroundColor: backgroundColor ?? AppColors.primary,
+            foregroundColor: AppColors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
             ),
+            textStyle: defaultStyle,
           ),
           label: FittedBox(
             child: Text(
               text,
-              style:
-                  textStyle ??
-                  Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(color: AppColors.white),
+              style: defaultStyle,
             ),
           ),
         ),

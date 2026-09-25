@@ -127,7 +127,9 @@ class AppRouter {
                 create: (context) => getIt<UserDataCubit>()..userData(),
               ),
               BlocProvider(create: (context) => getIt<TramGradeCubit>()),
-              BlocProvider(create: (context) => getIt<TermsCubit>()),
+              BlocProvider(
+                create: (context) => getIt<TermsCubit>()..getTram(),
+              ),
             ],
             child: const ChooseTermsPage(),
           ),
