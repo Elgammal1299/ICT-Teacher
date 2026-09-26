@@ -5,6 +5,7 @@ import 'package:icd_teacher/core/constant/app_image.dart';
 import 'package:icd_teacher/core/router/app_routes.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/presentation/cubit/theme_cubit/theme_cubit.dart';
+import 'package:icd_teacher/core/helper/user_session.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -32,136 +33,162 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Drawer(
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // 🔹 Header
-            Container(
-              padding: const EdgeInsets.all(20),
-              color: Theme.of(context).primaryColor, // Use the primary color from AppColors
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                 Image.asset(AppImage.logo,height: 100,color: Theme.of(context).hintColor),
-                 SizedBox(height: 12),
-                  Align(
-                    alignment: AlignmentGeometry.bottomCenter,
-                    child: Text(
-                      'ICT Gate',
-                      style: Theme.of(context).textTheme.titleLarge
-                    ),
+    return Drawer(
+      width: MediaQuery.of(context).size.width * 0.82,
+      child: Column(
+        children: [
+          // 🔹 Header (extends under notch and status bar)
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 16,
+              bottom: 20,
+              left: 20,
+              right: 20,
+            ),
+            color: Theme.of(context).primaryColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  AppImage.logo,
+                  height: 90,
+                  color: Theme.of(context).hintColor,
+                ),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: AlignmentGeometry.bottomCenter,
+                  child: Text(
+                    'ICT Gate',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-                  
+                ),
+              ],
+            ),
+          ),
+
+          // 🔹 Scrollable Content
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                children: [
+                  // 🔹 Theme Switcher
+                  BlocBuilder<ThemeCubit, ThemeState>(
+                    builder: (context, state) {
+                      final isDark =
+                          state is ThemeChanged ? state.isDark : false;
+
+                      return SwitchListTile(
+                        title: Text(
+                          'الوضع الليلي',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        secondary: Icon(
+                          isDark ? Icons.dark_mode : Icons.light_mode,
+                        ),
+                        value: isDark,
+                        onChanged: (_) =>
+                            context.read<ThemeCubit>().changeTheme(),
+                      );
+                    },
+                  ),
+
+                  // 🔹 Drawer Items
+                  _DrawerItem(
+                    icon: Icons.person,
+                    title: 'البيانات الشخصية',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.profilePageRoute,
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: Icons.download,
+                    title: 'من نحن',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AppRoutes.aboutUsPageRoute);
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: Icons.info,
+                    title: 'عن المنصة',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.aboutPlatformPageRoute,
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: Icons.headset_mic_rounded,
+                    title: 'الدعم والتواصل',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AppRoutes.supportPageRoute);
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: Icons.share,
+                    title: 'مشاركة التطبيق',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Share.share(
+                        '📚 جرّب تطبيق ICT Gate التعليمي!\n\n'
+                        'منصة متخصصة في تعليم تكنولوجيا المعلومات والاتصالات والكمبيوتر والبرمجة والذكاء الاصطناعي لطلاب المدارس، من خلال شرح مبسط واختبارات تفاعلية ومراجعات شاملة.\n\n'
+                        'حمّل تطبيق ICT Gate الآن وابدأ التعلم! ✨',
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
+          ),
 
-            const SizedBox(height: 8),
-
-            // 🔹 Theme Switcher
-           BlocBuilder<ThemeCubit, ThemeState>(
-              builder: (context, state) {
-                final isDark = state is ThemeChanged ? state.isDark : false;
-
-                return SwitchListTile(
-                  title:  Text('الوضع الليلي',style: Theme.of(context).textTheme.titleLarge),
-                  secondary: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
-                  value: isDark,
-                  onChanged: (_) => context.read<ThemeCubit>().changeTheme(),
-                );
-              },
-            ),
-
-            // 🔹 Drawer Items
-            _DrawerItem(
-              icon: Icons.person,
-              title: 'البيانات الشخصية',
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.profilePageRoute,
-                );
-              },
-            ),
-            _DrawerItem(
-              icon: Icons.download,
-              title: 'من نحن',
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.aboutUsPageRoute);
-              },
-            ),
-            _DrawerItem(
-              icon: Icons.info,
-              title: 'عن المنصة',
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.aboutPlatformPageRoute);
-              },
-            ),
-            _DrawerItem(
-              icon: Icons.person,
-              title: 'الدعم والتواصل',
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.supportPageRoute);
-              },
-            ),
-            _DrawerItem(
-              icon: Icons.share,
-              title: 'مشاركة التطبيق',
-              onTap: () {
-                Navigator.pop(context);
-                 Share.share(
-                  '📚 جرّب تطبيق ICT Gate التعليمي!\n\n'
-                  'منصة متخصصة في تعليم تكنولوجيا المعلومات والاتصالات والكمبيوتر والبرمجة والذكاء الاصطناعي لطلاب المدارس، من خلال شرح مبسط واختبارات تفاعلية ومراجعات شاملة.\n\n'
-                  'حمّل تطبيق ICT Gate الآن وابدأ التعلم! ✨',
-                );
-              },
-            ),
-
-            const Spacer(),
-
-const SizedBox(height: 4),
-  Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: CustomElevatedButton(
-backgroundColor: Colors.red,
-      text: 'تسجيل الخروج',
-      icon: Icon(Icons.logout, color: Colors.white),
-      onPressed: () {
-        Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
-      },
-    ),
-  ),
-const SizedBox(height: 4),
-                  // Center(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(12.0),
-                  //     child: Text(
-                  //       'نسخة $version',
-                  //       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  //         color: Theme.of(context).primaryColorDark,
-                  //         fontSize: 20.sp,
-                  //         fontFamily: 'Amiri',),
-                  //     ),
-                  //   ),
-                  // ),
-            // 🔹 Footer
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Center(
-                child: Text(
-                  ' جميع الحقوق محفوظة © $year',
-                  style: Theme.of(context).textTheme.bodySmall,
+          // 🔹 Footer with Safe bottom area
+          SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                  child: CustomElevatedButton(
+                    backgroundColor: Colors.red.shade700,
+                    text: 'تسجيل الخروج',
+                    icon: const Icon(Icons.logout, color: Colors.white),
+                    onPressed: () async {
+                      await UserSession.logout();
+                      if (context.mounted) {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutes.loginRoute,
+                          (route) => false,
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                    child: Text(
+                      ' جميع الحقوق محفوظة © $year',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

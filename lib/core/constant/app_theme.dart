@@ -97,9 +97,10 @@ class AppTheme {
         foregroundColor: AppColors.textOnPrimary,
         elevation: 2,
         shadowColor: AppColors.shadowMedium,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
+          inherit: true,
           fontFamily: 'Cairo',
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -111,8 +112,9 @@ class AppTheme {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: AppColors.primary,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        textStyle: TextStyle(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        textStyle: const TextStyle(
+          inherit: true,
           fontFamily: 'Cairo',
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -124,10 +126,11 @@ class AppTheme {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.primary,
-        side: BorderSide(color: AppColors.primary, width: 1.5),
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        side: const BorderSide(color: AppColors.primary, width: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
+          inherit: true,
           fontFamily: 'Cairo',
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -303,6 +306,7 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData(
+    useMaterial3: true,
     canvasColor: AppColors.white,
 
     brightness: Brightness.dark,
@@ -356,39 +360,90 @@ class AppTheme {
       ),
     ),
 
-    textTheme: TextTheme(
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryDark,
+        foregroundColor: AppColors.white,
+        elevation: 2,
+        shadowColor: AppColors.shadowMedium,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        textStyle: const TextStyle(
+          inherit: true,
+          fontFamily: 'Cairo',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.primaryDark,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        textStyle: const TextStyle(
+          inherit: true,
+          fontFamily: 'Cairo',
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AppColors.white,
+        side: const BorderSide(color: AppColors.primaryDark, width: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        textStyle: const TextStyle(
+          inherit: true,
+          fontFamily: 'Cairo',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+
+    textTheme: const TextTheme(
       bodyLarge: TextStyle(
+        inherit: true,
         color: AppColors.darkTextPrimary,
         fontSize: 16,
         fontFamily: 'IBMPlexSansArabic',
         height: 1.5,
       ),
       bodyMedium: TextStyle(
+        inherit: true,
         color: AppColors.darkTextSecondary,
         fontSize: 14,
         fontFamily: 'IBMPlexSansArabic',
         height: 1.5,
       ),
       bodySmall: TextStyle(
+        inherit: true,
         color: AppColors.textSecondary,
         fontSize: 14,
         fontFamily: 'IBMPlexSansArabic',
         height: 1.5,
       ),
       titleMedium: TextStyle(
+        inherit: true,
         color: AppColors.white,
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
       titleLarge: TextStyle(
+        inherit: true,
         color: AppColors.white,
         fontWeight: FontWeight.bold,
         fontSize: 18,
       ),
       labelLarge: TextStyle(
+        inherit: true,
         fontFamily: "IBMPlexSansArabic",
         fontWeight: FontWeight.bold,
-        fontSize: 30,
+        fontSize: 16,
         color: AppColors.white,
       ),
     ),

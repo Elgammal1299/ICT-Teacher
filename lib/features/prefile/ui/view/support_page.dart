@@ -276,29 +276,37 @@ class _ContactTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
-        color:Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: Colors.black12),
       ),
-      child: ListTile(
-        leading: Icon(icon, color: AppColors.primary),
-        title: Text(title,style: Theme.of(context).textTheme.bodyLarge,),
-        subtitle: Text(
-          value,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontFamily: 'Amiri',
-            fontSize: 18.sp,
+      child: Material(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16.r),
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          leading: Icon(icon, color: AppColors.primary),
+          title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
+          subtitle: Text(
+            value,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontFamily: 'Amiri',
+              fontSize: 18.sp,
+            ),
           ),
+          trailing: Container(
+            padding: EdgeInsets.all(6.w),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: AppColors.primary,
+            ),
+          ),
+          onTap: onTap,
         ),
-        trailing: Container(
-          padding: EdgeInsets.all(6.w),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(.1),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          
-          child: const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: AppColors.primary)),
-        onTap: onTap,
       ),
     );
   }
