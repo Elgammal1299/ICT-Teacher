@@ -9,10 +9,18 @@ class QuizzesMonthlyRepo {
 
   QuizzesMonthlyRepo(this.apiService);
 
-  Future<Either<Failure, List<LessonsModel>>> getQuizzesMonthlyRepo(String termId ,contentType) async {
+  Future<Either<Failure, List<LessonsModel>>> getQuizzesMonthlyRepo(String termId, contentType) async {
     try {
-      final response = await apiService.getQuizzesMonthly(termId, contentType);
-      return Right(response);
+      final response = await apiService.getExams(termId);
+      List<LessonsModel> list = [];
+      if (response is List) {
+        list = response.map((e) => LessonsModel.fromJson(e as Map<String, dynamic>)).toList();
+      } else if (response is Map<String, dynamic> && response['results'] is List) {
+        list = (response['results'] as List)
+            .map((e) => LessonsModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+      return Right(list);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioError(e));
     } catch (e) {

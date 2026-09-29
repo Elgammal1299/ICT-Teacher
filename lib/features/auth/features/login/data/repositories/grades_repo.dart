@@ -12,7 +12,15 @@ class GradesRepo {
   Future<Either<Failure, List<GradeModel>>> grades() async {
     try {
       final response = await apiService.grades();
-      return Right(response);
+      List<GradeModel> gradesList = [];
+      if (response is List) {
+        gradesList = response.map((e) => GradeModel.fromJson(e as Map<String, dynamic>)).toList();
+      } else if (response is Map<String, dynamic> && response['results'] is List) {
+        gradesList = (response['results'] as List)
+            .map((e) => GradeModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+      return Right(gradesList);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioError(e));
     } catch (e) {

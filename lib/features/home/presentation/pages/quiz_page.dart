@@ -421,8 +421,11 @@ class _QuizPageState extends State<QuizPage> {
                         });
                       } else {
                         // تجهيز body للإرسال
+                        final answerItems = userAnswers.entries
+                            .map((e) => AnswerItem(question: e.key, choices: [e.value]))
+                            .toList();
                         final body = AnswersRequestModel(
-                          answers: userAnswers.values.toList(),
+                          answers: answerItems,
                         );
 
                         // إرسال الإجابات

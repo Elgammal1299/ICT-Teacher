@@ -5,6 +5,7 @@ import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
 import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
+import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_result_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
@@ -20,8 +21,26 @@ class QuizQuestionsPage extends StatefulWidget {
 
 class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
   int questionIndex = 0;
-  int answerChosen = -1;
-  final Map<String, String> userAnswers = {};
+  
+  // Track selected choice IDs for MCQ questions (supports multi-select)
+  final Map<String, Set<String>> userMcqAnswers = {};
+
+  // Track text answers for Essay questions
+  final Map<String, String> userEssayAnswers = {};
+
+  // Controller for essay text input
+  final TextEditingController _essayController = TextEditingController();
+
+  @override
+  void dispose() {
+    _essayController.dispose();
+    super.dispose();
+  }
+
+  void _syncEssayControllerForCurrentQuestion(QuestionModel question) {
+    final qId = question.id ?? '';
+    _essayController.text = userEssayAnswers[qId] ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,29 +67,47 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
               return const Center(child: CircularProgressIndicator());
             } else if (state is QuizSuccess) {
               final quiz = state.quiz;
+
+              // If the student has an existing submission for this quiz, open results immediately
+              if (quiz.submission != null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => QuizResultPage(result: quiz.submission!),
+                      ),
+                    );
+                  }
+                });
+                return const Center(child: CircularProgressIndicator());
+              }
+
               final questions = quiz.questions ?? [];
 
               if (questions.isEmpty) {
-                return CustomNoItem(title: 'لا يوجد اختبارات حتي الان ');
+                return const CustomNoItem(title: 'لا يوجد اختبارات حتي الان ');
               }
 
               final currentQuestion = questions[questionIndex];
+              final qId = currentQuestion.id ?? '';
+              final isEssay = (currentQuestion.questionType ?? '').toLowerCase() == 'essay';
+              final isMultiple = currentQuestion.multiple ?? false;
+
+              final currentSelectedChoices = userMcqAnswers[qId] ?? <String>{};
 
               return Padding(
                 padding: EdgeInsets.all(16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ========================================
-                    // السؤال + الإجابات = Scrollable
-                    // ========================================
                     Expanded(
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            /// السؤال
+                            /// Question body container
                             Container(
                               padding: EdgeInsets.all(16.w),
                               width: double.infinity,
@@ -79,85 +116,120 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
                                 borderRadius: BorderRadius.circular(8.r),
                                 border: Border.all(color: Colors.black12),
                               ),
-                              child: Text(
-                                (currentQuestion.body ?? '').replaceAll(
-                                  r'$',
-                                  '\n',
-                                ),
-                                style: Theme.of(context).textTheme.titleLarge,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
+                                    style: Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  if (isMultiple)
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 8.h),
+                                      child: Text(
+                                        '(يمكنك اختيار أكثر من إجابة)',
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
 
                             SizedBox(height: 20.h),
 
-                            /// الإجابات
-                            Column(
-                              children: List.generate(
-                                (currentQuestion.choices ?? []).length,
-                                (index) {
-                                  final choice =
-                                      currentQuestion.choices![index];
+                            /// Render choices for MCQ or TextFormField for Essay
+                            if (isEssay) ...[
+                              Text(
+                                'اكتب إجابتك هنا:',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              SizedBox(height: 10.h),
+                              TextFormField(
+                                controller: _essayController,
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  hintText: 'أدخل الإجابة المقالية...',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                ),
+                                onChanged: (val) {
+                                  userEssayAnswers[qId] = val.trim();
+                                },
+                              ),
+                            ] else ...[
+                              Column(
+                                children: List.generate(
+                                  (currentQuestion.choices ?? []).length,
+                                  (index) {
+                                    final choice = currentQuestion.choices![index];
+                                    final cId = choice.id ?? '';
+                                    final isSelected = currentSelectedChoices.contains(cId);
 
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 8.h,
-                                    ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          answerChosen = index;
-                                        });
-                                      },
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black12,
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            if (isMultiple) {
+                                              final set = userMcqAnswers[qId] ?? <String>{};
+                                              if (set.contains(cId)) {
+                                                set.remove(cId);
+                                              } else {
+                                                set.add(cId);
+                                              }
+                                              userMcqAnswers[qId] = set;
+                                            } else {
+                                              userMcqAnswers[qId] = {cId};
+                                            }
+                                          });
+                                        },
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? Theme.of(context).primaryColor
+                                                  : Colors.black12,
+                                              width: isSelected ? 2.w : 1.w,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.r),
+                                            color: isSelected
+                                                ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
+                                                : Theme.of(context).cardColor,
                                           ),
-                                          borderRadius: BorderRadius.circular(
-                                            8.r,
-                                          ),
-                                          color: answerChosen == index
-                                              ? Colors.green
-                                              : Theme.of(context).cardColor,
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(16.w),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.circle_outlined,
-                                                size: 20.r,
-                                                color: answerChosen == index
-                                                    ? Colors.black
-                                                    : Theme.of(
-                                                        context,
-                                                      ).primaryColor,
-                                              ),
-
-                                              SizedBox(width: 16.w),
-
-                                              Expanded(
-                                                child: Text(
-                                                  (choice.body ?? '')
-                                                      .replaceAll(r'$', '\n'),
-                                                  style: Theme.of(
-                                                    context,
-                                                  ).textTheme.titleMedium,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(16.w),
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Icon(
+                                                  isMultiple
+                                                      ? (isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded)
+                                                      : (isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_unchecked_rounded),
+                                                  size: 20.r,
+                                                  color: Theme.of(context).primaryColor,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 16.w),
+                                                Expanded(
+                                                  child: Text(
+                                                    (choice.body ?? '').replaceAll(r'$', '\n'),
+                                                    style: Theme.of(context).textTheme.titleMedium,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
+                            ],
 
-                            // مساحة صغيرة في آخر الـ Scroll
                             SizedBox(height: 20.h),
                           ],
                         ),
@@ -166,47 +238,45 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
 
                     SizedBox(height: 12.h),
 
-                    // ========================================
-                    // زر Next / Finish ثابت تحت
-                    // ========================================
+                    // Next / Submit button
                     CustomElevatedButton(
-                      text: questionIndex + 1 < questions.length
-                          ? 'التالى'
-                          : 'انتهاء',
+                      text: questionIndex + 1 < questions.length ? 'التالى' : 'انتهاء',
                       onPressed: () {
-                        if (answerChosen == -1) return;
-
-                        final selectedChoice =
-                            currentQuestion.choices![answerChosen];
-
-                        // حفظ إجابة المستخدم
-                        userAnswers[currentQuestion.id ?? ""] =
-                            selectedChoice.id ?? "";
-
-                        context.read<QuizCubit>().selectAnswer(
-                          questionId: currentQuestion.id ?? '',
-                          choiceId: selectedChoice.id ?? '',
-                        );
-
+                        // Advance to next question or submit quiz
                         if (questionIndex + 1 < questions.length) {
                           setState(() {
                             questionIndex++;
-                            answerChosen = -1;
+                            final nextQ = questions[questionIndex];
+                            _syncEssayControllerForCurrentQuestion(nextQ);
                           });
                         } else {
-                          // إرسال كل الإجابات مرة واحدة عند الانتهاء
-                          final answersList = userAnswers.entries
-                              .map((e) => e.value)
-                              .toList();
+                          // Build SubmissionCreateRequest answer items
+                          final List<AnswerItem> answerItems = [];
 
-                          final answersBody = AnswersRequestModel(
-                            answers: answersList,
-                          );
+                          for (final q in questions) {
+                            final questionId = q.id ?? '';
+                            final qIsEssay = (q.questionType ?? '').toLowerCase() == 'essay';
+
+                            if (qIsEssay) {
+                              final txt = userEssayAnswers[questionId];
+                              if (txt != null && txt.isNotEmpty) {
+                                answerItems.add(AnswerItem(question: questionId, text: txt));
+                              }
+                            } else {
+                              final choicesSet = userMcqAnswers[questionId];
+                              if (choicesSet != null && choicesSet.isNotEmpty) {
+                                answerItems.add(AnswerItem(question: questionId, choices: choicesSet.toList()));
+                              }
+                            }
+                          }
+
+                          final answersBody = AnswersRequestModel(answers: answerItems);
+                          final targetQuizId = quiz.id ?? widget.quizModel.id;
 
                           context.read<AnswersSubmitCubit>().getSubmit(
-                            widget.quizModel.id,
-                            answersBody,
-                          );
+                                targetQuizId,
+                                answersBody,
+                              );
                         }
                       },
                     ),

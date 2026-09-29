@@ -13,55 +13,91 @@ class QuizResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalQuestions = result.questions.length;
-    final percentage = ((result.score / totalQuestions) * 100).toStringAsFixed(
-      1,
-    );
+    final maxScore = (result.maxScore != null && result.maxScore! > 0)
+        ? result.maxScore!
+        : (totalQuestions > 0 ? totalQuestions : 1);
+    final percentage = ((result.score / maxScore) * 100).toStringAsFixed(1);
     final correctAnswers = result.questions
         .where((q) => q.answeredCorrectly)
         .length;
     final wrongAnswers = totalQuestions - correctAnswers;
+    final hasPendingEssays = result.hasPendingEssays ?? false;
 
     return Scaffold(
-      appBar: AppBar(title: Text("نتيجة الاختبار")),
+      appBar: AppBar(title: const Text("نتيجة الاختبار")),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: RS.spaceL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Modern Score Header Card with Gradient
+            // Modern Score Header Card
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                // gradient: AppColors.primaryGradient,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(32.r),
                   bottomRight: Radius.circular(32.r),
                 ),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: AppColors.shadowMedium,
-                //     blurRadius: 16.r,
-                //     offset: Offset(0, 8.h),
-                //   ),
-                // ],
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
               child: Column(
                 children: [
-                  // Celebratory Icon (changes based on score)
-                  // Icon(
-                  //   _getCelebrationIcon(double.parse(percentage)),
-                  //   size: 64.r,
-                  //   color: Colors.white,
-                  // ),
-                  // RS.vSpaceS,
+                  // Pass/Fail status or Pending Banner
+                  if (hasPendingEssays)
+                    Container(
+                      margin: EdgeInsets.only(bottom: 12.h),
+                      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+                      decoration: BoxDecoration(
+                        color: Colors.amber.shade700,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.hourglass_top_rounded, color: Colors.white, size: 20.sp),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "إجاباتك المقالية قيد التصحيح بواسطة المعلم",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else if (result.isPassed != null)
+                    Container(
+                      margin: EdgeInsets.only(bottom: 12.h),
+                      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                      decoration: BoxDecoration(
+                        color: (result.isPassed == true) ? AppColors.success : AppColors.error,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Text(
+                        (result.isPassed == true) ? "مبروك! لقد اجتزت الاختبار بنجاح 🎉" : "لم تجتز الاختبار، حاول مرة أخرى 💡",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
 
                   // Score Display
+                  Text(
+                    "الدرجة: ${result.score} / $maxScore",
+                    style: TextStyle(
+                      fontSize: 26.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
 
-                  // RS.vSpaceXS,
-
-                  // Stats Row with Modern Cards
+                  // Stats Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -111,9 +147,7 @@ class QuizResultPage extends StatelessWidget {
               ),
             ),
 
-            // RS.vSpaceL,
-
-            // Questions List Header with modern design
+            // Questions List Header
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: RS.spaceM,
@@ -137,11 +171,11 @@ class QuizResultPage extends StatelessWidget {
                   Text(
                     "تفاصيل الإجابات",
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
@@ -164,7 +198,7 @@ class QuizResultPage extends StatelessWidget {
               ),
             ),
 
-            // Questions List (non-scrollable, embedded)
+            // Questions List
             ListView.builder(
               padding: EdgeInsets.symmetric(
                 horizontal: RS.spaceM,
@@ -182,33 +216,76 @@ class QuizResultPage extends StatelessWidget {
               },
             ),
 
+            // Display essay feedback cards if essay answers exist
+            if (result.essayAnswers != null && result.essayAnswers!.isNotEmpty) ...[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: RS.spaceM, vertical: RS.spaceS),
+                child: Text(
+                  "تفاصيل الأسئلة المقالية",
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                ),
+              ),
+              ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: RS.spaceM),
+                itemCount: result.essayAnswers!.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final essay = result.essayAnswers![index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: RS.spaceM),
+                    padding: EdgeInsets.all(RS.spaceM),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(color: Colors.amber.shade300, width: 1.5.w),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "السؤال: ${essay.body ?? ''}",
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          "إجابتك: ${essay.answerText ?? ''}",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          essay.pointsAwarded == null
+                              ? "الحالة: قيد التصحيح من قبل المعلم"
+                              : "الدرجة المستحقة: ${essay.pointsAwarded} / ${essay.points ?? 0}",
+                          style: TextStyle(
+                            color: essay.pointsAwarded == null ? Colors.amber.shade900 : AppColors.success,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+
             RS.vSpaceM,
 
-            // Bottom Button - Modern Design
+            // Return to Home button
             Padding(
               padding: EdgeInsets.symmetric(horizontal: RS.spaceM),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: AppColors.primaryGradient,
-                  borderRadius: BorderRadius.circular(16.r),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: AppColors.primarySurface,
-                  //     blurRadius: 12.r,
-                  //     offset: Offset(0, 6.h),
-                  //   ),
-                  // ],
-                ),
-                child: CustomElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'العودة للصفحة الرئيسية',
-                  icon: Icon(
-                    Icons.home_rounded,
-                    size: RS.iconM,
-                    color: Colors.white,
-                  ),
+              child: CustomElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: 'العودة للصفحة الرئيسية',
+                icon: Icon(
+                  Icons.home_rounded,
+                  size: RS.iconM,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -217,8 +294,6 @@ class QuizResultPage extends StatelessWidget {
       ),
     );
   }
-
-  // Modern stat card widget
 }
 
 class ModernStatCard extends StatelessWidget {
@@ -287,85 +362,48 @@ class _QuestionResultCard extends StatelessWidget {
           color: isCorrect ? AppColors.success : AppColors.quizIncorrectBorder,
           width: 2.w,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: isCorrect
-                ? AppColors.secondarySuccess
-                : AppColors.quizIncorrectBorder,
-            blurRadius: 2.r,
-            offset: Offset(0, 1.h),
-          ),
-        ],
       ),
       child: Padding(
         padding: EdgeInsets.all(RS.spaceM),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Question Header - Modern Design
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Question Number Badge
                 Container(
                   width: 44.r,
                   height: 44.r,
                   decoration: BoxDecoration(
-                    gradient: isCorrect
-                        ? AppColors.successGradient
-                        : AppColors.errorGradient,
+                    color: isCorrect ? AppColors.success : AppColors.error,
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: (isCorrect ? AppColors.success : AppColors.error)
-                            .withValues(alpha: 0.3),
-                        blurRadius: 8.r,
-                        offset: Offset(0, 2.h),
-                      ),
-                    ],
                   ),
                   child: Center(
                     child: Text(
                       "$questionNumber",
-                      style: Theme.of(context).textTheme.titleMedium
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
                 SizedBox(width: RS.spaceS),
-
-                // Question Text
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(top: 4.h),
                     child: Text(
                       (question.body).replaceAll(r'$', '\n'),
-                      style: Theme.of(context).textTheme.titleMedium
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ),
                 SizedBox(width: RS.spaceS),
-
-                // Status Icon
-                Container(
-                  padding: EdgeInsets.all(8.r),
-                  decoration: BoxDecoration(
-                    color: isCorrect ? AppColors.successBg : AppColors.errorBg,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Icon(
-                    isCorrect
-                        ? Icons.check_circle_rounded
-                        : Icons.cancel_rounded,
-                    color: isCorrect ? AppColors.success : AppColors.error,
-                    size: RS.iconM,
-                  ),
+                Icon(
+                  isCorrect ? Icons.check_circle_rounded : Icons.cancel_rounded,
+                  color: isCorrect ? AppColors.success : AppColors.error,
+                  size: RS.iconM,
                 ),
               ],
             ),
-
             SizedBox(height: RS.spaceM),
-
-            // Choices Section
             ...question.choices.map((choice) {
               final isCorrectAnswer = choice.isCorrect;
               final isStudentAnswer = choice.isAnswered;
@@ -384,144 +422,80 @@ class _QuestionResultCard extends StatelessWidget {
   }
 
   Widget _buildChoiceItem(
-  BuildContext context,
-  String text, {
-  required bool isCorrectAnswer,
-  required bool isStudentAnswer,
-}) {
-  Color borderColor;
-  Color textColor;
-  Widget? leadingIcon;
-  Widget? trailingWidget;
+    BuildContext context,
+    String text, {
+    required bool isCorrectAnswer,
+    required bool isStudentAnswer,
+  }) {
+    Color borderColor;
+    Color textColor;
+    Widget? leadingIcon;
+    Widget? trailingWidget;
 
-  if (isCorrectAnswer && isStudentAnswer) {
-    borderColor = AppColors.success;
-    textColor = AppColors.successDark;
+    if (isCorrectAnswer && isStudentAnswer) {
+      borderColor = AppColors.success;
+      textColor = AppColors.successDark;
+      leadingIcon = Icon(Icons.check_circle_rounded, color: AppColors.success, size: RS.iconM);
+      trailingWidget = _buildModernTag("إجابتك ✓", AppColors.success);
+    } else if (isCorrectAnswer && !isStudentAnswer) {
+      borderColor = AppColors.success;
+      textColor = AppColors.successDark;
+      leadingIcon = Icon(Icons.check_circle_rounded, color: AppColors.success, size: RS.iconM);
+      trailingWidget = _buildModernTag("الإجابة الصحيحة", AppColors.success);
+    } else if (!isCorrectAnswer && isStudentAnswer) {
+      borderColor = AppColors.quizIncorrectBorder;
+      textColor = AppColors.errorDark;
+      leadingIcon = Icon(Icons.cancel_rounded, color: AppColors.error, size: RS.iconM);
+      trailingWidget = _buildModernTag("إجابتك ✗", AppColors.error);
+    } else {
+      borderColor = AppColors.quizNeutralBorder;
+      textColor = Theme.of(context).canvasColor;
+      leadingIcon = Icon(Icons.radio_button_unchecked_rounded, color: AppColors.borderDark, size: RS.iconM);
+    }
 
-    leadingIcon = Icon(
-      Icons.check_circle_rounded,
-      color: AppColors.success,
-      size: RS.iconM,
-    );
-
-    trailingWidget = _buildModernTag(
-      "إجابتك ✓",
-      AppColors.success,
-    );
-  } else if (isCorrectAnswer && !isStudentAnswer) {
-    borderColor = AppColors.success;
-    textColor = AppColors.successDark;
-
-    leadingIcon = Icon(
-      Icons.check_circle_rounded,
-      color: AppColors.success,
-      size: RS.iconM,
-    );
-
-    trailingWidget = _buildModernTag(
-      "الإجابة الصحيحة",
-      AppColors.success,
-    );
-  } else if (!isCorrectAnswer && isStudentAnswer) {
-    borderColor = AppColors.quizIncorrectBorder;
-    textColor = AppColors.errorDark;
-
-    leadingIcon = Icon(
-      Icons.cancel_rounded,
-      color: AppColors.error,
-      size: RS.iconM,
-    );
-
-    trailingWidget = _buildModernTag(
-      "إجابتك ✗",
-      AppColors.error,
-    );
-  } else {
-    borderColor = AppColors.quizNeutralBorder;
-    textColor = Theme.of(context).canvasColor;
-
-    leadingIcon = Icon(
-      Icons.radio_button_unchecked_rounded,
-      color: AppColors.borderDark,
-      size: RS.iconM,
-    );
-  }
-
-  return Container(
-    margin: EdgeInsets.only(bottom: RS.spaceS),
-    padding: EdgeInsets.all(14.r),
-    decoration: BoxDecoration(
-      color: Theme.of(context).cardColor,
-      border: Border.all(
-        color: borderColor,
-        width: 2.w,
+    return Container(
+      margin: EdgeInsets.only(bottom: RS.spaceS),
+      padding: EdgeInsets.all(14.r),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        border: Border.all(color: borderColor, width: 2.w),
+        borderRadius: BorderRadius.circular(12.r),
       ),
-      borderRadius: BorderRadius.circular(12.r),
-      boxShadow: [
-        if (isStudentAnswer || isCorrectAnswer)
-          BoxShadow(
-            color: borderColor.withValues(alpha: 0.2),
-            blurRadius: 6.r,
-            offset: Offset(0, 2.h),
-          ),
-      ],
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: 2.h),
-          child: leadingIcon,
-        ),
-
-        SizedBox(width: RS.spaceS),
-
-        Expanded(
-          child: Text(
-            text.replaceAll(r'$', '\n'),
-            style: TextStyle(
-              fontSize: RS.textM,
-              fontWeight: FontWeight.w500,
-              color: textColor,
-              height: 1.5,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(padding: EdgeInsets.only(top: 2.h), child: leadingIcon),
+          SizedBox(width: RS.spaceS),
+          Expanded(
+            child: Text(
+              text.replaceAll(r'$', '\n'),
+              style: TextStyle(
+                fontSize: RS.textM,
+                fontWeight: FontWeight.w500,
+                color: textColor,
+                height: 1.5,
+              ),
             ),
           ),
-        ),
-
-        if (trailingWidget != null) ...[
-          SizedBox(width: RS.spaceS),
-          trailingWidget,
+          if (trailingWidget != null) ...[
+            SizedBox(width: RS.spaceS),
+            trailingWidget,
+          ],
         ],
-      ],
-    ),
-  );
-}
+      ),
+    );
+  }
 
   Widget _buildModernTag(String text, Color color) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [color, color.withValues(alpha: 0.8)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: color,
         borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.3),
-            blurRadius: 4.r,
-            offset: Offset(0, 2.h),
-          ),
-        ],
       ),
       child: Text(
         text,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 11.sp,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.bold),
       ),
     );
   }

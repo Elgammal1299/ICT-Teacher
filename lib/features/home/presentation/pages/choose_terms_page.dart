@@ -244,7 +244,7 @@ class _ChooseTermsPageState extends State<ChooseTermsPage> {
         if (state is UserDataSuccess) {
           final termsState = context.read<TermsCubit>().state;
           if (termsState is TermsInitial || termsState is TermsError) {
-            context.read<TermsCubit>().getTram();
+            context.read<TermsCubit>().getTram(state.response.gradeId);
           }
         }
       },
@@ -299,6 +299,7 @@ class _ChooseTermsPageState extends State<ChooseTermsPage> {
                 activeTerms = activeTerms
                     .where(
                       (term) =>
+                          term.gradeName.isEmpty ||
                           term.gradeName.trim().toLowerCase() ==
                           registeredGrade.toLowerCase(),
                     )

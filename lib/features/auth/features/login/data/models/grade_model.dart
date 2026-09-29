@@ -6,12 +6,18 @@ part 'grade_model.g.dart';
 class GradeModel {
   final String id;
   final String name;
-  final String url;
+  final String? url;
+  final int? level;
+
+  @JsonKey(name: 'is_active')
+  final bool? isActive;
 
   GradeModel({
     required this.id,
     required this.name,
-    required this.url,
+    this.url,
+    this.level,
+    this.isActive,
   });
 
   factory GradeModel.fromJson(Map<String, dynamic> json) =>

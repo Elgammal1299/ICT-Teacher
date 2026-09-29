@@ -12,7 +12,15 @@ class RegionRepo {
   Future<Either<Failure, List<RegionModel>>> regions() async {
     try {
       final response = await apiService.regions();
-      return Right(response);
+      List<RegionModel> regionsList = [];
+      if (response is List) {
+        regionsList = response.map((e) => RegionModel.fromJson(e as Map<String, dynamic>)).toList();
+      } else if (response is Map<String, dynamic> && response['results'] is List) {
+        regionsList = (response['results'] as List)
+            .map((e) => RegionModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+      return Right(regionsList);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioError(e));
     } catch (e) {

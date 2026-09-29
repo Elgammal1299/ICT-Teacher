@@ -37,8 +37,26 @@ class TermModel {
   });
 
   // لتحويل JSON إلى TermModel
-  factory TermModel.fromJson(Map<String, dynamic> json) =>
-      _$TermModelFromJson(json);
+  factory TermModel.fromJson(Map<String, dynamic> json) {
+    // ignore: avoid_print
+    print('DEBUG [TermModel.fromJson] parsing JSON payload: $json');
+    try {
+      return TermModel(
+        id: json['id']?.toString() ?? '',
+        name: json['name']?.toString() ?? '',
+        isActive: json['is_active'] as bool? ?? true,
+        lessonsUrl: json['lessons_url']?.toString(),
+        revisionsUrl: json['revisions_url']?.toString(),
+        gradeName: json['grade_name']?.toString() ??
+            (json['grade'] is Map ? (json['grade'] as Map)['name']?.toString() : json['grade']?.toString()) ??
+            '',
+      );
+    } catch (e, stack) {
+      // ignore: avoid_print
+      print('ERROR [TermModel.fromJson] Failed to parse JSON: $e\n$stack');
+      rethrow;
+    }
+  }
 
   // لتحويل TermModel إلى JSON
   Map<String, dynamic> toJson() => _$TermModelToJson(this);

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:icd_teacher/core/service/api_constants.dart';
 import 'package:icd_teacher/features/accounts_students/data/model/accounts_id_model.dart';
 import 'package:icd_teacher/features/accounts_students/data/model/accounts_model.dart';
-import 'package:icd_teacher/features/auth/features/login/data/models/grade_model.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/login_body.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/login_response.dart';
 import 'package:icd_teacher/features/auth/features/login/data/models/region_model.dart';
@@ -11,7 +10,6 @@ import 'package:icd_teacher/features/auth/features/login/data/models/register_re
 import 'package:icd_teacher/features/home/data/models/answers_questions_model.dart';
 import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
 import 'package:icd_teacher/features/home/data/models/content_model.dart';
-import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
 import 'package:icd_teacher/features/home/data/models/term_model.dart';
 import 'package:icd_teacher/features/home/data/models/tram_grade_model.dart';
@@ -53,7 +51,7 @@ abstract class ApiService {
 
   /// service for grades
   @GET(ApiConstants.grades)
-  Future<List<GradeModel>> grades();
+  Future<dynamic> grades();
 
   /// service for gradesId
   @GET(ApiConstants.gradeId)
@@ -61,52 +59,48 @@ abstract class ApiService {
 
   /// service for grades
   @GET(ApiConstants.regions)
-  Future<List<RegionModel>> regions();
+  Future<dynamic> regions();
 
   /// service for gradesId
   @GET(ApiConstants.regionId)
   Future<RegionModel> regionId(@Path("id") String id);
 
-  /// service for contents
-  @GET(ApiConstants.contents)
-  Future<List<LessonsModel>> getLessons(
-    @Query("term") String termId,
-    @Query("content_type") String contentType,
+  /// service for contents/lessons by term
+  @GET(ApiConstants.termLessons)
+  Future<dynamic> getLessons(
+    @Path("term_id") String termId,
   );
 
-  /// service for Revisions
-  @GET(ApiConstants.contents)
-  Future<List<LessonsModel>> getRevisions(
-    @Query("term") String termId,
-    @Query("content_type") String contentType,
+  /// service for Revisions by term
+  @GET(ApiConstants.termRevisions)
+  Future<dynamic> getRevisions(
+    @Path("term_id") String termId,
   );
 
   /// service for content by id
   @GET(ApiConstants.contentId)
   Future<ContentModel> getContentById(@Path("id") String id);
 
-  /// service for quizzes Monthly
-  @GET(ApiConstants.quizzes)
-  Future<List<LessonsModel>> getQuizzesMonthly(
-    @Query("term") String termId,
-    @Query("quiz_type") String contentType,
+  /// service for term assessments (weekly)
+  @GET(ApiConstants.termAssessments)
+  Future<dynamic> getAssessments(
+    @Path("term_id") String termId,
   );
 
-  /// service for quizzes Weekly
-  @GET(ApiConstants.quizzes)
-  Future<List<LessonsModel>> getQuizzesWeekly(
-    @Query("term") String termId,
-    @Query("quiz_type") String contentType,
+  /// service for term exams (monthly)
+  @GET(ApiConstants.termExams)
+  Future<dynamic> getExams(
+    @Path("term_id") String termId,
   );
 
   /// service for quiz by id
   @GET(ApiConstants.quizzesId)
   Future<QuizModel> getQuizById(@Path("id") String id);
 
-  /// service for quiz submit
-  @POST(ApiConstants.submit)
+  /// service for quiz submission
+  @POST(ApiConstants.quizSubmissions)
   Future<AnswersQuestionsModel> getSubmit(
-    @Path("id") String id,
+    @Path("quiz_id") String quizId,
     @Body() AnswersRequestModel body,
   );
   /// service for accounts
@@ -120,7 +114,19 @@ abstract class ApiService {
   @GET(ApiConstants.terms)
   Future<List<TermModel>> terms();
 
+  /// service for terms by grade
+  @GET(ApiConstants.termsByGrade)
+  Future<dynamic> termsByGrade(@Path("grade_id") String gradeId);
+
   /// service for terms Id
   @GET(ApiConstants.termsId)
   Future<TermModel> termsId(@Path("id") String id);
+
+  /// service for quiz by content id
+  @GET(ApiConstants.contentQuiz)
+  Future<QuizModel> getQuizForContent(@Path("content_id") String contentId);
+
+  /// service for contact
+  @GET(ApiConstants.contact)
+  Future<dynamic> getContact();
 }

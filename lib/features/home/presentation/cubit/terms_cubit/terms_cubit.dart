@@ -8,9 +8,9 @@ part 'terms_state.dart';
 class TermsCubit extends Cubit<TermsState> {
   TermsCubit(this.repo) : super(TermsInitial());
   final TermRepo repo;
-  Future<void> getTram() async {
+  Future<void> getTram([String? gradeId]) async {
     emit(TermsLoading());
-    final result = await repo.getTermRepo();
+    final result = await repo.getTermRepo(gradeId);
     result.fold(
       (failure) => emit(TermsError(failure.errMessage)),
       (response) => emit(TermsSuccess(response)),

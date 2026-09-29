@@ -80,6 +80,16 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         regionId: selectedRegion.value?.id.toString(),
       );
 
+      if (selectedGrade.value == null || selectedRegion.value == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('برجاء اختيار المرحلة الدراسية والمنطقة'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
       // Submit registration
       context.read<RegisterCubit>().register(
         RegisterBody(

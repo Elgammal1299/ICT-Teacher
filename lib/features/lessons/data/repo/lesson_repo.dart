@@ -24,13 +24,21 @@ class LessonRepo {
         return Right(cachedLessons);
       }
 
-      final response = await apiService.getLessons(termId, contentType);
+      final response = await apiService.getLessons(termId);
+      List<LessonsModel> lessons = [];
+      if (response is List) {
+        lessons = response.map((e) => LessonsModel.fromJson(e as Map<String, dynamic>)).toList();
+      } else if (response is Map<String, dynamic> && response['results'] is List) {
+        lessons = (response['results'] as List)
+            .map((e) => LessonsModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
       try {
-        await localDataSource.saveLessons(termId, contentType, response);
+        await localDataSource.saveLessons(termId, contentType, lessons);
       } catch (_) {
         // Cache write failures should not block displaying remote content.
       }
-      return Right(response);
+      return Right(lessons);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioError(e));
     } catch (e) {

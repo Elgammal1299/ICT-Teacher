@@ -192,7 +192,9 @@ Future<void> setupGetIt() async {
   );
   //=========================
   // ✅ Register Term Repo
-  getIt.registerLazySingleton<TermRepo>(() => TermRepo(getIt<ApiService>()));
+  getIt.registerLazySingleton<TermRepo>(
+    () => TermRepo(getIt<ApiService>(), getIt<UserLocalDataSource>()),
+  );
   // ✅ Register Term AccountsIdCubit
   getIt.registerFactory<TermsCubit>(() => TermsCubit(getIt<TermRepo>()));
 }

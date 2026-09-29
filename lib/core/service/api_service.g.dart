@@ -12,7 +12,7 @@ part of 'api_service.dart';
 
 class _ApiService implements ApiService {
   _ApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://ictgate.madrasa-online.com/api/v1/';
+    baseUrl ??= 'http://localhost:8001/api/';
   }
 
   final Dio _dio;
@@ -142,7 +142,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'accounts/me/',
+            'me/',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -160,12 +160,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<GradeModel>> grades() async {
+  Future<dynamic> grades() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<GradeModel>>(
+    final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -175,16 +175,8 @@ class _ApiService implements ApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<GradeModel> _value;
-    try {
-      _value = _result.data!
-          .map((dynamic i) => GradeModel.fromJson(i as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
@@ -216,12 +208,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<RegionModel>> regions() async {
+  Future<dynamic> regions() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<RegionModel>>(
+    final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -231,16 +223,8 @@ class _ApiService implements ApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<RegionModel> _value;
-    try {
-      _value = _result.data!
-          .map((dynamic i) => RegionModel.fromJson(i as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
@@ -272,72 +256,44 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<LessonsModel>> getLessons(
-    String termId,
-    String contentType,
-  ) async {
+  Future<dynamic> getLessons(String termId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'term': termId,
-      r'content_type': contentType,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<LessonsModel>>(
+    final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'contents/',
+            'terms/${termId}/lessons/',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<LessonsModel> _value;
-    try {
-      _value = _result.data!
-          .map((dynamic i) => LessonsModel.fromJson(i as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
   @override
-  Future<List<LessonsModel>> getRevisions(
-    String termId,
-    String contentType,
-  ) async {
+  Future<dynamic> getRevisions(String termId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'term': termId,
-      r'content_type': contentType,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<LessonsModel>>(
+    final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'contents/',
+            'terms/${termId}/revisions/',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<LessonsModel> _value;
-    try {
-      _value = _result.data!
-          .map((dynamic i) => LessonsModel.fromJson(i as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
@@ -369,72 +325,44 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<LessonsModel>> getQuizzesMonthly(
-    String termId,
-    String contentType,
-  ) async {
+  Future<dynamic> getAssessments(String termId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'term': termId,
-      r'quiz_type': contentType,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<LessonsModel>>(
+    final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'quizzes/',
+            'terms/${termId}/assessments/',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<LessonsModel> _value;
-    try {
-      _value = _result.data!
-          .map((dynamic i) => LessonsModel.fromJson(i as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
   @override
-  Future<List<LessonsModel>> getQuizzesWeekly(
-    String termId,
-    String contentType,
-  ) async {
+  Future<dynamic> getExams(String termId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'term': termId,
-      r'quiz_type': contentType,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<LessonsModel>>(
+    final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'quizzes/',
+            'terms/${termId}/exams/',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<LessonsModel> _value;
-    try {
-      _value = _result.data!
-          .map((dynamic i) => LessonsModel.fromJson(i as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
@@ -467,7 +395,7 @@ class _ApiService implements ApiService {
 
   @override
   Future<AnswersQuestionsModel> getSubmit(
-    String id,
+    String quizId,
     AnswersRequestModel body,
   ) async {
     final _extra = <String, dynamic>{};
@@ -479,7 +407,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'quizzes/${id}/submit/',
+            'quizzes/${quizId}/submissions/',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -582,6 +510,27 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<dynamic> termsByGrade(String gradeId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'grades/${gradeId}/terms/',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
   Future<TermModel> termsId(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -605,6 +554,54 @@ class _ApiService implements ApiService {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
+    return _value;
+  }
+
+  @override
+  Future<QuizModel> getQuizForContent(String contentId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<QuizModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'contents/${contentId}/quiz/',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late QuizModel _value;
+    try {
+      _value = QuizModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<dynamic> getContact() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'contact/',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
