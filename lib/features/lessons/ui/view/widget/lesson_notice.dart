@@ -37,7 +37,7 @@ class LessonNotice extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'يمكنك الاختبار عدة مرات ولكن يتم أخذ الدرجة من الاختبار الأول، تأكد من مراجعة الدرس جيداً قبل البدء بالاختبار.',
+            'تأكد من مراجعة الدرس جيداً قبل البدء بالاختبار.',
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: AppColors.textTertiary
             )

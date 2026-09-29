@@ -22,7 +22,6 @@ import 'package:icd_teacher/features/prefile/ui/view/profile_screen.dart';
 import 'package:icd_teacher/features/prefile/ui/view/shipping_and_return_policy_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/support_page.dart';
 import 'package:icd_teacher/features/prefile/ui/view/terms_and_conditions_page.dart';
-import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
 import 'package:icd_teacher/features/revision/ui/view/revision_item_page.dart';
 import 'package:icd_teacher/features/revision/ui/view_model/get_content_by_id_cubit/get_content_by_id_cubit.dart';
 import 'package:icd_teacher/features/lessons/ui/view/lesson_item_page.dart';
@@ -37,7 +36,6 @@ import 'package:icd_teacher/features/home/presentation/pages/choose_terms_page.d
 import 'package:icd_teacher/features/home/presentation/pages/home_page.dart';
 import 'package:icd_teacher/features/lessons/ui/view/lesson_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_monthly_page.dart';
-import 'package:icd_teacher/features/home/presentation/pages/quiz_page.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_questions_page.dart';
 import 'package:icd_teacher/features/quizzes_weekly/ui/view/quiz_weekly_page.dart';
 import 'package:icd_teacher/features/revision/ui/view/revision_page.dart';
@@ -195,24 +193,29 @@ class AppRouter {
           ),
         );
       case AppRoutes.quizQuestionsPageRoute:
-        final args = settings.arguments as LessonsModel;
-        return MaterialPageRoute(
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => getIt<QuizCubit>()..getQuizById(args.id),
-              ),
-              BlocProvider(create: (context) => getIt<AnswersSubmitCubit>()),
-            ],
-            child: QuizQuestionsPage(quizModel: args),
-          ),
-        );
       case AppRoutes.quizPageRoute:
-        final quiz = settings.arguments as QuizModel;
+        String targetQuizId = '';
+        String targetQuizTitle = 'الاختبار';
+
+        if (settings.arguments is LessonsModel) {
+          final args = settings.arguments as LessonsModel;
+          targetQuizId = args.id;
+          targetQuizTitle = args.title;
+        } else if (settings.arguments is QuizModel) {
+          final args = settings.arguments as QuizModel;
+          targetQuizId = args.id ?? '';
+          targetQuizTitle = args.title ?? 'الاختبار';
+        } else if (settings.arguments is String) {
+          targetQuizId = settings.arguments as String;
+        }
+
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<AnswersSubmitCubit>(),
-            child: QuizPage(quiz: quiz),
+            create: (context) => getIt<QuizCubit>()..getQuizById(targetQuizId),
+            child: QuizQuestionsPage(
+              quizId: targetQuizId,
+              quizTitle: targetQuizTitle,
+            ),
           ),
         );
       case AppRoutes.supportPageRoute:

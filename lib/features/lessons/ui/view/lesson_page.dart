@@ -95,11 +95,21 @@ class LessonPage extends StatelessWidget {
                       }
                     },
                     onQuizTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.quizPageRoute,
-                        arguments: content.quiz,
-                      );
+                      if (content.quiz != null &&
+                          content.quiz!.id != null &&
+                          content.quiz!.id!.isNotEmpty) {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.quizPageRoute,
+                          arguments: content.quiz,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('لا يوجد اختبار متاح لهذا الدرس حالياً'),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],

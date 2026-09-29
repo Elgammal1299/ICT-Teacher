@@ -1,59 +1,114 @@
-// part of 'quiz_cubit.dart';
-
-// sealed class QuizState extends Equatable {
-//   const QuizState();
-
-//   @override
-//   List<Object> get props => [];
-// }
-
-// final class QuizInitial extends QuizState {}
-
-// final class QuizLoading extends QuizState {}
-
-// final class QuizSuccess extends QuizState {
-//   final  QuizModel quiz;
-//   const QuizSuccess(this.quiz);
-// }
-// final class QuizError extends QuizState {
-//   final String errMessage;
-//   const QuizError(this.errMessage);
-// }
 part of 'quiz_cubit.dart';
 
+/// Base state for the Quiz state machine.
 abstract class QuizState extends Equatable {
+  const QuizState();
+
   @override
   List<Object?> get props => [];
 }
 
-class QuizInitial extends QuizState {}
-
-class QuizLoading extends QuizState {}
-
-class QuizError extends QuizState {
-  final String message;
-  QuizError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+/// Initial state when the Quiz screen is created.
+class QuizInitial extends QuizState {
+  const QuizInitial();
 }
 
-class QuizSuccess extends QuizState {
+/// State emitted while fetching Quiz details from GET /api/quizzes/{id}/.
+class QuizLoading extends QuizState {
+  const QuizLoading();
+}
+
+/// State emitted when fetching the Quiz fails.
+class QuizError extends QuizState {
+  final String errMessage;
+
+  const QuizError(this.errMessage);
+
+  @override
+  List<Object?> get props => [errMessage];
+}
+
+/// Active quiz-taking state managing questions, user selections, and submission status.
+/// All interactive state is kept in this Cubit state to ensure the UI remains a pure StatelessWidget.
+class QuizInProgress extends QuizState {
   final QuizModel quiz;
-  final Map<String, String> selectedAnswers; // questionId -> choiceId
+  final int currentQuestionIndex;
 
-  QuizSuccess({required this.quiz, required this.selectedAnswers});
+  /// Map of question UUID -> Set of selected choice UUIDs (supports single and multiple choice MCQ)
+  final Map<String, Set<String>> mcqAnswers;
 
-  QuizSuccess copyWith({
+  /// Map of question UUID -> student essay text
+  final Map<String, String> essayAnswers;
+
+  /// Indicates whether the POST /api/quizzes/{quiz_id}/submissions/ request is in flight
+  final bool isSubmitting;
+
+  /// Submission failure message if the submit request failed with an unhandled server error
+  final String? submissionError;
+
+  const QuizInProgress({
+    required this.quiz,
+    this.currentQuestionIndex = 0,
+    this.mcqAnswers = const {},
+    this.essayAnswers = const {},
+    this.isSubmitting = false,
+    this.submissionError,
+  });
+
+  /// Currently active question
+  QuestionModel? get currentQuestion {
+    final questions = quiz.questions ?? [];
+    if (questions.isEmpty || currentQuestionIndex >= questions.length || currentQuestionIndex < 0) {
+      return null;
+    }
+    return questions[currentQuestionIndex];
+  }
+
+  int get totalQuestions => quiz.questions?.length ?? 0;
+  bool get isFirstQuestion => currentQuestionIndex == 0;
+  bool get isLastQuestion => currentQuestionIndex >= totalQuestions - 1;
+
+  QuizInProgress copyWith({
     QuizModel? quiz,
-    Map<String, String>? selectedAnswers,
+    int? currentQuestionIndex,
+    Map<String, Set<String>>? mcqAnswers,
+    Map<String, String>? essayAnswers,
+    bool? isSubmitting,
+    String? submissionError,
+    bool clearSubmissionError = false,
   }) {
-    return QuizSuccess(
+    return QuizInProgress(
       quiz: quiz ?? this.quiz,
-      selectedAnswers: selectedAnswers ?? this.selectedAnswers,
+      currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
+      mcqAnswers: mcqAnswers ?? this.mcqAnswers,
+      essayAnswers: essayAnswers ?? this.essayAnswers,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
+      submissionError: clearSubmissionError ? null : (submissionError ?? this.submissionError),
     );
   }
 
   @override
-  List<Object?> get props => [quiz, selectedAnswers];
+  List<Object?> get props => [
+    quiz,
+    currentQuestionIndex,
+    mcqAnswers,
+    essayAnswers,
+    isSubmitting,
+    submissionError,
+  ];
+}
+
+/// Terminal state emitted when a submission is successfully processed (201 Created or 409 Conflict),
+/// or when an existing attempt is detected upon loading the quiz from GET /api/quizzes/{id}/.
+class QuizSubmitted extends QuizState {
+  final AnswersQuestionsModel result;
+  final bool wasAlreadySubmitted;
+
+  const QuizSubmitted({
+    required this.result,
+    this.wasAlreadySubmitted = false,
+  });
+
+  @override
+  List<Object?> get props => [result, wasAlreadySubmitted];
 }

@@ -157,12 +157,13 @@ Future<void> setupGetIt() async {
     () => GetContentByIdCubit(getIt<GetcontentByIdRepo>()),
   );
   //=========================
-  // ✅ Register Term Quiz Repo
+  // ✅ Register Term Quiz Repo & Cubit
   getIt.registerLazySingleton<QuizByIdRepo>(
     () => QuizByIdRepo(getIt<ApiService>()),
   );
-  // ✅ Register Term GetQuizByIdCubit
-  getIt.registerFactory<QuizCubit>(() => QuizCubit(getIt<QuizByIdRepo>()));
+  getIt.registerFactory<QuizCubit>(
+    () => QuizCubit(getIt<QuizByIdRepo>(), getIt<AnswersSubmitRepo>()),
+  );
   //=========================
   // ✅ Register AnswersSubmit Repo
   getIt.registerLazySingleton<AnswersSubmitRepo>(

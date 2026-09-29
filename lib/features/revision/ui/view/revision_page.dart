@@ -67,11 +67,20 @@ class RevisionPage extends StatelessWidget {
                       }
                     },
                     onQuizTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.quizPageRoute,
-                        arguments: state.contentModel.quiz,
-                      );
+                      final quiz = state.contentModel.quiz;
+                      if (quiz != null && quiz.id != null && quiz.id!.isNotEmpty) {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.quizPageRoute,
+                          arguments: quiz,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('لا يوجد اختبار متاح لهذه المراجعة حالياً'),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],

@@ -1,235 +1,177 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icd_teacher/core/constant/app_color.dart';
 import 'package:icd_teacher/core/error/error_state_widget.dart';
 import 'package:icd_teacher/core/widget/custom_elevated_button.dart';
-import 'package:icd_teacher/features/home/data/models/lessons_model.dart';
-import 'package:icd_teacher/features/home/data/models/answers_request_model.dart';
 import 'package:icd_teacher/features/home/data/models/quiz_model.dart';
+import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 import 'package:icd_teacher/features/lessons/ui/view/widget/custom_no_lesson.dart';
 import 'package:icd_teacher/features/quizzes_monthly/ui/view/quiz_result_page.dart';
-import 'package:icd_teacher/features/quizzes_monthly/ui/view_model/answers_questions_cubit/answers_submit_cubit.dart';
-import 'package:icd_teacher/features/home/presentation/cubit/quiz_cubit/quiz_cubit.dart';
 
-class QuizQuestionsPage extends StatefulWidget {
-  const QuizQuestionsPage({super.key, required this.quizModel});
-  final LessonsModel quizModel;
+/// Screen for taking a quiz.
+/// Built as a pure [StatelessWidget] adhering to strict Cubit-driven architecture:
+/// - All state (question index, selections, essay inputs, submission) is driven by [QuizCubit].
+/// - Listens to [QuizSubmitted] to redirect to [QuizResultPage] (both for initial attempt detection and post-submission).
+/// - Supports MCQ single-choice, MCQ multi-choice, and Essay multiline inputs.
+/// - Supports forward ("التالى") and backward ("السابق") navigation, preserving all inputs.
+/// - Prevents accidental double submission via loading state.
+class QuizQuestionsPage extends StatelessWidget {
+  final String quizId;
+  final String quizTitle;
 
-  @override
-  State<QuizQuestionsPage> createState() => _QuizQuestionsPageState();
-}
-
-class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
-  int questionIndex = 0;
-  
-  // Track selected choice IDs for MCQ questions (supports multi-select)
-  final Map<String, Set<String>> userMcqAnswers = {};
-
-  // Track text answers for Essay questions
-  final Map<String, String> userEssayAnswers = {};
-
-  // Controller for essay text input
-  final TextEditingController _essayController = TextEditingController();
-
-  @override
-  void dispose() {
-    _essayController.dispose();
-    super.dispose();
-  }
-
-  void _syncEssayControllerForCurrentQuestion(QuestionModel question) {
-    final qId = question.id ?? '';
-    _essayController.text = userEssayAnswers[qId] ?? '';
-  }
+  const QuizQuestionsPage({
+    super.key,
+    required this.quizId,
+    this.quizTitle = 'الاختبار',
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.quizModel.title)),
-      body: BlocListener<AnswersSubmitCubit, AnswersSubmitState>(
-        listener: (context, state) {
-          if (state is AnswersSubmitSuccess) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => QuizResultPage(result: state.contentModel),
-              ),
+    return BlocConsumer<QuizCubit, QuizState>(
+      listener: (context, state) {
+        if (state is QuizSubmitted) {
+          // Immediately redirect to results if submission is detected or created
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => QuizResultPage(result: state.result),
+            ),
+          );
+        } else if (state is QuizInProgress && state.submissionError != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.submissionError!),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is QuizLoading || state is QuizInitial) {
+          return Scaffold(
+            appBar: AppBar(title: Text(quizTitle)),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state is QuizError) {
+          return Scaffold(
+            appBar: AppBar(title: Text(quizTitle)),
+            body: ErrorStateWidget(message: state.errMessage),
+          );
+        }
+
+        if (state is QuizInProgress) {
+          final questions = state.quiz.questions ?? [];
+
+          if (questions.isEmpty) {
+            return Scaffold(
+              appBar: AppBar(title: Text(state.quiz.title ?? quizTitle)),
+              body: const CustomNoItem(title: 'لا يوجد أسئلة في هذا الاختبار حالياً'),
             );
-          } else if (state is AnswersSubmitError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errMessage)));
           }
-        },
-        child: BlocBuilder<QuizCubit, QuizState>(
-          builder: (context, state) {
-            if (state is QuizLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is QuizSuccess) {
-              final quiz = state.quiz;
 
-              // If the student has an existing submission for this quiz, open results immediately
-              if (quiz.submission != null) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (mounted) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => QuizResultPage(result: quiz.submission!),
-                      ),
-                    );
-                  }
-                });
-                return const Center(child: CircularProgressIndicator());
-              }
+          final currentQ = state.currentQuestion;
+          if (currentQ == null) {
+            return Scaffold(
+              appBar: AppBar(title: Text(state.quiz.title ?? quizTitle)),
+              body: const Center(child: Text('السؤال غير متوفر')),
+            );
+          }
 
-              final questions = quiz.questions ?? [];
+          final qId = currentQ.id ?? '';
+          final isEssay = (currentQ.questionType ?? '').toLowerCase() == 'essay';
+          final isMultiple = currentQ.multiple ?? false;
+          final selectedChoices = state.mcqAnswers[qId] ?? <String>{};
 
-              if (questions.isEmpty) {
-                return const CustomNoItem(title: 'لا يوجد اختبارات حتي الان ');
-              }
-
-              final currentQuestion = questions[questionIndex];
-              final qId = currentQuestion.id ?? '';
-              final isEssay = (currentQuestion.questionType ?? '').toLowerCase() == 'essay';
-              final isMultiple = currentQuestion.multiple ?? false;
-
-              final currentSelectedChoices = userMcqAnswers[qId] ?? <String>{};
-
-              return Padding(
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(state.quiz.title ?? quizTitle),
+              centerTitle: true,
+            ),
+            body: SafeArea(
+              child: Padding(
                 padding: EdgeInsets.all(16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Question progress indicator header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          child: Text(
+                            'السؤال ${state.currentQuestionIndex + 1} من ${state.totalQuestions}',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        if (currentQ.points != null && currentQ.points! > 0)
+                          Text(
+                            '${currentQ.points} درجات',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(height: 12.h),
+
+                    // Scrollable content area
                     Expanded(
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            /// Question body container
-                            Container(
-                              padding: EdgeInsets.all(16.w),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).cardColor,
-                                borderRadius: BorderRadius.circular(8.r),
-                                border: Border.all(color: Colors.black12),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    (currentQuestion.body ?? '').replaceAll(r'$', '\n'),
-                                    style: Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                  if (isMultiple)
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 8.h),
-                                      child: Text(
-                                        '(يمكنك اختيار أكثر من إجابة)',
-                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
+                            // Question Card
+                            _QuestionCard(
+                              question: currentQ,
+                              isMultiple: isMultiple,
                             ),
-
                             SizedBox(height: 20.h),
 
-                            /// Render choices for MCQ or TextFormField for Essay
-                            if (isEssay) ...[
-                              Text(
-                                'اكتب إجابتك هنا:',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              SizedBox(height: 10.h),
-                              TextFormField(
-                                controller: _essayController,
-                                maxLines: 5,
-                                decoration: InputDecoration(
-                                  hintText: 'أدخل الإجابة المقالية...',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                ),
-                                onChanged: (val) {
-                                  userEssayAnswers[qId] = val.trim();
-                                },
-                              ),
-                            ] else ...[
+                            // Question Answer Input (Essay multiline or MCQ choice tiles)
+                            if (isEssay)
+                              _EssayAnswerField(
+                                key: ValueKey('essay_$qId'),
+                                questionId: qId,
+                                initialText: state.essayAnswers[qId] ?? '',
+                              )
+                            else
                               Column(
                                 children: List.generate(
-                                  (currentQuestion.choices ?? []).length,
+                                  (currentQ.choices ?? []).length,
                                   (index) {
-                                    final choice = currentQuestion.choices![index];
+                                    final choice = currentQ.choices![index];
                                     final cId = choice.id ?? '';
-                                    final isSelected = currentSelectedChoices.contains(cId);
+                                    final isSelected = selectedChoices.contains(cId);
 
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 8.h),
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            if (isMultiple) {
-                                              final set = userMcqAnswers[qId] ?? <String>{};
-                                              if (set.contains(cId)) {
-                                                set.remove(cId);
-                                              } else {
-                                                set.add(cId);
-                                              }
-                                              userMcqAnswers[qId] = set;
-                                            } else {
-                                              userMcqAnswers[qId] = {cId};
-                                            }
-                                          });
-                                        },
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: isSelected
-                                                  ? Theme.of(context).primaryColor
-                                                  : Colors.black12,
-                                              width: isSelected ? 2.w : 1.w,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8.r),
-                                            color: isSelected
-                                                ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
-                                                : Theme.of(context).cardColor,
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(16.w),
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Icon(
-                                                  isMultiple
-                                                      ? (isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded)
-                                                      : (isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_unchecked_rounded),
-                                                  size: 20.r,
-                                                  color: Theme.of(context).primaryColor,
-                                                ),
-                                                SizedBox(width: 16.w),
-                                                Expanded(
-                                                  child: Text(
-                                                    (choice.body ?? '').replaceAll(r'$', '\n'),
-                                                    style: Theme.of(context).textTheme.titleMedium,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                    return _ChoiceTile(
+                                      choice: choice,
+                                      isSelected: isSelected,
+                                      isMultiple: isMultiple,
+                                      onTap: () {
+                                        context.read<QuizCubit>().selectMcqChoice(
+                                              questionId: qId,
+                                              choiceId: cId,
+                                              isMultiple: isMultiple,
+                                            );
+                                      },
                                     );
                                   },
                                 ),
                               ),
-                            ],
-
                             SizedBox(height: 20.h),
                           ],
                         ),
@@ -238,58 +180,270 @@ class _QuizQuestionsPageState extends State<QuizQuestionsPage> {
 
                     SizedBox(height: 12.h),
 
-                    // Next / Submit button
-                    CustomElevatedButton(
-                      text: questionIndex + 1 < questions.length ? 'التالى' : 'انتهاء',
-                      onPressed: () {
-                        // Advance to next question or submit quiz
-                        if (questionIndex + 1 < questions.length) {
-                          setState(() {
-                            questionIndex++;
-                            final nextQ = questions[questionIndex];
-                            _syncEssayControllerForCurrentQuestion(nextQ);
-                          });
-                        } else {
-                          // Build SubmissionCreateRequest answer items
-                          final List<AnswerItem> answerItems = [];
-
-                          for (final q in questions) {
-                            final questionId = q.id ?? '';
-                            final qIsEssay = (q.questionType ?? '').toLowerCase() == 'essay';
-
-                            if (qIsEssay) {
-                              final txt = userEssayAnswers[questionId];
-                              if (txt != null && txt.isNotEmpty) {
-                                answerItems.add(AnswerItem(question: questionId, text: txt));
-                              }
-                            } else {
-                              final choicesSet = userMcqAnswers[questionId];
-                              if (choicesSet != null && choicesSet.isNotEmpty) {
-                                answerItems.add(AnswerItem(question: questionId, choices: choicesSet.toList()));
-                              }
-                            }
-                          }
-
-                          final answersBody = AnswersRequestModel(answers: answerItems);
-                          final targetQuizId = quiz.id ?? widget.quizModel.id;
-
-                          context.read<AnswersSubmitCubit>().getSubmit(
-                                targetQuizId,
-                                answersBody,
-                              );
-                        }
-                      },
-                    ),
+                    // Navigation buttons (Previous / Next / Submit)
+                    _NavigationButtonsRow(state: state),
                   ],
                 ),
-              );
-            } else if (state is QuizError) {
-              return ErrorStateWidget(message: state.message);
-            }
-            return const SizedBox.shrink();
+              ),
+            ),
+          );
+        }
+
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      },
+    );
+  }
+}
+
+/// Widget displaying question text, instructions, and optional figure image
+class _QuestionCard extends StatelessWidget {
+  final QuestionModel question;
+  final bool isMultiple;
+
+  const _QuestionCard({
+    required this.question,
+    required this.isMultiple,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: Colors.black12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            (question.body ?? '').replaceAll(r'$', '\n'),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  height: 1.4,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          if (isMultiple)
+            Padding(
+              padding: EdgeInsets.only(top: 8.h),
+              child: Text(
+                '(يمكنك اختيار أكثر من إجابة صحيحة)',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13.sp,
+                ),
+              ),
+            ),
+          if (question.figure != null && question.figure!.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(top: 12.h),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: Image.network(
+                  question.figure!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Widget managing essay text input and synchronizing directly with [QuizCubit]
+class _EssayAnswerField extends StatefulWidget {
+  final String questionId;
+  final String initialText;
+
+  const _EssayAnswerField({
+    super.key,
+    required this.questionId,
+    required this.initialText,
+  });
+
+  @override
+  State<_EssayAnswerField> createState() => _EssayAnswerFieldState();
+}
+
+class _EssayAnswerFieldState extends State<_EssayAnswerField> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialText);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'اكتب إجابتك هنا:',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        SizedBox(height: 10.h),
+        TextFormField(
+          controller: _controller,
+          maxLines: 5,
+          decoration: InputDecoration(
+            hintText: 'أدخل إجابتك المقالية بالتفصيل...',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            filled: true,
+            fillColor: Theme.of(context).cardColor,
+          ),
+          onChanged: (val) {
+            context.read<QuizCubit>().updateEssayAnswer(
+                  questionId: widget.questionId,
+                  text: val,
+                );
           },
         ),
+      ],
+    );
+  }
+}
+
+/// Single MCQ Choice selectable tile
+class _ChoiceTile extends StatelessWidget {
+  final ChoiceModel choice;
+  final bool isSelected;
+  final bool isMultiple;
+  final VoidCallback onTap;
+
+  const _ChoiceTile({
+    required this.choice,
+    required this.isSelected,
+    required this.isMultiple,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 6.h),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12.r),
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.all(14.w),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: isSelected ? primaryColor : Colors.black12,
+              width: isSelected ? 2.w : 1.w,
+            ),
+            borderRadius: BorderRadius.circular(12.r),
+            color: isSelected ? primaryColor.withValues(alpha: 0.08) : Theme.of(context).cardColor,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                isMultiple
+                    ? (isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded)
+                    : (isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_unchecked_rounded),
+                size: 22.r,
+                color: isSelected ? primaryColor : Colors.grey,
+              ),
+              SizedBox(width: 14.w),
+              Expanded(
+                child: Text(
+                  (choice.body ?? '').replaceAll(r'$', '\n'),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      ),
+                ),
+              ),
+              if (choice.figure != null && choice.figure!.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(right: 8.w),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6.r),
+                    child: Image.network(
+                      choice.figure!,
+                      width: 48.w,
+                      height: 48.w,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+}
+
+/// Navigation bar providing "Previous", "Next", and "Submit" with double-submit guard
+class _NavigationButtonsRow extends StatelessWidget {
+  final QuizInProgress state;
+
+  const _NavigationButtonsRow({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // "السابق" (Previous) button
+        if (!state.isFirstQuestion)
+          Expanded(
+            flex: 1,
+            child: OutlinedButton(
+              onPressed: state.isSubmitting
+                  ? null
+                  : () {
+                      context.read<QuizCubit>().previousQuestion();
+                    },
+              style: OutlinedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 14.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              child: const Text('السابق'),
+            ),
+          ),
+        if (!state.isFirstQuestion) SizedBox(width: 12.w),
+
+        // "التالى" (Next) or "انتهاء" (Submit) button
+        Expanded(
+          flex: 2,
+          child: CustomElevatedButton(
+            text: state.isLastQuestion ? 'انتهاء وتأكيد الإجابات' : 'التالى',
+            onPressed: state.isSubmitting
+                ? () {} // Disabled while submitting
+                : () {
+                    if (state.isLastQuestion) {
+                      context.read<QuizCubit>().submitQuiz();
+                    } else {
+                      context.read<QuizCubit>().nextQuestion();
+                    }
+                  },
+          ),
+        ),
+      ],
     );
   }
 }

@@ -13,9 +13,9 @@ class ApiConstants {
   static const String regionId = "regions/{id}/";
   static const String contents = "contents/";
   static const String contentId = "contents/{id}/";
-  static const String quizzes = "quizzes/";
+  /// Quiz endpoints per Swagger contract
+  /// GET /api/quizzes/{id}/ retrieves quiz details including questions and existing submission
   static const String quizzesId = "quizzes/{id}/";
-  static const String submit = "quizzes/{id}/submit/";
   static const String accounts = "accounts/";
   static const String accountsId = "accounts/{id}/";
   static const String terms = "terms/";

@@ -265,6 +265,17 @@ class QuizResultPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        if (essay.correctAnswer != null && essay.correctAnswer!.isNotEmpty) ...[
+                          SizedBox(height: 6.h),
+                          Text(
+                            "الإجابة النموذجية: ${essay.correctAnswer!}",
+                            style: TextStyle(
+                              color: Colors.green.shade800,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   );

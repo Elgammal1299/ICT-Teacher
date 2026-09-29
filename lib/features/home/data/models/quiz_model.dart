@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'quiz_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createFactory: false)
 class QuizModel {
   final String? id;
   final String? title;
